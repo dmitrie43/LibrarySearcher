@@ -42,13 +42,13 @@ services:
     rabbitmq:
         image: "rabbitmq:3-management-alpine"
         container_name: rabbitmq
-        restart: always
+        #restart: always
         ports:
             - "5672:5672"
             - "15672:15672"
         volumes:
-            - ./docker/rabbitmq/data/:/var/lib/rabbitmq/
-            - ./docker/rabbitmq/log/:/var/log/rabbitmq/
+            - ./docker/rabbitmq/data/:/var/lib/rabbitmq/mnesia/
+            - ./docker/rabbitmq/log/:/var/log/rabbitmq/mnesia/
         networks:
             - app-network
 
