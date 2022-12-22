@@ -5,11 +5,12 @@
             <div class="col-lg-12 col-xl-4">
                 <div class="footsec">
                     <div class="footlogocntSec">
-                        <a href="#" class="footlogo"><img class="img-fluid" src="img/footlogo.svg" alt="img"></a>
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. </p>
+                        <a href="/" class="footlogo"><img class="img-fluid"
+                                                          src="{{asset('img/Mediamodifier-Design.svg')}}" alt="img"></a>
+                        <p>У нас самая богатая библиотека книг! Все книги бесплатны для скачивания!</p>
                     </div>
                     <div class="joincommunity">
-                        <h3>Join the Community</h3>
+                        <h3>Присоединяйся!</h3>
                         <ul>
                             <li><a href="#"><img class="img-fluid" src="img/discordbutton.svg" alt="img"></a></li>
                             <li><a href="#"><img class="img-fluid" src="img/twitter.svg" alt="img"></a></li>
@@ -23,8 +24,9 @@
             </div>
 
             <div class="col-lg-12 col-xl-8 d-none d-md-flex justify-content-between">
+
                 <div class="footlinks">
-                    <h2>My account</h2>
+                    <h2>Мой аккаунт</h2>
                     <ul>
                         <li><a href="#">Profile</a></li>
                         <li><a href="#">Favorites</a></li>
@@ -34,7 +36,7 @@
                 </div>
 
                 <div class="footlinks">
-                    <h2>Discover</h2>
+                    <h2>Разделы</h2>
                     <ul>
                         <li><a href="#">Art</a></li>
                         <li><a href="#">Phorography</a></li>
@@ -46,7 +48,7 @@
                 </div>
 
                 <div class="footlinks">
-                    <h2>Inform Center</h2>
+                    <h2>Система</h2>
                     <ul>
                         <li><a href="aboutus.html">About Us</a></li>
                         <li><a href="faq.html">FAQ</a></li>
