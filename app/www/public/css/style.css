@@ -107,7 +107,7 @@ header{padding:35px 0 0;z-index:1;position:relative;}
 .loginWallet a.btn{min-width:inherit;width:43px;height:43px;background:#102944;display:inline-flex;align-items:center;align-content:center;justify-content:center;border-radius:90px;}
 .loginWallet a.btn img{margin-left:-1px;}
 .loginWallet a.btn:hover,.loginWallet a.btn:focus{background:#019dea;}
-.searchform form input{width:100%;background:rgb(19 45 78 / 50%);border:none;border-radius:10px;padding:12px 11px 12px 53px;font-weight:300;font-size:13px;color:#B1BBD4;}
+.searchform form input{width:100%;background:rgb(19, 45, 78 / 50%);border:none;border-radius:10px;padding:12px 11px 12px 53px;font-weight:300;font-size:13px;color:#B1BBD4;}
 .searchform{width:100%;max-width:360px;margin:0 25px 0 25px;}
 .searchform form{width:100%;position:relative;}
 .searchform button{position:absolute;border:none;background:none;left:17px;top:9px;padding:0;}
@@ -843,7 +843,7 @@ nav.navbar .navbar-nav .nav-link:before{position:absolute;content:'';right:-4px;
 .logo{width:100%;justify-content:center;}
 .bannercntSec{flex-direction:revert;}
 .bannercnt{padding:40px 0 0;}
-.bannerImg-sm { position: relative; overflow: hidden; display: flex; justify-content: center; align-items: center; align-content: center; } 
+.bannerImg-sm { position: relative; overflow: hidden; display: flex; justify-content: center; align-items: center; align-content: center; }
 .bannerImg-sm img { margin: auto; display: block; }
 /*.slick-slide { padding: 0; }*/
 
