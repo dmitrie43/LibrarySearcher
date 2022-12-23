@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 interface IEloquentRepository
@@ -17,4 +18,9 @@ interface IEloquentRepository
      * @return Model|null
      */
     public function find($id): ?Model;
+
+    /**
+     * @return Collection
+     */
+    public function all(): Collection;
 }

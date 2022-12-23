@@ -4,6 +4,7 @@ namespace App\Repository\Eloquent;
 
 use App\Repository\IEloquentRepository;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 
 class BaseRepository implements IEloquentRepository
 {
@@ -37,5 +38,13 @@ class BaseRepository implements IEloquentRepository
     public function find($id): ?Model
     {
         return $this->model->find($id);
+    }
+
+    /**
+     * @return Collection
+     */
+    public function all(): Collection
+    {
+        return $this->model->all();
     }
 }
