@@ -1,7 +1,6 @@
 @include ("header")
 
 <!-- banner sec -->
-<?php dd($books) ?>
 <div class="bannerSec">
     <div class="bannerImg-sm d-sm-block d-md-none">
         <img src="{{asset('img/bannermain.png')}}" alt="img">
@@ -11,21 +10,12 @@
             <div class="col-md-12">
                 <div class="bannercntSec">
                     <div class="bannerImg">
-                        <div class="bannerimg01 d-none d-md-block">
-                            <img class="img-fluid" width="252" height="309"
-                                 src="{{asset('img/Vedmak_poslednee_gelanie_b.jpg')}}" alt="img">
-                        </div>
-
-                        <div class="bannerimg02 d-none d-md-block">
-                            <img class="img-fluid" width="252" height="309"
-                                 src="{{asset('img/Vedmak_poslednee_gelanie_b.jpg')}}" alt="img">
-                        </div>
-
-                        <div class="bannerimg03 d-none d-md-block">
-                            <img class="img-fluid" width="252" height="309"
-                                 src="{{asset('img/Vedmak_poslednee_gelanie_b.jpg')}}" alt="img">
-                        </div>
-
+                        @foreach($noveltyBooks as $noveltyBook)
+                            <div class="bannerimg0{{++$loop->index}} d-none d-md-block">
+                                <img class="img-fluid" width="252" height="309"
+                                     src="{{asset('img/Vedmak_poslednee_gelanie_b.jpg')}}" alt="img">
+                            </div>
+                        @endforeach
                         <div class="bannerbtn 1d-block d-none d-sm-none d-md-block d-xl-none mt-0 mt-md-4">
                             <button class="btn btnlightblue me-3">Смотреть все</button>
                         </div>
