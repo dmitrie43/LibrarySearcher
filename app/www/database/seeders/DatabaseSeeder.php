@@ -16,5 +16,6 @@ class DatabaseSeeder extends Seeder
         AuthorSeeder::run();
         PublisherSeeder::run();
         GenreSeeder::run();
+        RoleSeeder::run();
     }
 }
