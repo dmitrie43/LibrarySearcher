@@ -93,7 +93,7 @@
                             </li>
 
                             <li class="nav-item dropdown d-xl-none">
-                                <a class="nav-link" href="{{ url('/dashboard') }}">Профиль</a>
+                                <a class="nav-link" href="{{ url('/profile') }}">Профиль</a>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                     <li><a class="dropdown-item" href="{{ route('login') }}">Вход</a></li>
                                     <li><a class="dropdown-item" href="{{ route('register') }}">Регистрация</a></li>
@@ -123,7 +123,7 @@
 
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                             @auth
-                                <li><a href="{{ url('/dashboard') }}" class="dropdown-item">Профиль</a></li>
+                                <li><a href="{{ url('/profile') }}" class="dropdown-item">Профиль</a></li>
                             @else
                                 <li><a class="dropdown-item" href="{{ route('login') }}">Вход</a></li>
                                 <li><a class="dropdown-item" href="{{ route('register') }}">Регистрация</a></li>

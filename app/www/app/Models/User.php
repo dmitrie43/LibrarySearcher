@@ -42,4 +42,13 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * @param object $user
+     * @return bool
+     */
+    public static function isAllowAdminPanel(object $user) : bool
+    {
+        return in_array($user->role_id, Role::getAllowAdminPanelRolesId());
+    }
 }
