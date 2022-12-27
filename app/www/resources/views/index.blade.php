@@ -5,34 +5,36 @@
     <div class="bannerImg-sm d-sm-block d-md-none">
         <img src="{{asset('img/bannermain.png')}}" alt="img">
     </div>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="bannercntSec">
-                    <div class="bannerImg">
-                        @foreach($noveltyBooks as $noveltyBook)
-                            <div class="bannerimg0{{++$loop->index}} d-none d-md-block">
-                                <img class="img-fluid" width="252" height="309"
-                                     src="{{asset('img/Vedmak_poslednee_gelanie_b.jpg')}}" alt="img">
+    @if($noveltyBooks->isNotEmpty())
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="bannercntSec">
+                        <div class="bannerImg">
+                            @foreach($noveltyBooks as $noveltyBook)
+                                <div class="bannerimg0{{++$loop->index}} d-none d-md-block">
+                                    <img class="img-fluid" width="252" height="309"
+                                         src="{{asset('img/Vedmak_poslednee_gelanie_b.jpg')}}" alt="img">
+                                </div>
+                            @endforeach
+                            <div class="bannerbtn 1d-block d-none d-sm-none d-md-block d-xl-none mt-0 mt-md-4">
+                                <button class="btn btnlightblue me-3">Смотреть все</button>
                             </div>
-                        @endforeach
-                        <div class="bannerbtn 1d-block d-none d-sm-none d-md-block d-xl-none mt-0 mt-md-4">
-                            <button class="btn btnlightblue me-3">Смотреть все</button>
                         </div>
-                    </div>
 
-                    <div class="bannercnt">
-                        <h2 class="textwhitecolor">Новинки литературы</h2>
-                        <p class="textbluecolor text-uppercase">Читайте новое, читайте с нами!</p>
-                        <p class="textgraycolor">Литература не стоит на месте</p>
-                        <div class="bannerbtn d-block d-sm-block d-md-none d-lg-none d-xl-block">
-                            <button class="btn btnlightblue me-3">Смотреть все</button>
+                        <div class="bannercnt">
+                            <h2 class="textwhitecolor">Новинки литературы</h2>
+                            <p class="textbluecolor text-uppercase">Читайте новое, читайте с нами!</p>
+                            <p class="textgraycolor">Литература не стоит на месте</p>
+                            <div class="bannerbtn d-block d-sm-block d-md-none d-lg-none d-xl-block">
+                                <button class="btn btnlightblue me-3">Смотреть все</button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    @endif
 </div>
 
 

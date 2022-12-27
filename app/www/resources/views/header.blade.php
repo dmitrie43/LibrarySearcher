@@ -8,7 +8,7 @@
     <meta name="robots" content="noimageindex">
     <meta name="robots" content="noindex, nofollow">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" media="all" href="{{asset('css/app.css')}}">
+{{--    <link rel="stylesheet" media="all" href="{{asset('css/app.css')}}">--}}
     <link rel="stylesheet" media="all" href="{{asset('css/bootstrap.min.css')}}">
     <link rel="stylesheet" media="all" href="{{asset('css/slick.css')}}">
     <link rel="stylesheet" media="all" href="{{asset('css/slick-theme.css')}}">
@@ -93,11 +93,10 @@
                             </li>
 
                             <li class="nav-item dropdown d-xl-none">
-                                <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"
-                                   data-bs-auto-close="outside">Профиль</a>
+                                <a class="nav-link" href="{{ url('/dashboard') }}">Профиль</a>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                    <li><a class="dropdown-item" href="signin.html">Вход</a></li>
-                                    <li><a class="dropdown-item" href="signup.html">Регистрация</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('login') }}">Вход</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('register') }}">Регистрация</a></li>
                                 </ul>
                             </li>
 
@@ -123,8 +122,12 @@
                         </a>
 
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                            <li><a class="dropdown-item" href="signin.html">Вход</a></li>
-                            <li><a class="dropdown-item" href="signup.html">Регистрация</a></li>
+                            @auth
+                                <li><a href="{{ url('/dashboard') }}" class="dropdown-item">Профиль</a></li>
+                            @else
+                                <li><a class="dropdown-item" href="{{ route('login') }}">Вход</a></li>
+                                <li><a class="dropdown-item" href="{{ route('register') }}">Регистрация</a></li>
+                            @endauth
                         </ul>
                     </div>
 

@@ -33,7 +33,8 @@ RUN apt-get update && apt-get install -y \
     libbz2-dev \
 	mc \
 	librabbitmq-dev \
-	libssh-dev
+	libssh-dev \
+	nodejs npm
 
 
 # Clear cache

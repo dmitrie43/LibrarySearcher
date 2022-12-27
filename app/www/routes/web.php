@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\IndexController as IndexControllerAlias;
+use App\Http\Controllers\IndexController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,5 +14,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [IndexControllerAlias::class, 'index']);
+Route::get('/', [IndexController::class, 'index']);
 
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
+
+require __DIR__.'/auth.php';

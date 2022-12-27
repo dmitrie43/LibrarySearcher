@@ -17,57 +17,77 @@ services:
             dockerfile: Dockerfile
         container_name: app-nginx
         volumes:
-            - ./hosts/app:/etc/nginx/conf.d
+            - ./hosts/nginx:/etc/nginx/conf.d
             - ./app/www:/var/www/app
         ports:
-            - "8080:80"
+            - "80:80"
         networks:
             - app-network
+        depends_on:
+          - app
 
     db:
-        image: mysql:5.7.22
+        image: mysql
         container_name: db
         ports:
             - "3306:3306"
         volumes:
             - ./docker/mysql/mysql_data/db:/var/lib/mysql
         environment:
-            - MYSQL_ROOT_PASSWORD=root
-            - MYSQL_USER=root
-            - MYSQL_PASSWORD=root
+            - MYSQL_ROOT_PASSWORD=mysql
+            - MYSQL_USER=mysql
+            - MYSQL_PASSWORD=mysql
             - MYSQL_DATABASE=library_searcher
         networks:
             - app-network
 
-    rabbitmq:
-        image: "rabbitmq:3-management-alpine"
-        container_name: rabbitmq
-        restart: always
+    phpmyadmin:
+        image: phpmyadmin
+        container_name: phpmyadmin
+        links:
+          - db
         ports:
-            - "5672:5672"
-            - "15672:15672"
-        volumes:
-            - ./docker/rabbitmq/data/:/var/lib/rabbitmq/mnesia/
-            - ./docker/rabbitmq/log/:/var/log/rabbitmq/mnesia/
+            - "8080:80"
+        environment:
+            - PMA_ARBITRARY=1
+            - UPLOAD_LIMIT=1024M
+            - MEMORY_LIMIT=1024M
+            - MAX_EXECUTION_TIME=300
+            - PMA_HOST=db
         networks:
-            - app-network
+          - app-network
+        depends_on:
+          - db
 
-    elastic:
-        image: elasticsearch:8.4.1
-        command: elasticsearch
-        volumes:
-            - ./docker/esdata:/usr/share/elasticsearch/data
-        container_name: elasticsearch
-        hostname: elasticsearch
-        deploy:
-            resources:
-                limits:
-                    cpus: "0.50"
-                    memory: "6144M"
-        restart: always
-        ports:
-            - "9200:9200"
-            - "9300:9300"
+#    rabbitmq:
+#        image: "rabbitmq:3-management-alpine"
+#        container_name: rabbitmq
+#        restart: always
+#        ports:
+#            - "5672:5672"
+#            - "15672:15672"
+#        volumes:
+#            - ./docker/rabbitmq/data/:/var/lib/rabbitmq/mnesia/
+#            - ./docker/rabbitmq/log/:/var/log/rabbitmq/mnesia/
+#        networks:
+#            - app-network
+#
+#    elastic:
+#        image: elasticsearch:8.4.1
+#        command: elasticsearch
+#        volumes:
+#            - ./docker/esdata:/usr/share/elasticsearch/data
+#        container_name: elasticsearch
+#        hostname: elasticsearch
+#        deploy:
+#            resources:
+#                limits:
+#                    cpus: "0.50"
+#                    memory: "6144M"
+#        restart: always
+#        ports:
+#            - "9200:9200"
+#            - "9300:9300"
 networks:
     app-network:
         driver: bridge

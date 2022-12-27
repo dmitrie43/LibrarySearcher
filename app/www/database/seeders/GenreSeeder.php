@@ -13,11 +13,17 @@ class GenreSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public static function run()
     {
-        for ($i = 0; $i < 10; $i++) {
+        $genres = [
+            'Классика',
+            'Ужасы',
+            'Фантастика',
+            'Романтика',
+        ];
+        foreach ($genres as $genre) {
             DB::table('genres')->insert([
-                'name' => Str::random(20),
+                'name' => $genre,
             ]);
         }
     }

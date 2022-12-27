@@ -13,11 +13,16 @@ class PublisherSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public static function run()
     {
-        for ($i = 0; $i < 10; $i++) {
+        $publishers = [
+            'Эксмо',
+            'АСТ',
+            'Питер',
+        ];
+        foreach ($publishers as $publisher) {
             DB::table('publishers')->insert([
-                'name' => Str::random(20),
+                'name' => $publisher,
             ]);
         }
     }

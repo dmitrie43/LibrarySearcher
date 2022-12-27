@@ -13,11 +13,18 @@ class AuthorSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public static function run()
     {
-        for ($i = 0; $i < 10; $i++) {
+        $authors = [
+            'Анджей Сапковский',
+            'Рэй Брэдбери',
+            'Стивен Кинг',
+            'Ричард Мэтисон',
+            'Джордж Оруэлл',
+        ];
+        foreach ($authors as $author) {
             DB::table('authors')->insert([
-                'full_name' => Str::random(10),
+                'full_name' => $author,
             ]);
         }
     }
