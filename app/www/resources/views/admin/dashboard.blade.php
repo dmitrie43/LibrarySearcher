@@ -5,8 +5,7 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Привет! Это админка
-                <small>приятные слова..</small>
+                Админ-панель
             </h1>
         </section>
 

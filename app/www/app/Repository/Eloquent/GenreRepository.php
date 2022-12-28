@@ -9,7 +9,7 @@ use Illuminate\Support\Collection;
 class GenreRepository extends BaseRepository implements IGenreRepository
 {
     /**
-     * BookRepository constructor.
+     * GenreRepository constructor.
      * @param Genre $model
      */
     public function __construct(Genre $model)

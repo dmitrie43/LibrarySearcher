@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -24,7 +25,8 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::middleware(['admin'])->prefix('admin')->namespace('Admin')->group(function () {
-    Route::get('/', [DashboardController::class, 'index']);
+    Route::get('/', [DashboardController::class, 'index'])->name('admin_panel.dashboard');
+    Route::get('/users', [UsersController::class, 'index'])->name('admin_panel.users.index');
 });
 
 require __DIR__.'/auth.php';

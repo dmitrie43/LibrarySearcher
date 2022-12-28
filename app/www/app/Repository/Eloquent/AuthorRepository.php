@@ -9,7 +9,7 @@ use Illuminate\Support\Collection;
 class AuthorRepository extends BaseRepository implements IAuthorRepository
 {
     /**
-     * BookRepository constructor.
+     * AuthorRepository constructor.
      * @param Author $model
      */
     public function __construct(Author $model)

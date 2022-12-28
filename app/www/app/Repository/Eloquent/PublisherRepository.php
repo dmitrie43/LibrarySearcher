@@ -9,7 +9,7 @@ use Illuminate\Support\Collection;
 class PublisherRepository extends BaseRepository implements IPublisherRepository
 {
     /**
-     * BookRepository constructor.
+     * PublisherRepository constructor.
      * @param Publisher $model
      */
     public function __construct(Publisher $model)
