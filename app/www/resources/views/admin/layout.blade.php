@@ -135,13 +135,13 @@
                     <!-- User Account: style can be found in dropdown.less -->
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <img src="{{$user->avatar}}" class="user-image" alt="User Image">
-                            <span class="hidden-xs">{{$user->name}}</span>
+                            <img src="{{auth()->user()->avatar}}" class="user-image" alt="User Image">
+                            <span class="hidden-xs">{{auth()->user()->name}}</span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- User image -->
                             <li class="user-header">
-                                <img src="{{$user->avatar}}" class="img-circle" alt="User Image">
+                                <img src="{{auth()->user()->avatar}}" class="img-circle" alt="User Image">
 
                                 <p>
                                     Administrator
@@ -198,10 +198,10 @@
             <!-- Sidebar user panel -->
             <div class="user-panel" style="padding-bottom: 20px;">
                 <div class="pull-left image">
-                    <img src="{{$user->avatar}}" class="img-circle" alt="User Image">
+                    <img src="{{auth()->user()->avatar}}" class="img-circle" alt="User Image">
                 </div>
                 <div class="pull-left info">
-                    <p>{{$user->name}}</p>
+                    <p>{{auth()->user()->name}}</p>
                     <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                 </div>
             </div>
