@@ -27,7 +27,7 @@
                 <!-- /.box-header -->
                 <div class="box-body">
                     <div class="form-group">
-{{--                        <a href="{{route('users.create')}}" class="btn btn-success">Добавить</a>--}}
+                        <a href="{{route('admin_panel.users.create')}}" class="btn btn-success">Добавить</a>
                     </div>
                     <table id="example1" class="table table-bordered table-striped">
                         <thead>
@@ -49,7 +49,7 @@
                                     <img src="{{asset($user->avatar)}}" alt="" class="img-responsive" width="150">
                                 </td>
                                 <td>
-{{--                                    <a href="{{route('users.edit', $user->id)}}" class="fa fa-pencil"></a>--}}
+{{--                                    <a href="{{route('admin_panel.users.edit', $user->id)}}" class="fa fa-pencil"></a>--}}
 {{--                                    {{Form::open(['route' => ['users.destroy', $user->id], 'method' => 'delete'])}}--}}
 {{--                                    <button onclick="return confirm('Вы уверены?')" type="swubmit" class="delete">--}}
 {{--                                        <a class="fa fa-remove"></a>--}}

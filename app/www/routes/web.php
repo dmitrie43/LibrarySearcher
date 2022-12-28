@@ -26,7 +26,10 @@ Route::middleware(['auth'])->group(function () {
 
 Route::middleware(['admin'])->prefix('admin')->namespace('Admin')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('admin_panel.dashboard');
+    //users
     Route::get('/users', [UsersController::class, 'index'])->name('admin_panel.users.index');
+    Route::get('/users/create', [UsersController::class, 'create'])->name('admin_panel.users.create');
+    Route::post('/users/store', [UsersController::class, 'store'])->name('admin_panel.users.store');
 });
 
 require __DIR__.'/auth.php';
