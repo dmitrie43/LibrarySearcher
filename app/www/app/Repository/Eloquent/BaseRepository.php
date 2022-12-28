@@ -47,4 +47,17 @@ class BaseRepository implements IEloquentRepository
     {
         return $this->model->all();
     }
+
+    public function save(): void
+    {
+        $this->model->save();
+    }
+
+    /**
+     * @param $fields
+     */
+    public function fill($fields): void
+    {
+        $this->model->fill($fields);
+    }
 }

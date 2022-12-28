@@ -6,14 +6,8 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Blank page
-                <small>it all starts here</small>
+                Пользователи
             </h1>
-            <ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-                <li><a href="#">Examples</a></li>
-                <li class="active">Blank page</li>
-            </ol>
         </section>
 
         <!-- Main content -->
@@ -49,19 +43,14 @@
                                     <img src="{{asset($user->avatar)}}" alt="" class="img-responsive" width="150">
                                 </td>
                                 <td>
-{{--                                    <a href="{{route('admin_panel.users.edit', $user->id)}}" class="fa fa-pencil"></a>--}}
-{{--                                    {{Form::open(['route' => ['users.destroy', $user->id], 'method' => 'delete'])}}--}}
-{{--                                    <button onclick="return confirm('Вы уверены?')" type="swubmit" class="delete">--}}
-{{--                                        <a class="fa fa-remove"></a>--}}
-{{--                                    </button>--}}
-{{--                                    {{Form::close( )}}--}}
-                                </td>
-                                <td>
-                                    @if($user->access_admin_panel)
-                                        <a href="/admin/users/toggle/{{$user->id}}" class="fa"><b>Убрать</b> доступ к админ-панели</a>
-                                    @else
-                                        <a href="/admin/users/toggle/{{$user->id}}" class="fa"><b>Дать</b> доступ к админ-панели</a>
-                                    @endif
+                                    <a href="{{route('admin_panel.users.edit', $user->id)}}" class="fa fa-pencil"></a>
+                                    <form action="{{route('admin_panel.users.destroy', $user->id)}}" method="post">
+                                        @method('DELETE')
+                                        @csrf
+                                        <button onclick="return confirm('Вы уверены?')" type="submit" class="delete">
+                                            <a class="fa fa-remove"></a>
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                         @endforeach

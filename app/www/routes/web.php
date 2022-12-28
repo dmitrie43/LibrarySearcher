@@ -30,6 +30,9 @@ Route::middleware(['admin'])->prefix('admin')->namespace('Admin')->group(functio
     Route::get('/users', [UsersController::class, 'index'])->name('admin_panel.users.index');
     Route::get('/users/create', [UsersController::class, 'create'])->name('admin_panel.users.create');
     Route::post('/users/store', [UsersController::class, 'store'])->name('admin_panel.users.store');
+    Route::get('/users/edit/{id}', [UsersController::class, 'edit'])->name('admin_panel.users.edit');
+    Route::put('/users/update/{id}', [UsersController::class, 'update'])->name('admin_panel.users.update');
+    Route::delete('/users/destroy/{id}', [UsersController::class, 'destroy'])->name('admin_panel.users.destroy');
 });
 
 require __DIR__.'/auth.php';

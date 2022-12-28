@@ -46,16 +46,27 @@ class UserRepository extends BaseRepository implements IUserRepository
     public function uploadAvatar(UploadedFile $image) : void
     {
         if ($image == null) return;
-        $this->removeAvatar();
         $filename = Str::random(10) . '.' . $image->extension();
-        $image->storeAs('/', $filename);
+        $image->storeAs('storage/', $filename);
         $this->avatar = 'storage/'.$filename;
     }
 
-    public function removeAvatar() : void
+    /**
+     * @param User $user
+     */
+    public function removeAvatar(User $user) : void
     {
-        if (!empty($this->avatar)) {
-            Storage::delete('uploads/' . $this->avatar);
+        if (!empty($user->avatar)) {
+            Storage::delete($user->avatar);
         }
+    }
+
+    /**
+     * @param User $user
+     */
+    public function remove(User $user) : void
+    {
+        $this->removeAvatar($user);
+        $user->delete();
     }
 }

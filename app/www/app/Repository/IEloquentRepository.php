@@ -19,6 +19,12 @@ interface IEloquentRepository
      */
     public function find($id): ?Model;
 
+    public function save(): void;
+
+    /**
+     * @param $fields
+     */
+    public function fill($fields): void;
     /**
      * @return Collection
      */
