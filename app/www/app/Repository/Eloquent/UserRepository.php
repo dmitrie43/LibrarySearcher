@@ -26,4 +26,12 @@ class UserRepository extends BaseRepository implements IUserRepository
     {
         return in_array($user->role_id, Role::getAllowAdminPanelRolesId());
     }
+
+    /**
+     * @return string|null
+     */
+    public function getDefaultPathAvatar() : ?string
+    {
+        return asset('img/usericon.svg');
+    }
 }

@@ -55,6 +55,7 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role_id' => $defaultRole ? $defaultRole->id : 0,
+            'avatar' => $this->userRepository->getDefaultPathAvatar(),
         ]);
 
         event(new Registered($user));

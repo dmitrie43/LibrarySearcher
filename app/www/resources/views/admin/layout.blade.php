@@ -64,7 +64,7 @@
                                     <li><!-- start message -->
                                         <a href="#">
                                             <div class="pull-left">
-                                                <img src="/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                                                <img src="{{asset('img/usericon.svg')}}" class="img-circle" alt="User Image">
                                             </div>
                                             <h4>
                                                 Support Team
@@ -135,13 +135,13 @@
                     <!-- User Account: style can be found in dropdown.less -->
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <img src="{{asset('img/usericon.svg')}}" class="user-image" alt="User Image">
-                            <span class="hidden-xs">{{\Illuminate\Support\Facades\Auth::user()->name}}</span>
+                            <img src="{{$user->avatar}}" class="user-image" alt="User Image">
+                            <span class="hidden-xs">{{$user->name}}</span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- User image -->
                             <li class="user-header">
-                                <img src="{{asset('img/usericon.svg')}}" class="img-circle" alt="User Image">
+                                <img src="{{$user->avatar}}" class="img-circle" alt="User Image">
 
                                 <p>
                                     Administrator
@@ -198,10 +198,10 @@
             <!-- Sidebar user panel -->
             <div class="user-panel" style="padding-bottom: 20px;">
                 <div class="pull-left image">
-                    <img src="{{asset('img/usericon.svg')}}" class="img-circle" alt="User Image">
+                    <img src="{{$user->avatar}}" class="img-circle" alt="User Image">
                 </div>
                 <div class="pull-left info">
-                    <p>{{\Illuminate\Support\Facades\Auth::user()->name}}</p>
+                    <p>{{$user->name}}</p>
                     <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                 </div>
             </div>
