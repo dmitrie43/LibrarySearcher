@@ -54,7 +54,7 @@ class AuthorsController extends Controller
         if ($request->hasFile('photo')) {
             $this->authorRepository->uploadPhoto($request->file('photo'));
         }
-        $photo = $this->authorRepository->photo ? $this->authorRepository->photo : $this->authorRepository->getDefaultPathPhoto();
+        $photo = $this->authorRepository->photo ? $this->authorRepository->photo : null;
 
         $this->authorRepository->create([
             'full_name' => $request->full_name,

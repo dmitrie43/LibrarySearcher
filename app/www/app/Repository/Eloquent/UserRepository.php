@@ -41,6 +41,19 @@ class UserRepository extends BaseRepository implements IUserRepository
     }
 
     /**
+     * @return UploadedFile
+     */
+    public function getDefaultAvatar() : UploadedFile
+    {
+        $file_info = pathinfo($this->getDefaultPathAvatar());
+        return new UploadedFile(
+            $this->getDefaultPathAvatar(),
+            $file_info['basename'],
+            mime_content_type($this->getDefaultPathAvatar())
+        );
+    }
+
+    /**
      * @param \Illuminate\Http\UploadedFile $image
      */
     public function uploadAvatar(UploadedFile $image) : void

@@ -8,8 +8,6 @@ use Illuminate\Support\Collection;
 
 interface IAuthorRepository
 {
-    public function getDefaultPathPhoto();
-
     public function uploadPhoto(UploadedFile $image);
 
     public function removePhoto(Author $author);

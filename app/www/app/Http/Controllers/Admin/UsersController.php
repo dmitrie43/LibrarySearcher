@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rules;
 use App\Repository\IUserRepository;
 use Illuminate\Http\Request;
@@ -56,15 +58,16 @@ class UsersController extends Controller
 
         if ($request->hasFile('avatar')) {
             $this->userRepository->uploadAvatar($request->file('avatar'));
+        } else {
+            $this->userRepository->uploadAvatar($this->userRepository->getDefaultAvatar());
         }
-        $avatar = $this->userRepository->avatar ? $this->userRepository->avatar : $this->userRepository->getDefaultPathAvatar();
 
         $user = $this->userRepository->create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role_id' => $request->role,
-            'avatar' => $avatar,
+            'avatar' => $this->userRepository->avatar,
         ]);
 
         event(new Registered($user));

@@ -23,14 +23,6 @@ class AuthorRepository extends BaseRepository implements IAuthorRepository
     }
 
     /**
-     * @return string|null
-     */
-    public function getDefaultPathPhoto() : ?string
-    {
-        return 'img/usericon.svg';
-    }
-
-    /**
      * @param \Illuminate\Http\UploadedFile $image
      */
     public function uploadPhoto(UploadedFile $image) : void
