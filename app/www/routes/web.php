@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\UsersController;
+use App\Http\Controllers\Admin\AuthorsController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -33,6 +34,13 @@ Route::middleware(['admin'])->prefix('admin')->namespace('Admin')->group(functio
     Route::get('/users/edit/{id}', [UsersController::class, 'edit'])->name('admin_panel.users.edit');
     Route::put('/users/update/{id}', [UsersController::class, 'update'])->name('admin_panel.users.update');
     Route::delete('/users/destroy/{id}', [UsersController::class, 'destroy'])->name('admin_panel.users.destroy');
+    //authors
+    Route::get('/authors', [AuthorsController::class, 'index'])->name('admin_panel.authors.index');
+    Route::get('/authors/create', [AuthorsController::class, 'create'])->name('admin_panel.authors.create');
+    Route::post('/authors/store', [AuthorsController::class, 'store'])->name('admin_panel.authors.store');
+    Route::get('/authors/edit/{id}', [AuthorsController::class, 'edit'])->name('admin_panel.authors.edit');
+    Route::put('/authors/update/{id}', [AuthorsController::class, 'update'])->name('admin_panel.authors.update');
+    Route::delete('/authors/destroy/{id}', [AuthorsController::class, 'destroy'])->name('admin_panel.authors.destroy');
 });
 
 require __DIR__.'/auth.php';
