@@ -54,7 +54,9 @@ class UsersController extends Controller
             'avatar' => ['image'],
         ]);
 
-        $this->userRepository->uploadAvatar($request->file('avatar'));
+        if ($request->hasFile('avatar')) {
+            $this->userRepository->uploadAvatar($request->file('avatar'));
+        }
         $avatar = $this->userRepository->avatar ? $this->userRepository->avatar : $this->userRepository->getDefaultPathAvatar();
 
         $user = $this->userRepository->create([
