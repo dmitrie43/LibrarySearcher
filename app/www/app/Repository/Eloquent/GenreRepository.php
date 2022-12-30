@@ -16,4 +16,12 @@ class GenreRepository extends BaseRepository implements IGenreRepository
     {
         parent::__construct($model);
     }
+
+    /**
+     * @param Genre $genre
+     */
+    public function remove(Genre $genre) : void
+    {
+        $genre->delete();
+    }
 }

@@ -10,7 +10,11 @@
             <i class="fa fa-sticky-note-o"></i><span>Авторы</span>
         </a>
     </li>
-    {{--    <li><a href="{{route('categories.index')}}"><i class="fa fa-list-ul"></i> <span>Категории</span></a></li>--}}
+    <li>
+        <a href="{{route('admin_panel.genres.index')}}">
+            <i class="fa fa-list-ul"></i><span>Жанры</span>
+        </a>
+    </li>
     {{--    <li><a href="{{route('tags.index')}}"><i class="fa fa-tags"></i> <span>Теги</span></a></li>--}}
     <li>
         <a href="{{route('admin_panel.users.index')}}">
