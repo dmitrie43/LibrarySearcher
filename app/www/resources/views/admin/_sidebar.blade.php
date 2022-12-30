@@ -15,7 +15,11 @@
             <i class="fa fa-list-ul"></i><span>Жанры</span>
         </a>
     </li>
-    {{--    <li><a href="{{route('tags.index')}}"><i class="fa fa-tags"></i> <span>Теги</span></a></li>--}}
+    <li>
+        <a href="{{route('admin_panel.publishers.index')}}">
+            <i class="fa fa-tags"></i><span>Издатели</span>
+        </a>
+    </li>
     <li>
         <a href="{{route('admin_panel.users.index')}}">
             <i class="fa fa-users"></i><span>Пользователи</span>

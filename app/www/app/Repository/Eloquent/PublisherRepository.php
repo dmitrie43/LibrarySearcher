@@ -16,4 +16,12 @@ class PublisherRepository extends BaseRepository implements IPublisherRepository
     {
         parent::__construct($model);
     }
+
+    /**
+     * @param Publisher $publisher
+     */
+    public function remove(Publisher $publisher) : void
+    {
+        $publisher->delete();
+    }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\GenresController;
+use App\Http\Controllers\Admin\PublishersController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\AuthorsController;
 use App\Http\Controllers\IndexController;
@@ -49,6 +50,13 @@ Route::middleware(['admin'])->prefix('admin')->namespace('Admin')->group(functio
     Route::get('/genres/edit/{id}', [GenresController::class, 'edit'])->name('admin_panel.genres.edit');
     Route::put('/genres/update/{id}', [GenresController::class, 'update'])->name('admin_panel.genres.update');
     Route::delete('/genres/destroy/{id}', [GenresController::class, 'destroy'])->name('admin_panel.genres.destroy');
+    //publishers
+    Route::get('/publishers', [PublishersController::class, 'index'])->name('admin_panel.publishers.index');
+    Route::get('/publishers/create', [PublishersController::class, 'create'])->name('admin_panel.publishers.create');
+    Route::post('/publishers/store', [PublishersController::class, 'store'])->name('admin_panel.publishers.store');
+    Route::get('/publishers/edit/{id}', [PublishersController::class, 'edit'])->name('admin_panel.publishers.edit');
+    Route::put('/publishers/update/{id}', [PublishersController::class, 'update'])->name('admin_panel.publishers.update');
+    Route::delete('/publishers/destroy/{id}', [PublishersController::class, 'destroy'])->name('admin_panel.publishers.destroy');
 });
 
 require __DIR__.'/auth.php';
