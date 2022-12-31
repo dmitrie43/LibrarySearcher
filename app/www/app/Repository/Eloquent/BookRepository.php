@@ -75,7 +75,7 @@ class BookRepository extends BaseRepository implements IBookRepository
      */
     public function getDefaultPathCoverImg() : ?string
     {
-        return 'img/book-bookmark-svgrepo-com.svg';
+        return 'img/template.jpg';
     }
 
     /**
