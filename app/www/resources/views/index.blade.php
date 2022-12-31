@@ -16,7 +16,7 @@
                                 @foreach($noveltyBooks as $noveltyBook)
                                     <div class="bannerimg0{{++$loop->index}} d-none d-md-block">
                                         <img class="img-fluid" width="252" height="309"
-                                             src="{{asset('img/Vedmak_poslednee_gelanie_b.jpg')}}" alt="img">
+                                             src="{{asset($noveltyBook->cover_img)}}" alt="img">
                                     </div>
                                 @endforeach
                                 <div class="bannerbtn 1d-block d-none d-sm-none d-md-block d-xl-none mt-0 mt-md-4">

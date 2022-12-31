@@ -18,6 +18,10 @@
             color: #337ab7;
             padding: 0px;
         }
+        option[selected] {
+            background-color: #0a98de;
+            font-weight: bold;
+        }
     </style>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->

@@ -27,7 +27,6 @@ class CreateBooksTable extends Migration
 
             $table->foreignId('author_id')->nullable()->constrained('authors');
             $table->foreignId('publisher_id')->nullable()->constrained('publishers');
-            $table->foreignId('genre_id')->nullable()->constrained('genres');
 
             $table->timestamps();
         });

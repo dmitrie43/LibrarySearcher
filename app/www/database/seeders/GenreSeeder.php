@@ -20,6 +20,7 @@ class GenreSeeder extends Seeder
             'Ужасы',
             'Фантастика',
             'Романтика',
+            'Драма',
         ];
         foreach ($genres as $genre) {
             DB::table('genres')->insert([

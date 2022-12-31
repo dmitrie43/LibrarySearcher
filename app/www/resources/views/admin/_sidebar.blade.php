@@ -17,7 +17,12 @@
     </li>
     <li>
         <a href="{{route('admin_panel.publishers.index')}}">
-            <i class="fa fa-tags"></i><span>Издатели</span>
+            <i class="fa fa-bank"></i><span>Издатели</span>
+        </a>
+    </li>
+    <li>
+        <a href="{{route('admin_panel.books.index')}}">
+            <i class="fa fa-book"></i><span>Книги</span>
         </a>
     </li>
     <li>
