@@ -14,6 +14,7 @@ class CreateGenreBook extends Migration
     public function up()
     {
         Schema::create('genre_book', function (Blueprint $table) {
+            $table->id();
             $table->unsignedInteger('book_id');
             $table->unsignedInteger('genre_id');
         });

@@ -9,11 +9,19 @@ use Illuminate\Support\Collection;
 class PublisherRepository extends BaseRepository implements IPublisherRepository
 {
     /**
-     * BookRepository constructor.
+     * PublisherRepository constructor.
      * @param Publisher $model
      */
     public function __construct(Publisher $model)
     {
         parent::__construct($model);
+    }
+
+    /**
+     * @param Publisher $publisher
+     */
+    public function remove(Publisher $publisher) : void
+    {
+        $publisher->delete();
     }
 }

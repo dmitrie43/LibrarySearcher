@@ -15,14 +15,24 @@ class RoleSeeder extends Seeder
     public static function run()
     {
         $roles = [
-            'user' => 'Пользователь',
-            'admin' => 'Администратор',
-            'moderator' => 'Модератор',
+            'user' => [
+                'name' => 'Пользователь',
+                'access' => '0',
+            ],
+            'admin' => [
+                'name' => 'Администратор',
+                'access' => '1',
+            ],
+            'moderator' => [
+                'name' => 'Модератор',
+                'access' => '1',
+            ],
         ];
-        foreach ($roles as $code => $role) {
+        foreach ($roles as $code => $arRole) {
             DB::table('roles')->insert([
-                'name' => $role,
+                'name' => $arRole['name'],
                 'code' => $code,
+                'access_admin_panel' => $arRole['access'],
             ]);
         }
     }

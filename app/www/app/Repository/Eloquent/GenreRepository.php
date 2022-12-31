@@ -9,11 +9,19 @@ use Illuminate\Support\Collection;
 class GenreRepository extends BaseRepository implements IGenreRepository
 {
     /**
-     * BookRepository constructor.
+     * GenreRepository constructor.
      * @param Genre $model
      */
     public function __construct(Genre $model)
     {
         parent::__construct($model);
+    }
+
+    /**
+     * @param Genre $genre
+     */
+    public function remove(Genre $genre) : void
+    {
+        $genre->delete();
     }
 }

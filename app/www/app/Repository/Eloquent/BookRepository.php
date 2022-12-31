@@ -7,10 +7,15 @@ use App\Models\Book;
 use App\Models\Genre;
 use App\Models\Publisher;
 use App\Repository\IBookRepository;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class BookRepository extends BaseRepository implements IBookRepository
 {
+    public string $cover_img = '';
+
     /**
      * BookRepository constructor.
      * @param Book $model
@@ -64,4 +69,65 @@ class BookRepository extends BaseRepository implements IBookRepository
     {
         return $this->model::where('popular', '1')->take($limit)->get();
     }
+
+    /**
+     * @return string|null
+     */
+    public function getDefaultPathCoverImg() : ?string
+    {
+        return 'img/template.jpg';
+    }
+
+    /**
+     * @return UploadedFile
+     */
+    public function getDefaultCoverImg() : UploadedFile
+    {
+        $file_info = pathinfo($this->getDefaultPathCoverImg());
+        return new UploadedFile(
+            $this->getDefaultPathCoverImg(),
+            $file_info['basename'],
+            mime_content_type($this->getDefaultPathCoverImg())
+        );
+    }
+
+    /**
+     * @param \Illuminate\Http\UploadedFile $image
+     */
+    public function uploadCoverImg(UploadedFile $image) : void
+    {
+        if ($image == null) return;
+        $filename = Str::random(10) . '.' . $image->extension();
+        $image->storeAs('storage/', $filename);
+        $this->cover_img = 'storage/'.$filename;
+    }
+
+    /**
+     * @param Book $book
+     */
+    public function removeCoverImg(Book $book) : void
+    {
+        if (!empty($book->cover_img)) {
+            Storage::delete($book->cover_img);
+        }
+    }
+
+    /**
+     * @param Book $book
+     */
+    public function remove(Book $book) : void
+    {
+        $this->removeCoverImg($book);
+        $book->genres()->detach();
+        $book->delete();
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function genres()
+    {
+        return $this->model->belongsToMany(Genre::class, 'genre_book', 'book_id', 'genre_id');
+    }
+
 }
