@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BookController;
+use App\Http\Controllers\Api\GenreController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -25,4 +26,8 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
 
 Route::group(['prefix' => '/book'], function() {
     Route::get('/get', [BookController::class, 'get']);
+});
+
+Route::group(['prefix' => '/genre'], function() {
+    Route::get('/get', [GenreController::class, 'get']);
 });
