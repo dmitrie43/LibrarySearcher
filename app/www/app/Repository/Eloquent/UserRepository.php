@@ -82,4 +82,13 @@ class UserRepository extends BaseRepository implements IUserRepository
         $this->removeAvatar($user);
         $user->delete();
     }
+
+    /**
+     * @param string $email
+     * @return mixed
+     */
+    public function getByEmail(string $email)
+    {
+        return User::where('email', $email)->first();
+    }
 }
