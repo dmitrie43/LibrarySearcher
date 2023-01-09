@@ -214,6 +214,7 @@
 <script src="{{asset('js/app.js')}}"></script>
 <script src="{{asset('js/slick.js')}}"></script>
 <script src="{{asset('js/comman.js?dfs')}}"></script>
+<script src="{{asset('js/ajax.js')}}"></script>
 </body>
 </html>
 

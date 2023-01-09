@@ -37,9 +37,9 @@ class BookController extends Controller
 
             if ($request->has('genre')) {
                 $genre = $this->genreRepository->find($request->get('genre'));
-                $books = $this->bookRepository->getByGenre($genre, $limit);
+                $books = $this->bookRepository->getByGenre($genre, $limit, true);
             } else {
-                $books = $this->bookRepository->all()->take($limit);
+                $books = $this->bookRepository->getBooks($limit, true);
             }
 
             return response()->json([

@@ -76,7 +76,7 @@
                                 <label for="author">Автор</label>
                                 <select class="form-control" name="author" id="author">
                                     @foreach($authors as $author)
-                                        <option value="{{$author->id}}">{{$author->full_name}}</option>
+                                        <option value="{{$author->id}}" @if($loop->iteration === 1) selected @endif>{{$author->full_name}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -84,7 +84,7 @@
                                 <label for="publisher">Издатель</label>
                                 <select class="form-control" name="publisher" id="publisher">
                                     @foreach($publishers as $publisher)
-                                        <option value="{{$publisher->id}}">{{$publisher->name}}</option>
+                                        <option value="{{$publisher->id}}" @if($loop->iteration === 1) selected @endif>{{$publisher->name}}</option>
                                     @endforeach
                                 </select>
                             </div>

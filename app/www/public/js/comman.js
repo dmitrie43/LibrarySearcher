@@ -10,7 +10,7 @@
           $('#timeTab').slideToggle();
       });
   });
- 
+
 
 
 // blog slider
@@ -44,10 +44,11 @@ $('.blog-slider').slick({
 $('.popular').slick({
   dots: false,
   arrows: true,
-  infinite: false,
+  infinite: true,
   speed: 300,
   slidesToShow: 3,
   slidesToScroll: 1,
+  variableWidth: true,
   responsive: [
     {
       breakpoint: 1200,
@@ -68,7 +69,7 @@ $('.popular').slick({
         dots: true
       }
     }
-   
+
   ]
 });
 
@@ -99,7 +100,7 @@ $('.lastAdded').slick({
         dots: true
       }
     }
-   
+
   ]
 });
 
@@ -115,7 +116,7 @@ $('.similar-aeticle').slick({
     {
       breakpoint: 1200,
       settings:"unslick"
-    }      
+    }
   ]
 });
 
@@ -128,4 +129,4 @@ document.addEventListener('click',function(e){
   if(e.target.classList.contains('hamburger-toggle')){
     e.target.children[0].classList.toggle('active');
   }
-})  
+})
