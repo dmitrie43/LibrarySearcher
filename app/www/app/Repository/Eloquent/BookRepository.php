@@ -45,11 +45,14 @@ class BookRepository extends BaseRepository implements IBookRepository
 
     /**
      * @param Genre $genre
+     * @param int $limit
      * @return mixed
      */
-    public function getByGenre(Genre $genre)
+    public function getByGenre(Genre $genre, int $limit)
     {
-        return $this->model::where('genre_id', $genre->id)->get();
+        return $this->model::whereHas('genres', function($q) use ($genre) {
+            $q->where('genre_id', $genre->id);
+        })->limit($limit)->get();
     }
 
     /**
@@ -129,5 +132,4 @@ class BookRepository extends BaseRepository implements IBookRepository
     {
         return $this->model->belongsToMany(Genre::class, 'genre_book', 'book_id', 'genre_id');
     }
-
 }

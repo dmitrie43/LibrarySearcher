@@ -14,7 +14,7 @@ interface IBookRepository
 
     public function getByPublisher(Publisher $publisher);
 
-    public function getByGenre(Genre $genre);
+    public function getByGenre(Genre $genre, int $limit);
 
     public function getNovelties($limit);
 

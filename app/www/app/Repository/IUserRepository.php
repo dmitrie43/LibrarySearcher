@@ -16,4 +16,6 @@ interface IUserRepository
     public function uploadAvatar(UploadedFile $image);
 
     public function removeAvatar(User $user);
+
+    public function getByEmail(string $email);
 }
