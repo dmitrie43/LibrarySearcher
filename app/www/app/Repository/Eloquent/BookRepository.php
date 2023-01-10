@@ -15,6 +15,7 @@ use Illuminate\Support\Str;
 class BookRepository extends BaseRepository implements IBookRepository
 {
     public string $cover_img = '';
+    private string $default_img = 'img/template.jpg';
 
     /**
      * BookRepository constructor.
@@ -81,7 +82,15 @@ class BookRepository extends BaseRepository implements IBookRepository
      */
     public function getDefaultPathCoverImg() : ?string
     {
-        return 'img/template.jpg';
+        return $this->default_img;
+    }
+
+    /**
+     * @param string $path
+     */
+    public function setDefaultPathCoverImg(string $path) : void
+    {
+        $this->default_img = $path;
     }
 
     /**

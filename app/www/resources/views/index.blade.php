@@ -31,7 +31,9 @@
                                 <p class="textbluecolor text-uppercase">Читайте новое, читайте с нами!</p>
                                 <p class="textgraycolor">Литература не стоит на месте</p>
                                 <div class="bannerbtn d-block d-sm-block d-md-none d-lg-none d-xl-block">
-                                    <button class="btn btnlightblue me-3">Смотреть все</button>
+                                    <a href="">
+                                        <button class="btn btnlightblue me-3">Смотреть все</button>
+                                    </a>
                                 </div>
                             </div>
                         </div>
