@@ -48,7 +48,7 @@
                         </div>
                     </div>
                 </button>
-                <nav class="navbar navbar-expand-xl">
+                <nav class="navbar navbar-expand-xl custom-navbar">
 
                     <div class="collapse navbar-collapse" id="navbar-content">
                         <div class="logo d-md-none">

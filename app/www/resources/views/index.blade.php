@@ -14,10 +14,12 @@
                         <div class="bannercntSec">
                             <div class="bannerImg">
                                 @foreach($noveltyBooks as $noveltyBook)
-                                    <div class="bannerimg0{{++$loop->index}} d-none d-md-block">
-                                        <img class="img-fluid" width="252" height="309"
-                                             src="{{asset($noveltyBook->cover_img)}}" alt="img">
-                                    </div>
+                                    <a href="">
+                                        <div class="bannerimg0{{++$loop->index}} d-none d-md-block novelty-book">
+                                            <img class="img-fluid" width="252" height="309"
+                                                 src="{{asset($noveltyBook->cover_img)}}" alt="img">
+                                        </div>
+                                    </a>
                                 @endforeach
                                 <div class="bannerbtn 1d-block d-none d-sm-none d-md-block d-xl-none mt-0 mt-md-4">
                                     <button class="btn btnlightblue me-3">Смотреть все</button>
@@ -857,114 +859,15 @@
                 <div class="col-md-12">
                     <h2 class="headingWh mb-3 mb-sm-3 mb-md-4 mb-xl-4">Популярное</h2>
                     <div class="lastAdded slider">
-                        <div class="aboutitem">
-                            <div class="aboutitemImg"><img class="img-fluid"
-                                                           src="{{asset('img/Vedmak_poslednee_gelanie_b.jpg')}}"
-                                                           alt="img"></div>
-                            <div class="bgdarkbluecolor aboutitemcnt">
-                                <div class="itemtitlecode">
-                                    <h2 class="textgraycolor">Cryptosharks</h2>
-                                    <h3 class="textwhitecolor">Cryptosharks #4939</h3>
-                                    <h4 class="textbluecolor">09 : 17 : 05</h4>
+                        @foreach($popularBooks as $book)
+                            <a href="">
+                                <div class="aboutitem">
+                                    <div class="aboutitemImg">
+                                        <img class="img-fluid" src="{{asset($book->cover_img)}}" alt="img">
+                                    </div>
                                 </div>
-                                <div class="itemtitlePrice">
-                                    <h2 class="textgraycolor">Price</h2>
-                                    <h3 class="textwhitecolor"><img src="{{asset('img/priceicon.svg')}}"> <strong>0,
-                                            006</strong></h3>
-                                    <h4 class="textgraycolor"><span><img src="{{asset('img/hearticon.svg')}}"></span> 56
-                                    </h4>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="aboutitem">
-                            <div class="aboutitemImg"><img class="img-fluid" src="img/liveauitemimg2.png" alt="img">
-                            </div>
-                            <div class="bgdarkbluecolor aboutitemcnt">
-                                <div class="itemtitlecode">
-                                    <h2 class="textgraycolor">Cryptosharks</h2>
-                                    <h3 class="textwhitecolor">Cryptosharks #4939</h3>
-                                    <h4 class="textbluecolor">09 : 17 : 05</h4>
-                                </div>
-                                <div class="itemtitlePrice">
-                                    <h2 class="textgraycolor">Price</h2>
-                                    <h3 class="textwhitecolor"><img src="img/priceicon.svg"> <strong>0, 006</strong>
-                                    </h3>
-                                    <h4 class="textgraycolor"><span><img src="img/hearticon-blue.svg"></span> 56</h4>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="aboutitem">
-                            <div class="aboutitemImg"><img class="img-fluid" src="img/liveauitemimg3.png" alt="img">
-                            </div>
-                            <div class="bgdarkbluecolor aboutitemcnt">
-                                <div class="itemtitlecode">
-                                    <h2 class="textgraycolor">Cryptosharks</h2>
-                                    <h3 class="textwhitecolor">Cryptosharks #4939</h3>
-                                </div>
-                                <div class="itemtitlePrice">
-                                    <h2 class="textgraycolor">Price</h2>
-                                    <h3 class="textwhitecolor"><img src="img/priceicon.svg"> <strong>0, 006</strong>
-                                    </h3>
-                                    <h4 class="textgraycolor"><span><img src="img/hearticon-blue.svg"></span> 56</h4>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="aboutitem">
-                            <div class="aboutitemImg"><img class="img-fluid" src="img/liveauitemimg4.png" alt="img">
-                            </div>
-                            <div class="bgdarkbluecolor aboutitemcnt">
-                                <div class="itemtitlecode">
-                                    <h2 class="textgraycolor">Cryptosharks</h2>
-                                    <h3 class="textwhitecolor">Cryptosharks #4939</h3>
-                                </div>
-                                <div class="itemtitlePrice">
-                                    <h2 class="textgraycolor">Price</h2>
-                                    <h3 class="textwhitecolor"><img src="img/priceicon.svg"> <strong>0, 006</strong>
-                                    </h3>
-                                    <h4 class="textgraycolor"><span><img src="img/hearticon.svg"></span> 56</h4>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="aboutitem">
-                            <div class="aboutitemImg"><img class="img-fluid" src="img/liveauitemimg.png" alt="img">
-                            </div>
-                            <div class="bgdarkbluecolor aboutitemcnt">
-                                <div class="itemtitlecode">
-                                    <h2 class="textgraycolor">Cryptosharks</h2>
-                                    <h3 class="textwhitecolor">Cryptosharks #4939</h3>
-                                    <h4 class="textbluecolor">09 : 17 : 05</h4>
-                                </div>
-                                <div class="itemtitlePrice">
-                                    <h2 class="textgraycolor">Price</h2>
-                                    <h3 class="textwhitecolor"><img src="img/priceicon.svg"> <strong>0, 006</strong>
-                                    </h3>
-                                    <h4 class="textgraycolor"><span><img src="img/hearticon.svg"></span> 56</h4>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="aboutitem">
-                            <div class="aboutitemImg"><img class="img-fluid" src="img/liveauitemimg2.png" alt="img">
-                            </div>
-                            <div class="bgdarkbluecolor aboutitemcnt">
-                                <div class="itemtitlecode">
-                                    <h2 class="textgraycolor">Cryptosharks</h2>
-                                    <h3 class="textwhitecolor">Cryptosharks #4939</h3>
-                                    <h4 class="textbluecolor">09 : 17 : 05</h4>
-                                </div>
-                                <div class="itemtitlePrice">
-                                    <h2 class="textgraycolor">Price</h2>
-                                    <h3 class="textwhitecolor"><img src="img/priceicon.svg"> <strong>0, 006</strong>
-                                    </h3>
-                                    <h4 class="textgraycolor"><span><img src="img/hearticon-blue.svg"></span> 56</h4>
-                                </div>
-                            </div>
-                        </div>
-
+                            </a>
+                        @endforeach
                     </div>
                 </div>
             </div>

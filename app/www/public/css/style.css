@@ -31,7 +31,7 @@ a{text-decoration:none;-moz-transition:all .2s;-webkit-transition:all .2s;transi
 a:hover{text-decoration:none;-moz-transition:all .2s;-webkit-transition:all .2s;transition:all .2s}
 
 /*Comman Classes*/
-.themebgcolor{background:#050D1D;}
+.themebgcolor{background:currentColor;}
 .bgdarkbluecolor{background:#0A1F3A;}
 .textwhitecolor{color:#FFFFFF;}
 .textbluecolor{color:#019DEA;}
@@ -132,9 +132,9 @@ nav.navbar .dropdown-toggle::after,.loginWallet .dropdown-toggle::after{display:
 .searchform form input::-webkit-input-placeholder{color:#B1BBD4;}
 .bannerImg{position:relative;display:inline-flex;}
 .bannerSec{position:relative;padding:100px 0;}
-.bannerimg01{margin:0 -85px 0 0;}
-.bannerimg02{margin:25px -55px 0 0;}
-.bannerimg03{margin:55px 0 0 -30px;}
+.bannerimg01{margin:0 -75px 0 0;}
+.bannerimg02{margin:15px -45px 0 0;}
+.bannerimg03{margin:45px 0 0 -20px;}
 .bannercntSec{display:flex;align-items:flex-start;align-content:flex-start;justify-content:space-evenly;}
 .bannercnt{display:inline-flex;flex-wrap:wrap;padding:16px 0 0 0;max-width:400px;width:100%;}
 .bannercnt h2{font-size:35px;line-height:52px;margin:0 0 40px;}
@@ -143,6 +143,11 @@ nav.navbar .dropdown-toggle::after,.loginWallet .dropdown-toggle::after{display:
 .nav.nav-tabs button{padding:15px 25px;font-weight:500;font-size:14px;color:#E5F0FF;text-align:center;margin:0 20px 0 0;border:none;border-radius:5px;}
 .nav-tabs .nav-link.active,.nav-tabs .nav-item.show .nav-link{background:#0E2542;color:#fff;border-color:#1f487c #1f487c #1f487c;}
 button.navbar-toggler{display:none;}
+
+.novelty-book:hover {
+    transform: scale(1.2);
+    border: 2px solid white;
+}
 
 /*more tab css*/
 .more-tab{position:relative;display:inline-flex;vertical-align:middle;align-items:center;align-content:center;}
@@ -591,7 +596,7 @@ nav.navbar .navbar-nav li.nav-item{margin:0 23px 0 0;}
 header .col-md-12{position:relative;}
 button.navbar-toggler{display:inline-block;position:absolute;right:0;top:6px;padding:0;border:none;}
 .navbar-toggler:hover,.navbar-toggler:focus{box-shadow:none;outline:none;}
-nav.navbar{position:absolute;left:0;right:0;width:100%;top:0;border-radius:10px;background:#020A18;z-index:10;padding:0;}
+nav.navbar{position:absolute;left:0;right:0;width:100%;top:0;border-radius:20px;background:url('/img/background-nav.jpg');z-index:10;padding:0;}
 ul.navbar-nav{padding:50px;}
 .navbar-toggler .hamburger-toggle{position:relative;display:inline-block;width:55px;height:50px;z-index:11;float:right;}
 .navbar-toggler .hamburger-toggle .hamburger{position:absolute;transform:translate(-50%,-50%) rotate(0deg);left:50%;top:50%;width:50%;height:50%;pointer-events:none;}
