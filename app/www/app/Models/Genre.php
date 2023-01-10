@@ -14,10 +14,9 @@ class Genre extends Model
     ];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function books()
     {
-        return $this->hasMany(Book::class, 'genre_id');
+        return $this->belongsToMany(Book::class, 'genre_book');
     }
 }

@@ -24,4 +24,12 @@ class GenreRepository extends BaseRepository implements IGenreRepository
     {
         $genre->delete();
     }
+
+    /**
+     * @return mixed
+     */
+    public function getGenresWithBooks()
+    {
+        return $this->model->whereHas('books')->get();
+    }
 }

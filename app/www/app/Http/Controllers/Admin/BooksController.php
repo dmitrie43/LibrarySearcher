@@ -89,9 +89,10 @@ class BooksController extends Controller
             'novelty' => $request->novelty,
             'popular' => $request->popular,
             'recommended' => $request->recommended,
-            'author_id' => $request->author,
-            'publisher_id' => $request->publisher,
         ]);
+        $book->author_id = $request->author;
+        $book->publisher_id = $request->publisher;
+        $book->save();
         $book->genres()->attach($request->genres);
 
         return redirect()->route('admin_panel.books.index');

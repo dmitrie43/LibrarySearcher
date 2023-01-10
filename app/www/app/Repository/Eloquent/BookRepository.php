@@ -46,13 +46,16 @@ class BookRepository extends BaseRepository implements IBookRepository
     /**
      * @param Genre $genre
      * @param int $limit
+     * @param bool $withAuthor
      * @return mixed
      */
-    public function getByGenre(Genre $genre, int $limit)
+    public function getByGenre(Genre $genre, int $limit, bool $withAuthor)
     {
-        return $this->model::whereHas('genres', function($q) use ($genre) {
+        $model = $this->model::whereHas('genres', function($q) use ($genre) {
             $q->where('genre_id', $genre->id);
-        })->limit($limit)->get();
+        });
+        $model = $withAuthor ? $model->with('author') : $model;
+        return $model->limit($limit)->get();
     }
 
     /**
@@ -61,7 +64,7 @@ class BookRepository extends BaseRepository implements IBookRepository
      */
     public function getNovelties($limit)
     {
-        return $this->model::where('novelty', '1')->orderBy('date_publish', 'desc')->take($limit)->get();
+        return $this->model::where('novelty', '1')->orderBy('date_publish', 'desc')->limit($limit)->get();
     }
 
     /**
@@ -70,7 +73,7 @@ class BookRepository extends BaseRepository implements IBookRepository
      */
     public function getPopular($limit)
     {
-        return $this->model::where('popular', '1')->take($limit)->get();
+        return $this->model::where('popular', '1')->limit($limit)->get();
     }
 
     /**
@@ -131,5 +134,17 @@ class BookRepository extends BaseRepository implements IBookRepository
     public function genres()
     {
         return $this->model->belongsToMany(Genre::class, 'genre_book', 'book_id', 'genre_id');
+    }
+
+    /**
+     * @param int $limit
+     * @param bool $withAuthor
+     * @return \Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
+     */
+    public function getBooks(int $limit, bool $withAuthor = false)
+    {
+        $model = $this->model;
+        $model = $withAuthor ? $model->with('author') : $model;
+        return $model->limit($limit)->get();
     }
 }

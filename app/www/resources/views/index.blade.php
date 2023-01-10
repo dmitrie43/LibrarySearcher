@@ -14,10 +14,12 @@
                         <div class="bannercntSec">
                             <div class="bannerImg">
                                 @foreach($noveltyBooks as $noveltyBook)
-                                    <div class="bannerimg0{{++$loop->index}} d-none d-md-block">
-                                        <img class="img-fluid" width="252" height="309"
-                                             src="{{asset($noveltyBook->cover_img)}}" alt="img">
-                                    </div>
+                                    <a href="">
+                                        <div class="bannerimg0{{++$loop->index}} d-none d-md-block novelty-book">
+                                            <img class="img-fluid" width="252" height="309"
+                                                 src="{{asset($noveltyBook->cover_img)}}" alt="img">
+                                        </div>
+                                    </a>
                                 @endforeach
                                 <div class="bannerbtn 1d-block d-none d-sm-none d-md-block d-xl-none mt-0 mt-md-4">
                                     <button class="btn btnlightblue me-3">Смотреть все</button>
@@ -49,552 +51,49 @@
                     <div class="tab-sec">
                         <nav>
                             <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                                <button class="nav-link d-none d-sm-none d-md-block active" data-bs-toggle="tab"
-                                        data-bs-target="#TabOne">Все
-                                </button>
-                                <button class="nav-link d-none d-sm-none d-md-block" data-bs-toggle="tab"
-                                        data-bs-target="#TabTwo">Фантастика
-                                </button>
-                                <button class="nav-link d-none d-sm-none d-md-block" data-bs-toggle="tab"
-                                        data-bs-target="#TabThree">Классика
-                                </button>
-                                <button class="nav-link d-none d-sm-none d-md-block" data-bs-toggle="tab"
-                                        data-bs-target="#TabFour">Романтика
-                                </button>
-
+                                <button class="nav-link d-none d-sm-none d-md-block active" data-bs-toggle="tab" onclick="getBooks()">Все</button>
+                                @foreach($genres as $genre)
+                                    @if($loop->iteration > 3)
+                                        @break
+                                    @endif
+                                    <button class="nav-link d-none d-sm-none d-md-block" data-bs-toggle="tab" onclick="getBooksByGenre({{$genre->id}});">{{$genre->name}}</button>
+                                @endforeach
                                 <div class="more-tab">
                                     <a href="javascript:void(0)" class="textbluecolor categorytab">Выберите жанр <img
                                             src="{{asset('img/bluedown.png')}}" alt="arrow-down"></a>
                                     <div class="more-box nav nav-tabs" id="more_tab" role="tablist">
-
-                                        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#TabOne">
-                                            Все жанры
-                                        </button>
-                                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#TabTwo">
-                                            Фантастика
-                                        </button>
-                                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#TabThree">
-                                            Классика
-                                        </button>
-                                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#TabFour">
-                                            Романтика
-                                        </button>
-                                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabcatg1">
-                                            Ужасы
-                                        </button>
+                                        @foreach($genres as $genre)
+                                            <button class="nav-link" data-bs-toggle="tab" onclick="getBooksByGenre({{$genre->id}});">{{$genre->name}}</button>
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
                         </nav>
                         <div class="tab-content" id="nav-tabContent">
-                            <div class="tab-pane fade show active" id="TabOne">
-                                <div class="popular slider">
-                                    <div class="creators">
-                                        <div class="creatorImg"><img class="img-fluid" src="img/popularcolimg01.png"
-                                                                     alt="img"></div>
-                                        <div class="creatorIcon">
-                                            <img class="img-fluid" src="img/popularcolicon01.png" alt="imig">
-                                            <div class="creatorcheck"><img src="img/checkicon.svg" alt="img"></div>
+                            <div class="tab-pane fade show active">
+                                <div class="popular slider" id="books-by-genre">
+                                    @foreach($books as $book)
+                                        <div class="creators">
+                                            <div class="creatorImg">
+                                                <img class="img-fluid" src="{{$book->cover_img}}" alt="img">
+                                            </div>
+                                            @if($author = $book->author()->select('photo', 'full_name')->first())
+                                                @if(!empty($author->photo))
+                                                    <div class="creatorIcon">
+                                                        <img class="img-fluid" src="{{$author->photo}}" alt="">
+                                                        <div class="creatorcheck"><img src="{{asset('img/checkicon.svg')}}" alt="img"></div>
+                                                    </div>
+                                                @endif
+                                                <div class="creatorsText text-center">
+                                                    <h2 class="textwhitecolor">{{$author->full_name}}</h2>
+                                                    <h3 class="textbluecolor">Великий писатель</h3>
+                                                    <p class="textgraycolor">Создал множество жанров и направлений</p>
+                                                </div>
+                                            @endif
                                         </div>
-                                        <div class="creatorsText text-center">
-                                            <h2 class="textwhitecolor">RTFKT Creators</h2>
-                                            <h3 class="textbluecolor">by RTFKT</h3>
-                                            <p class="textgraycolor">Lorem Ipsum is simply dummy text of the printing
-                                                and
-                                                typesetting industry.</p>
-                                        </div>
-                                    </div>
-
-                                    <div class="creators">
-                                        <div class="creatorImg"><img class="img-fluid" src="img/popularcolimg02.png"
-                                                                     alt="img"></div>
-                                        <div class="creatorIcon">
-                                            <img class="img-fluid" src="img/popularcolicon02.png" alt="imig">
-                                            <div class="creatorcheck"><img src="img/checkicon.svg" alt="img"></div>
-                                        </div>
-                                        <div class="creatorsText text-center">
-                                            <h2 class="textwhitecolor">RTFKT Creators</h2>
-                                            <h3 class="textbluecolor">by RTFKT</h3>
-                                            <p class="textgraycolor">Lorem Ipsum is simply dummy text of the printing
-                                                and
-                                                typesetting industry.</p>
-                                        </div>
-                                    </div>
-
-                                    <div class="creators">
-                                        <div class="creatorImg"><img class="img-fluid" src="img/popularcolimg03.png"
-                                                                     alt="img"></div>
-                                        <div class="creatorIcon">
-                                            <img class="img-fluid" src="img/popularcolicon03.png" alt="imig">
-                                            <div class="creatorcheck"><img src="img/checkicon.svg" alt="img"></div>
-                                        </div>
-                                        <div class="creatorsText text-center">
-                                            <h2 class="textwhitecolor">RTFKT Creators</h2>
-                                            <h3 class="textbluecolor">by RTFKT</h3>
-                                            <p class="textgraycolor">Lorem Ipsum is simply dummy text of the printing
-                                                and
-                                                typesetting industry.</p>
-                                        </div>
-                                    </div>
-
-                                    <div class="creators">
-                                        <div class="creatorImg"><img class="img-fluid" src="img/popularcolimg01.png"
-                                                                     alt="img"></div>
-                                        <div class="creatorIcon">
-                                            <img class="img-fluid" src="img/popularcolicon01.png" alt="imig">
-                                            <div class="creatorcheck"><img src="img/checkicon.svg" alt="img"></div>
-                                        </div>
-                                        <div class="creatorsText text-center">
-                                            <h2 class="textwhitecolor">RTFKT Creators</h2>
-                                            <h3 class="textbluecolor">by RTFKT</h3>
-                                            <p class="textgraycolor">Lorem Ipsum is simply dummy text of the printing
-                                                and
-                                                typesetting industry.</p>
-                                        </div>
-                                    </div>
-
-                                    <div class="creators">
-                                        <div class="creatorImg"><img class="img-fluid" src="img/popularcolimg02.png"
-                                                                     alt="img"></div>
-                                        <div class="creatorIcon">
-                                            <img class="img-fluid" src="img/popularcolicon02.png" alt="imig">
-                                            <div class="creatorcheck"><img src="img/checkicon.svg" alt="img"></div>
-                                        </div>
-                                        <div class="creatorsText text-center">
-                                            <h2 class="textwhitecolor">RTFKT Creators</h2>
-                                            <h3 class="textbluecolor">by RTFKT</h3>
-                                            <p class="textgraycolor">Lorem Ipsum is simply dummy text of the printing
-                                                and
-                                                typesetting industry.</p>
-                                        </div>
-                                    </div>
-
-                                    <div class="creators">
-                                        <div class="creatorImg"><img class="img-fluid" src="img/popularcolimg03.png"
-                                                                     alt="img"></div>
-                                        <div class="creatorIcon">
-                                            <img class="img-fluid" src="img/popularcolicon03.png" alt="imig">
-                                            <div class="creatorcheck"><img src="img/checkicon.svg" alt="img"></div>
-                                        </div>
-                                        <div class="creatorsText text-center">
-                                            <h2 class="textwhitecolor">RTFKT Creators</h2>
-                                            <h3 class="textbluecolor">by RTFKT</h3>
-                                            <p class="textgraycolor">Lorem Ipsum is simply dummy text of the printing
-                                                and
-                                                typesetting industry.</p>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                            <div class="tab-pane fade" id="TabTwo">
-                                <div class="popular slider">
-                                    <div class="creators">
-                                        <div class="creatorImg">
-                                            <img class="img-fluid" src="{{asset('img/Vedmak_poslednee_gelanie_b.jpg')}}"
-                                                 alt="img">
-                                        </div>
-                                        <div class="creatorIcon">
-                                            <img class="img-fluid" src="img/popularcolicon03.png" alt="imig">
-                                            <div class="creatorcheck"><img src="img/checkicon.svg" alt="img"></div>
-                                        </div>
-                                        <div class="creatorsText text-center">
-                                            <h2 class="textwhitecolor">RTFKT Creators</h2>
-                                            <h3 class="textbluecolor">by RTFKT</h3>
-                                            <p class="textgraycolor">Lorem Ipsum is simply dummy text of the printing
-                                                and
-                                                typesetting industry.</p>
-                                        </div>
-                                    </div>
-
-                                    <div class="creators">
-                                        <div class="creatorImg"><img class="img-fluid" src="img/popularcolimg01.png"
-                                                                     alt="img"></div>
-                                        <div class="creatorIcon">
-                                            <img class="img-fluid" src="img/popularcolicon01.png" alt="imig">
-                                            <div class="creatorcheck"><img src="img/checkicon.svg" alt="img"></div>
-                                        </div>
-                                        <div class="creatorsText text-center">
-                                            <h2 class="textwhitecolor">RTFKT Creators</h2>
-                                            <h3 class="textbluecolor">by RTFKT</h3>
-                                            <p class="textgraycolor">Lorem Ipsum is simply dummy text of the printing
-                                                and
-                                                typesetting industry.</p>
-                                        </div>
-                                    </div>
-
-                                    <div class="creators">
-                                        <div class="creatorImg"><img class="img-fluid" src="img/popularcolimg02.png"
-                                                                     alt="img"></div>
-                                        <div class="creatorIcon">
-                                            <img class="img-fluid" src="img/popularcolicon02.png" alt="imig">
-                                            <div class="creatorcheck"><img src="img/checkicon.svg" alt="img"></div>
-                                        </div>
-                                        <div class="creatorsText text-center">
-                                            <h2 class="textwhitecolor">RTFKT Creators</h2>
-                                            <h3 class="textbluecolor">by RTFKT</h3>
-                                            <p class="textgraycolor">Lorem Ipsum is simply dummy text of the printing
-                                                and
-                                                typesetting industry.</p>
-                                        </div>
-                                    </div>
-
-                                    <div class="creators">
-                                        <div class="creatorImg"><img class="img-fluid" src="img/popularcolimg03.png"
-                                                                     alt="img"></div>
-                                        <div class="creatorIcon">
-                                            <img class="img-fluid" src="img/popularcolicon03.png" alt="imig">
-                                            <div class="creatorcheck"><img src="img/checkicon.svg" alt="img"></div>
-                                        </div>
-                                        <div class="creatorsText text-center">
-                                            <h2 class="textwhitecolor">RTFKT Creators</h2>
-                                            <h3 class="textbluecolor">by RTFKT</h3>
-                                            <p class="textgraycolor">Lorem Ipsum is simply dummy text of the printing
-                                                and
-                                                typesetting industry.</p>
-                                        </div>
-                                    </div>
-
-                                    <div class="creators">
-                                        <div class="creatorImg"><img class="img-fluid" src="img/popularcolimg01.png"
-                                                                     alt="img"></div>
-                                        <div class="creatorIcon">
-                                            <img class="img-fluid" src="img/popularcolicon01.png" alt="imig">
-                                            <div class="creatorcheck"><img src="img/checkicon.svg" alt="img"></div>
-                                        </div>
-                                        <div class="creatorsText text-center">
-                                            <h2 class="textwhitecolor">RTFKT Creators</h2>
-                                            <h3 class="textbluecolor">by RTFKT</h3>
-                                            <p class="textgraycolor">Lorem Ipsum is simply dummy text of the printing
-                                                and
-                                                typesetting industry.</p>
-                                        </div>
-                                    </div>
-
-                                    <div class="creators">
-                                        <div class="creatorImg"><img class="img-fluid" src="img/popularcolimg02.png"
-                                                                     alt="img"></div>
-                                        <div class="creatorIcon">
-                                            <img class="img-fluid" src="img/popularcolicon02.png" alt="imig">
-                                            <div class="creatorcheck"><img src="img/checkicon.svg" alt="img"></div>
-                                        </div>
-                                        <div class="creatorsText text-center">
-                                            <h2 class="textwhitecolor">RTFKT Creators</h2>
-                                            <h3 class="textbluecolor">by RTFKT</h3>
-                                            <p class="textgraycolor">Lorem Ipsum is simply dummy text of the printing
-                                                and
-                                                typesetting industry.</p>
-                                        </div>
-                                    </div>
-
-
+                                    @endforeach
                                 </div>
                             </div>
-
-                            <div class="tab-pane fade" id="TabThree">
-                                <div class="popular slider">
-                                    <div class="creators">
-                                        <div class="creatorImg"><img class="img-fluid" src="img/creatoreimg01.png"
-                                                                     alt="img"></div>
-                                        <div class="creatorIcon">
-                                            <img class="img-fluid" src="img/authoreicon11.png" alt="imig">
-                                            <div class="creatorcheck"><img src="img/checkicon.svg" alt="img"></div>
-                                        </div>
-                                        <div class="creatorsText text-center">
-                                            <h2 class="textwhitecolor">RTFKT Creators</h2>
-                                            <h3 class="textbluecolor">by RTFKT</h3>
-                                            <p class="textgraycolor">Lorem Ipsum is simply dummy text of the printing
-                                                and
-                                                typesetting industry.</p>
-                                        </div>
-                                    </div>
-
-                                    <div class="creators">
-                                        <div class="creatorImg"><img class="img-fluid" src="img/creatoreimg01.png"
-                                                                     alt="img"></div>
-                                        <div class="creatorIcon">
-                                            <img class="img-fluid" src="img/authoreicon11.png" alt="imig">
-                                            <div class="creatorcheck"><img src="img/checkicon.svg" alt="img"></div>
-                                        </div>
-                                        <div class="creatorsText text-center">
-                                            <h2 class="textwhitecolor">RTFKT Creators</h2>
-                                            <h3 class="textbluecolor">by RTFKT</h3>
-                                            <p class="textgraycolor">Lorem Ipsum is simply dummy text of the printing
-                                                and
-                                                typesetting industry.</p>
-                                        </div>
-                                    </div>
-
-                                    <div class="creators">
-                                        <div class="creatorImg"><img class="img-fluid" src="img/creatoreimg01.png"
-                                                                     alt="img"></div>
-                                        <div class="creatorIcon">
-                                            <img class="img-fluid" src="img/authoreicon11.png" alt="imig">
-                                            <div class="creatorcheck"><img src="img/checkicon.svg" alt="img"></div>
-                                        </div>
-                                        <div class="creatorsText text-center">
-                                            <h2 class="textwhitecolor">RTFKT Creators</h2>
-                                            <h3 class="textbluecolor">by RTFKT</h3>
-                                            <p class="textgraycolor">Lorem Ipsum is simply dummy text of the printing
-                                                and
-                                                typesetting industry.</p>
-                                        </div>
-                                    </div>
-
-                                    <div class="creators">
-                                        <div class="creatorImg"><img class="img-fluid" src="img/creatoreimg01.png"
-                                                                     alt="img"></div>
-                                        <div class="creatorIcon">
-                                            <img class="img-fluid" src="img/authoreicon11.png" alt="imig">
-                                            <div class="creatorcheck"><img src="img/checkicon.svg" alt="img"></div>
-                                        </div>
-                                        <div class="creatorsText text-center">
-                                            <h2 class="textwhitecolor">RTFKT Creators</h2>
-                                            <h3 class="textbluecolor">by RTFKT</h3>
-                                            <p class="textgraycolor">Lorem Ipsum is simply dummy text of the printing
-                                                and
-                                                typesetting industry.</p>
-                                        </div>
-                                    </div>
-
-                                    <div class="creators">
-                                        <div class="creatorImg"><img class="img-fluid" src="img/creatoreimg01.png"
-                                                                     alt="img"></div>
-                                        <div class="creatorIcon">
-                                            <img class="img-fluid" src="img/authoreicon11.png" alt="imig">
-                                            <div class="creatorcheck"><img src="img/checkicon.svg" alt="img"></div>
-                                        </div>
-                                        <div class="creatorsText text-center">
-                                            <h2 class="textwhitecolor">RTFKT Creators</h2>
-                                            <h3 class="textbluecolor">by RTFKT</h3>
-                                            <p class="textgraycolor">Lorem Ipsum is simply dummy text of the printing
-                                                and
-                                                typesetting industry.</p>
-                                        </div>
-                                    </div>
-
-                                    <div class="creators">
-                                        <div class="creatorImg"><img class="img-fluid" src="img/creatoreimg01.png"
-                                                                     alt="img"></div>
-                                        <div class="creatorIcon">
-                                            <img class="img-fluid" src="img/authoreicon11.png" alt="imig">
-                                            <div class="creatorcheck"><img src="img/checkicon.svg" alt="img"></div>
-                                        </div>
-                                        <div class="creatorsText text-center">
-                                            <h2 class="textwhitecolor">RTFKT Creators</h2>
-                                            <h3 class="textbluecolor">by RTFKT</h3>
-                                            <p class="textgraycolor">Lorem Ipsum is simply dummy text of the printing
-                                                and
-                                                typesetting industry.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="tab-pane fade" id="TabFour">
-                                <div class="popular slider">
-                                    <div class="creators">
-                                        <div class="creatorImg"><img class="img-fluid" src="img/creatoreimg01.png"
-                                                                     alt="img"></div>
-                                        <div class="creatorIcon">
-                                            <img class="img-fluid" src="img/authoreicon11.png" alt="imig">
-                                            <div class="creatorcheck"><img src="img/checkicon.svg" alt="img"></div>
-                                        </div>
-                                        <div class="creatorsText text-center">
-                                            <h2 class="textwhitecolor">RTFKT Creators</h2>
-                                            <h3 class="textbluecolor">by RTFKT</h3>
-                                            <p class="textgraycolor">Lorem Ipsum is simply dummy text of the printing
-                                                and
-                                                typesetting industry.</p>
-                                        </div>
-                                    </div>
-
-                                    <div class="creators">
-                                        <div class="creatorImg"><img class="img-fluid" src="img/creatoreimg01.png"
-                                                                     alt="img"></div>
-                                        <div class="creatorIcon">
-                                            <img class="img-fluid" src="img/authoreicon11.png" alt="imig">
-                                            <div class="creatorcheck"><img src="img/checkicon.svg" alt="img"></div>
-                                        </div>
-                                        <div class="creatorsText text-center">
-                                            <h2 class="textwhitecolor">RTFKT Creators</h2>
-                                            <h3 class="textbluecolor">by RTFKT</h3>
-                                            <p class="textgraycolor">Lorem Ipsum is simply dummy text of the printing
-                                                and
-                                                typesetting industry.</p>
-                                        </div>
-                                    </div>
-
-                                    <div class="creators">
-                                        <div class="creatorImg"><img class="img-fluid" src="img/creatoreimg01.png"
-                                                                     alt="img"></div>
-                                        <div class="creatorIcon">
-                                            <img class="img-fluid" src="img/authoreicon11.png" alt="imig">
-                                            <div class="creatorcheck"><img src="img/checkicon.svg" alt="img"></div>
-                                        </div>
-                                        <div class="creatorsText text-center">
-                                            <h2 class="textwhitecolor">RTFKT Creators</h2>
-                                            <h3 class="textbluecolor">by RTFKT</h3>
-                                            <p class="textgraycolor">Lorem Ipsum is simply dummy text of the printing
-                                                and
-                                                typesetting industry.</p>
-                                        </div>
-                                    </div>
-
-                                    <div class="creators">
-                                        <div class="creatorImg"><img class="img-fluid" src="img/creatoreimg01.png"
-                                                                     alt="img"></div>
-                                        <div class="creatorIcon">
-                                            <img class="img-fluid" src="img/authoreicon11.png" alt="imig">
-                                            <div class="creatorcheck"><img src="img/checkicon.svg" alt="img"></div>
-                                        </div>
-                                        <div class="creatorsText text-center">
-                                            <h2 class="textwhitecolor">RTFKT Creators</h2>
-                                            <h3 class="textbluecolor">by RTFKT</h3>
-                                            <p class="textgraycolor">Lorem Ipsum is simply dummy text of the printing
-                                                and
-                                                typesetting industry.</p>
-                                        </div>
-                                    </div>
-
-                                    <div class="creators">
-                                        <div class="creatorImg"><img class="img-fluid" src="img/creatoreimg01.png"
-                                                                     alt="img"></div>
-                                        <div class="creatorIcon">
-                                            <img class="img-fluid" src="img/authoreicon11.png" alt="imig">
-                                            <div class="creatorcheck"><img src="img/checkicon.svg" alt="img"></div>
-                                        </div>
-                                        <div class="creatorsText text-center">
-                                            <h2 class="textwhitecolor">RTFKT Creators</h2>
-                                            <h3 class="textbluecolor">by RTFKT</h3>
-                                            <p class="textgraycolor">Lorem Ipsum is simply dummy text of the printing
-                                                and
-                                                typesetting industry.</p>
-                                        </div>
-                                    </div>
-
-                                    <div class="creators">
-                                        <div class="creatorImg"><img class="img-fluid" src="img/creatoreimg01.png"
-                                                                     alt="img"></div>
-                                        <div class="creatorIcon">
-                                            <img class="img-fluid" src="img/authoreicon11.png" alt="imig">
-                                            <div class="creatorcheck"><img src="img/checkicon.svg" alt="img"></div>
-                                        </div>
-                                        <div class="creatorsText text-center">
-                                            <h2 class="textwhitecolor">RTFKT Creators</h2>
-                                            <h3 class="textbluecolor">by RTFKT</h3>
-                                            <p class="textgraycolor">Lorem Ipsum is simply dummy text of the printing
-                                                and
-                                                typesetting industry.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="tab-pane fade" id="tabcatg1">
-                                <div class="white-box">
-                                    <div class="popular slider">
-                                        <div class="creators">
-                                            <div class="creatorImg"><img class="img-fluid" src="img/creatoreimg01.png"
-                                                                         alt="img"></div>
-                                            <div class="creatorIcon">
-                                                <img class="img-fluid" src="img/authoreicon11.png" alt="imig">
-                                                <div class="creatorcheck"><img src="img/checkicon.svg" alt="img"></div>
-                                            </div>
-                                            <div class="creatorsText text-center">
-                                                <h2 class="textwhitecolor">RTFKT Creators</h2>
-                                                <h3 class="textbluecolor">by RTFKT</h3>
-                                                <p class="textgraycolor">Lorem Ipsum is simply dummy text of the
-                                                    printing
-                                                    and typesetting industry.</p>
-                                            </div>
-                                        </div>
-
-                                        <div class="creators">
-                                            <div class="creatorImg"><img class="img-fluid" src="img/creatoreimg01.png"
-                                                                         alt="img"></div>
-                                            <div class="creatorIcon">
-                                                <img class="img-fluid" src="img/authoreicon11.png" alt="imig">
-                                                <div class="creatorcheck"><img src="img/checkicon.svg" alt="img"></div>
-                                            </div>
-                                            <div class="creatorsText text-center">
-                                                <h2 class="textwhitecolor">RTFKT Creators</h2>
-                                                <h3 class="textbluecolor">by RTFKT</h3>
-                                                <p class="textgraycolor">Lorem Ipsum is simply dummy text of the
-                                                    printing
-                                                    and typesetting industry.</p>
-                                            </div>
-                                        </div>
-
-                                        <div class="creators">
-                                            <div class="creatorImg"><img class="img-fluid" src="img/creatoreimg01.png"
-                                                                         alt="img"></div>
-                                            <div class="creatorIcon">
-                                                <img class="img-fluid" src="img/authoreicon11.png" alt="imig">
-                                                <div class="creatorcheck"><img src="img/checkicon.svg" alt="img"></div>
-                                            </div>
-                                            <div class="creatorsText text-center">
-                                                <h2 class="textwhitecolor">RTFKT Creators</h2>
-                                                <h3 class="textbluecolor">by RTFKT</h3>
-                                                <p class="textgraycolor">Lorem Ipsum is simply dummy text of the
-                                                    printing
-                                                    and typesetting industry.</p>
-                                            </div>
-                                        </div>
-
-                                        <div class="creators">
-                                            <div class="creatorImg"><img class="img-fluid" src="img/creatoreimg01.png"
-                                                                         alt="img"></div>
-                                            <div class="creatorIcon">
-                                                <img class="img-fluid" src="img/authoreicon11.png" alt="imig">
-                                                <div class="creatorcheck"><img src="img/checkicon.svg" alt="img"></div>
-                                            </div>
-                                            <div class="creatorsText text-center">
-                                                <h2 class="textwhitecolor">RTFKT Creators</h2>
-                                                <h3 class="textbluecolor">by RTFKT</h3>
-                                                <p class="textgraycolor">Lorem Ipsum is simply dummy text of the
-                                                    printing
-                                                    and typesetting industry.</p>
-                                            </div>
-                                        </div>
-
-                                        <div class="creators">
-                                            <div class="creatorImg"><img class="img-fluid" src="img/creatoreimg01.png"
-                                                                         alt="img"></div>
-                                            <div class="creatorIcon">
-                                                <img class="img-fluid" src="img/authoreicon11.png" alt="imig">
-                                                <div class="creatorcheck"><img src="img/checkicon.svg" alt="img"></div>
-                                            </div>
-                                            <div class="creatorsText text-center">
-                                                <h2 class="textwhitecolor">RTFKT Creators</h2>
-                                                <h3 class="textbluecolor">by RTFKT</h3>
-                                                <p class="textgraycolor">Lorem Ipsum is simply dummy text of the
-                                                    printing
-                                                    and typesetting industry.</p>
-                                            </div>
-                                        </div>
-
-                                        <div class="creators">
-                                            <div class="creatorImg"><img class="img-fluid" src="img/creatoreimg01.png"
-                                                                         alt="img"></div>
-                                            <div class="creatorIcon">
-                                                <img class="img-fluid" src="img/authoreicon11.png" alt="imig">
-                                                <div class="creatorcheck"><img src="img/checkicon.svg" alt="img"></div>
-                                            </div>
-                                            <div class="creatorsText text-center">
-                                                <h2 class="textwhitecolor">RTFKT Creators</h2>
-                                                <h3 class="textbluecolor">by RTFKT</h3>
-                                                <p class="textgraycolor">Lorem Ipsum is simply dummy text of the
-                                                    printing
-                                                    and typesetting industry.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
                         </div>
                     </div>
                 </div>
@@ -1360,114 +859,15 @@
                 <div class="col-md-12">
                     <h2 class="headingWh mb-3 mb-sm-3 mb-md-4 mb-xl-4">Популярное</h2>
                     <div class="lastAdded slider">
-                        <div class="aboutitem">
-                            <div class="aboutitemImg"><img class="img-fluid"
-                                                           src="{{asset('img/Vedmak_poslednee_gelanie_b.jpg')}}"
-                                                           alt="img"></div>
-                            <div class="bgdarkbluecolor aboutitemcnt">
-                                <div class="itemtitlecode">
-                                    <h2 class="textgraycolor">Cryptosharks</h2>
-                                    <h3 class="textwhitecolor">Cryptosharks #4939</h3>
-                                    <h4 class="textbluecolor">09 : 17 : 05</h4>
+                        @foreach($popularBooks as $book)
+                            <a href="">
+                                <div class="aboutitem">
+                                    <div class="aboutitemImg">
+                                        <img class="img-fluid" src="{{asset($book->cover_img)}}" alt="img">
+                                    </div>
                                 </div>
-                                <div class="itemtitlePrice">
-                                    <h2 class="textgraycolor">Price</h2>
-                                    <h3 class="textwhitecolor"><img src="{{asset('img/priceicon.svg')}}"> <strong>0,
-                                            006</strong></h3>
-                                    <h4 class="textgraycolor"><span><img src="{{asset('img/hearticon.svg')}}"></span> 56
-                                    </h4>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="aboutitem">
-                            <div class="aboutitemImg"><img class="img-fluid" src="img/liveauitemimg2.png" alt="img">
-                            </div>
-                            <div class="bgdarkbluecolor aboutitemcnt">
-                                <div class="itemtitlecode">
-                                    <h2 class="textgraycolor">Cryptosharks</h2>
-                                    <h3 class="textwhitecolor">Cryptosharks #4939</h3>
-                                    <h4 class="textbluecolor">09 : 17 : 05</h4>
-                                </div>
-                                <div class="itemtitlePrice">
-                                    <h2 class="textgraycolor">Price</h2>
-                                    <h3 class="textwhitecolor"><img src="img/priceicon.svg"> <strong>0, 006</strong>
-                                    </h3>
-                                    <h4 class="textgraycolor"><span><img src="img/hearticon-blue.svg"></span> 56</h4>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="aboutitem">
-                            <div class="aboutitemImg"><img class="img-fluid" src="img/liveauitemimg3.png" alt="img">
-                            </div>
-                            <div class="bgdarkbluecolor aboutitemcnt">
-                                <div class="itemtitlecode">
-                                    <h2 class="textgraycolor">Cryptosharks</h2>
-                                    <h3 class="textwhitecolor">Cryptosharks #4939</h3>
-                                </div>
-                                <div class="itemtitlePrice">
-                                    <h2 class="textgraycolor">Price</h2>
-                                    <h3 class="textwhitecolor"><img src="img/priceicon.svg"> <strong>0, 006</strong>
-                                    </h3>
-                                    <h4 class="textgraycolor"><span><img src="img/hearticon-blue.svg"></span> 56</h4>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="aboutitem">
-                            <div class="aboutitemImg"><img class="img-fluid" src="img/liveauitemimg4.png" alt="img">
-                            </div>
-                            <div class="bgdarkbluecolor aboutitemcnt">
-                                <div class="itemtitlecode">
-                                    <h2 class="textgraycolor">Cryptosharks</h2>
-                                    <h3 class="textwhitecolor">Cryptosharks #4939</h3>
-                                </div>
-                                <div class="itemtitlePrice">
-                                    <h2 class="textgraycolor">Price</h2>
-                                    <h3 class="textwhitecolor"><img src="img/priceicon.svg"> <strong>0, 006</strong>
-                                    </h3>
-                                    <h4 class="textgraycolor"><span><img src="img/hearticon.svg"></span> 56</h4>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="aboutitem">
-                            <div class="aboutitemImg"><img class="img-fluid" src="img/liveauitemimg.png" alt="img">
-                            </div>
-                            <div class="bgdarkbluecolor aboutitemcnt">
-                                <div class="itemtitlecode">
-                                    <h2 class="textgraycolor">Cryptosharks</h2>
-                                    <h3 class="textwhitecolor">Cryptosharks #4939</h3>
-                                    <h4 class="textbluecolor">09 : 17 : 05</h4>
-                                </div>
-                                <div class="itemtitlePrice">
-                                    <h2 class="textgraycolor">Price</h2>
-                                    <h3 class="textwhitecolor"><img src="img/priceicon.svg"> <strong>0, 006</strong>
-                                    </h3>
-                                    <h4 class="textgraycolor"><span><img src="img/hearticon.svg"></span> 56</h4>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="aboutitem">
-                            <div class="aboutitemImg"><img class="img-fluid" src="img/liveauitemimg2.png" alt="img">
-                            </div>
-                            <div class="bgdarkbluecolor aboutitemcnt">
-                                <div class="itemtitlecode">
-                                    <h2 class="textgraycolor">Cryptosharks</h2>
-                                    <h3 class="textwhitecolor">Cryptosharks #4939</h3>
-                                    <h4 class="textbluecolor">09 : 17 : 05</h4>
-                                </div>
-                                <div class="itemtitlePrice">
-                                    <h2 class="textgraycolor">Price</h2>
-                                    <h3 class="textwhitecolor"><img src="img/priceicon.svg"> <strong>0, 006</strong>
-                                    </h3>
-                                    <h4 class="textgraycolor"><span><img src="img/hearticon-blue.svg"></span> 56</h4>
-                                </div>
-                            </div>
-                        </div>
-
+                            </a>
+                        @endforeach
                     </div>
                 </div>
             </div>

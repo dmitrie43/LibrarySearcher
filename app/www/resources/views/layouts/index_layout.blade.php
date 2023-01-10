@@ -48,7 +48,7 @@
                         </div>
                     </div>
                 </button>
-                <nav class="navbar navbar-expand-xl">
+                <nav class="navbar navbar-expand-xl custom-navbar">
 
                     <div class="collapse navbar-collapse" id="navbar-content">
                         <div class="logo d-md-none">
@@ -214,6 +214,7 @@
 <script src="{{asset('js/app.js')}}"></script>
 <script src="{{asset('js/slick.js')}}"></script>
 <script src="{{asset('js/comman.js?dfs')}}"></script>
+<script src="{{asset('js/ajax.js')}}"></script>
 </body>
 </html>
 

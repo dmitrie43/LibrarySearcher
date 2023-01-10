@@ -14,7 +14,7 @@ interface IBookRepository
 
     public function getByPublisher(Publisher $publisher);
 
-    public function getByGenre(Genre $genre, int $limit);
+    public function getByGenre(Genre $genre, int $limit, bool $withAuthor);
 
     public function getNovelties($limit);
 
@@ -29,4 +29,6 @@ interface IBookRepository
     public function removeCoverImg(Book $book);
 
     public function genres();
+
+    public function getBooks(int $limit, bool $withAuthor);
 }
