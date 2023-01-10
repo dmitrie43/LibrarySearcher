@@ -23,6 +23,7 @@
                     <div class="form-group">
                         <a href="{{route('admin_panel.books.create')}}" class="btn btn-success">Добавить</a>
                     </div>
+                    {{ $books->links() }}
                     <table id="example1" class="table table-bordered table-striped">
                         <thead>
                         <tr>
@@ -66,6 +67,7 @@
                         @endforeach
                         </tfoot>
                     </table>
+                    {{ $books->links() }}
                 </div>
                 <!-- /.box-body -->
             </div>

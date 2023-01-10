@@ -36,7 +36,7 @@ class BooksController extends Controller
      */
     public function index()
     {
-        $books = $this->bookRepository->all();
+        $books = $this->bookRepository->paginate(20);
         return view('admin.books.index', compact('books'));
     }
 

@@ -29,4 +29,6 @@ interface IEloquentRepository
      * @return Collection
      */
     public function all(): Collection;
+
+    public function paginate(int $int);
 }
