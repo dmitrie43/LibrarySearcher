@@ -19,8 +19,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/auth/login', [AuthController::class, 'login']);
 Route::group(['middleware' => 'auth:sanctum'], function() {
-    Route::get('/user', function (Request $request) {
-        return $request->user();
+    Route::post('/user', function (Request $request) {
+        return [
+            'data' => $request->user(),
+            'success' => true,
+        ];
     });
 });
 
