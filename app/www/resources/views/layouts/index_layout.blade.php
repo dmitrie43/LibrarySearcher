@@ -66,13 +66,13 @@
                         </div>
 
                         <ul class="navbar-nav mr-auto mb-2 mb-lg-0">
-
-                            <li class="nav-item active">
-                                <a class="nav-link" href="/">Главная</a>
+                            <?php $currentUrl = request()->path(); ?>
+                            <li class="nav-item {{$currentUrl == '/' ? 'active' : ''}}">
+                                <a class="nav-link" href="{{route('/')}}">Главная</a>
                             </li>
 
-                            <li class="nav-item">
-                                <a class="nav-link" href="/books">Книги</a>
+                            <li class="nav-item {{$currentUrl == 'books' ? 'active' : ''}}">
+                                <a class="nav-link" href="{{route('books.index')}}">Книги</a>
                             </li>
 
                             <li class="nav-item">

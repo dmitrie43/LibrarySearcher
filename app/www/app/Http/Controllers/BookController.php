@@ -5,17 +5,44 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreBookRequest;
 use App\Http\Requests\UpdateBookRequest;
 use App\Models\Book;
+use App\Repository\IAuthorRepository;
+use App\Repository\IBookRepository;
+use App\Repository\IGenreRepository;
+use App\Repository\IPublisherRepository;
+use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    private IBookRepository $bookRepository;
+    private IGenreRepository $genreRepository;
+    private IAuthorRepository $authorRepository;
+    private IPublisherRepository $publisherRepository;
+
+    public function __construct(
+        IBookRepository $bookRepository,
+        IGenreRepository $genreRepository,
+        IAuthorRepository $authorRepository,
+        IPublisherRepository $publisherRepository
+    )
     {
-        //
+        $this->bookRepository = $bookRepository;
+        $this->genreRepository = $genreRepository;
+        $this->authorRepository = $authorRepository;
+        $this->publisherRepository = $publisherRepository;
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function index(Request $request)
+    {
+        $books = $this->bookRepository->getBooksByFilter($request);
+        $genres = $this->genreRepository->all();
+        $authors = $this->authorRepository->all();
+        $publishers = $this->publisherRepository->all();
+
+        return view('/books/index', compact('books', 'genres', 'authors', 'publishers'));
     }
 
     /**

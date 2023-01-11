@@ -7,6 +7,7 @@ use App\Models\Book;
 use App\Models\Genre;
 use App\Models\Publisher;
 use App\Repository\IBookRepository;
+use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
@@ -155,5 +156,24 @@ class BookRepository extends BaseRepository implements IBookRepository
         $model = $this->model;
         $model = $withAuthor ? $model->with('author') : $model;
         return $model->limit($limit)->get();
+    }
+
+
+    public function getBooksByFilter(Request $request)
+    {
+        $model = $this->model;
+        $filter = [
+            ''
+        ];
+        foreach ($request->all() as $item) {
+
+        }
+
+        if ($request->has('sort') && $request->has('sortBy')) {
+            $sort = !empty($request->get('sort')) ? $request->get('sort') : 'ASC';
+            $model = $model->orderBy($request->get('sortBy'), $sort);
+        }
+
+        return $model->paginate(20)->withQueryString();
     }
 }

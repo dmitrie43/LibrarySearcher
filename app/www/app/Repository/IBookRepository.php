@@ -6,6 +6,7 @@ use App\Models\Author;
 use App\Models\Book;
 use App\Models\Genre;
 use App\Models\Publisher;
+use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 
 interface IBookRepository
@@ -31,4 +32,6 @@ interface IBookRepository
     public function genres();
 
     public function getBooks(int $limit, bool $withAuthor);
+
+    public function getBooksByFilter(Request $request);
 }
