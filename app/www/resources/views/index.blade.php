@@ -87,9 +87,8 @@
                                                     </div>
                                                 @endif
                                                 <div class="creatorsText text-center">
-                                                    <h2 class="textwhitecolor">{{$author->full_name}}</h2>
-                                                    <h3 class="textbluecolor">Великий писатель</h3>
-                                                    <p class="textgraycolor">Создал множество жанров и направлений</p>
+                                                    <h2 class="textwhitecolor">{{$book->name}}</h2>
+                                                    <h3 class="textbluecolor">{{$author->full_name}}</h3>
                                                 </div>
                                             @endif
                                         </div>
@@ -866,6 +865,11 @@
                                 <div class="aboutitem">
                                     <div class="aboutitemImg">
                                         <img class="img-fluid" src="{{asset($book->cover_img)}}" alt="img">
+                                    </div>
+                                    <div class="bgdarkbluecolor aboutitemcnt">
+                                        <div class="itemtitlecode">
+                                            <h3 class="textwhitecolor">{{$book->name}}</h3>
+                                        </div>
                                     </div>
                                 </div>
                             </a>

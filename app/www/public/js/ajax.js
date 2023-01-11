@@ -1,7 +1,5 @@
 function getContentBookByGenre(book) {
-    let content = '<div class="slick-slide slick-current slick-active" data-slick-index="0" aria-hidden="false">' +
-                '<div>' +
-                    '<div class="creators" style="width: 100%; display: inline-block;">' +
+    let content =   '<div class="creators">' +
                         '<div class="creatorImg">' +
                             '<img class="img-fluid" src="'+ book.cover_img +'" alt="img">' +
                         '</div>';
@@ -13,13 +11,46 @@ function getContentBookByGenre(book) {
                         '</div>';
         }
         content += '<div class="creatorsText text-center">' +
-                        '<h2 class="textwhitecolor">'+ book.author.full_name +'</h2>' +
-                        '<h3 class="textbluecolor">Великий писатель</h3>' +
-                        '<p class="textgraycolor">Создал множество жанров и направлений</p>' +
+                        '<h2 class="textwhitecolor">'+ book.name +'</h2>' +
+                        '<h3 class="textbluecolor">'+ book.author.full_name +'</h3>' +
                     '</div>';
     }
-    content += '</div></div></div>';
+    content += '</div>';
     return content;
+}
+
+function setSlick(class_name) {
+    $('.' + class_name).slick({
+        dots: false,
+        arrows: true,
+        infinite: true,
+        speed: 300,
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        variableWidth: true,
+        responsive: [
+            {
+                breakpoint: 1200,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 1,
+                    infinite: true,
+                    arrows:false,
+                    dots: true
+                }
+            },
+            {
+                breakpoint: 768,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    arrows:false,
+                    dots: true
+                }
+            }
+
+        ]
+    });
 }
 
 function getBooksByGenre(genre_id) {
@@ -29,12 +60,14 @@ function getBooksByGenre(genre_id) {
         data: {"genre": genre_id},         // данные, которые отправляем на сервер
         dataType: "json",         // тип данных загружаемых с сервера
         success: function (data) {
-            let content = '<div class="slick-list draggable"><div class="slick-track" style="opacity: 1; width: 10000px; transform: translate3d(0px, 0px, 0px);">';
+            let content = '';
+            let popular = $('.popular');
+            popular.slick('unslick');
             $.each(data['data']['books'], function(index, book){
                 content += getContentBookByGenre(book);
             });
-            content += '</div></div>';
             document.getElementById('books-by-genre').innerHTML = content;
+            setSlick('popular');
         }
     });
 }
@@ -46,12 +79,14 @@ function getBooks() {
         data: {},         // данные, которые отправляем на сервер
         dataType: "json",         // тип данных загружаемых с сервера
         success: function (data) {
-            let content = '<div class="slick-list draggable"><div class="slick-track" style="opacity: 1; width: 10000px; transform: translate3d(0px, 0px, 0px);">';
+            let content = '';
+            let popular = $('.popular');
+            popular.slick('unslick');
             $.each(data['data']['books'], function(index, book){
                 content += getContentBookByGenre(book);
             });
-            content += '</div></div>';
             document.getElementById('books-by-genre').innerHTML = content;
+            setSlick('popular');
         }
     });
 }
