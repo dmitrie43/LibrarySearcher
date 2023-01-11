@@ -60,4 +60,13 @@ class BaseRepository implements IEloquentRepository
     {
         $this->model->fill($fields);
     }
+
+    /**
+     * @param int $int
+     * @return mixed
+     */
+    public function paginate(int $int)
+    {
+        return $this->model->paginate($int);
+    }
 }

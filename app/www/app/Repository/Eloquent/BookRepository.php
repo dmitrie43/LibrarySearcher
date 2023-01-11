@@ -7,6 +7,7 @@ use App\Models\Book;
 use App\Models\Genre;
 use App\Models\Publisher;
 use App\Repository\IBookRepository;
+use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
@@ -15,6 +16,7 @@ use Illuminate\Support\Str;
 class BookRepository extends BaseRepository implements IBookRepository
 {
     public string $cover_img = '';
+    private string $default_img = 'img/template.jpg';
 
     /**
      * BookRepository constructor.
@@ -81,7 +83,15 @@ class BookRepository extends BaseRepository implements IBookRepository
      */
     public function getDefaultPathCoverImg() : ?string
     {
-        return 'img/template.jpg';
+        return $this->default_img;
+    }
+
+    /**
+     * @param string $path
+     */
+    public function setDefaultPathCoverImg(string $path) : void
+    {
+        $this->default_img = $path;
     }
 
     /**
@@ -146,5 +156,24 @@ class BookRepository extends BaseRepository implements IBookRepository
         $model = $this->model;
         $model = $withAuthor ? $model->with('author') : $model;
         return $model->limit($limit)->get();
+    }
+
+
+    public function getBooksByFilter(Request $request)
+    {
+        $model = $this->model;
+        $filter = [
+            ''
+        ];
+        foreach ($request->all() as $item) {
+
+        }
+
+        if ($request->has('sort') && $request->has('sortBy')) {
+            $sort = !empty($request->get('sort')) ? $request->get('sort') : 'ASC';
+            $model = $model->orderBy($request->get('sortBy'), $sort);
+        }
+
+        return $model->paginate(20)->withQueryString();
     }
 }

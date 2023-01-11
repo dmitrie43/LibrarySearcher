@@ -13,9 +13,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        AuthorSeeder::run();
-        PublisherSeeder::run();
-        GenreSeeder::run();
-        RoleSeeder::run();
+//        AuthorSeeder::run();
+//        PublisherSeeder::run();
+//        GenreSeeder::run();
+//        RoleSeeder::run();
+        BookSeeder::run();
     }
 }

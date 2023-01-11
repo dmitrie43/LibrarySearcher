@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\GenresController;
 use App\Http\Controllers\Admin\PublishersController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\AuthorsController;
+use App\Http\Controllers\BookController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -21,7 +22,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [IndexController::class, 'index']);
+Route::get('/', [IndexController::class, 'index'])->name('/');
+Route::get('/books', [BookController::class, 'index'])->name('books.index');
 
 Route::middleware(['auth'])->group(function () {
     //Профиль
