@@ -70,12 +70,15 @@ class BookRepository extends BaseRepository implements IBookRepository
     }
 
     /**
-     * @param $limit
+     * @param int $limit
+     * @param bool $withAuthor
      * @return mixed
      */
-    public function getPopular($limit)
+    public function getPopular(int $limit, bool $withAuthor = false)
     {
-        return $this->model::where('popular', '1')->limit($limit)->get();
+        $model = $this->model::where('popular', '1');
+        $model = $withAuthor ? $model->with('author') : $model;
+        return $model->limit($limit)->get();
     }
 
     /**
@@ -202,5 +205,29 @@ class BookRepository extends BaseRepository implements IBookRepository
         }
 
         return $model->paginate(20)->withQueryString();
+    }
+
+    /**
+     * @param int $id
+     * @param array $params
+     * @return mixed
+     */
+    public function getBook(int $id, array $params = [])
+    {
+        $model = $this->model->where('id', $id);
+
+        if (isset($params['with'])) {
+            foreach ($params['with'] as $relation) {
+                switch ($relation) {
+                    case 'author':
+                    case 'publisher':
+                    case 'genres':
+                        $model = $model->with($relation);
+                        break;
+                }
+            }
+        }
+
+        return $model->first();
     }
 }

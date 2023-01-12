@@ -14,7 +14,7 @@
                         <div class="bannercntSec">
                             <div class="bannerImg">
                                 @foreach($noveltyBooks as $noveltyBook)
-                                    <a href="">
+                                    <a href="{{route('books.detail', ['id' => $noveltyBook->id])}}">
                                         <div class="bannerimg0{{++$loop->index}} d-none d-md-block novelty-book">
                                             <img class="img-fluid" width="252" height="309"
                                                  src="{{asset($noveltyBook->cover_img)}}" alt="img">
@@ -861,7 +861,7 @@
                     <h2 class="headingWh mb-3 mb-sm-3 mb-md-4 mb-xl-4">Популярное</h2>
                     <div class="lastAdded slider">
                         @foreach($popularBooks as $book)
-                            <a href="">
+                            <a href="{{route('books.detail', ['id' => $book->id])}}">
                                 <div class="aboutitem">
                                     <div class="aboutitemImg">
                                         <img class="img-fluid" src="{{asset($book->cover_img)}}" alt="img">
