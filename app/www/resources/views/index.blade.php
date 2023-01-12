@@ -76,21 +76,23 @@
                                 <div class="popular slider" id="books-by-genre">
                                     @foreach($books as $book)
                                         <div class="creators">
-                                            <div class="creatorImg">
-                                                <img class="img-fluid" src="{{$book->cover_img}}" alt="img">
-                                            </div>
-                                            @if($author = $book->author()->select('photo', 'full_name')->first())
-                                                @if(!empty($author->photo))
-                                                    <div class="creatorIcon">
-                                                        <img class="img-fluid" src="{{$author->photo}}" alt="">
-                                                        <div class="creatorcheck"><img src="{{asset('img/checkicon.svg')}}" alt="img"></div>
+                                            <a href="{{route('books.detail', ['id' => $book->id])}}">
+                                                <div class="creatorImg">
+                                                    <img class="img-fluid" src="{{$book->cover_img}}" alt="img">
+                                                </div>
+                                                @if($author = $book->author()->select('photo', 'full_name')->first())
+                                                    @if(!empty($author->photo))
+                                                        <div class="creatorIcon">
+                                                            <img class="img-fluid" src="{{$author->photo}}" alt="">
+                                                            <div class="creatorcheck"><img src="{{asset('img/checkicon.svg')}}" alt="img"></div>
+                                                        </div>
+                                                    @endif
+                                                    <div class="creatorsText text-center">
+                                                        <h2 class="textwhitecolor">{{$book->name}}</h2>
+                                                        <h3 class="textbluecolor">{{$author->full_name}}</h3>
                                                     </div>
                                                 @endif
-                                                <div class="creatorsText text-center">
-                                                    <h2 class="textwhitecolor">{{$book->name}}</h2>
-                                                    <h3 class="textbluecolor">{{$author->full_name}}</h3>
-                                                </div>
-                                            @endif
+                                            </a>
                                         </div>
                                     @endforeach
                                 </div>
