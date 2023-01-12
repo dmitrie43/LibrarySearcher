@@ -9,6 +9,7 @@ use App\Repository\IAuthorRepository;
 use App\Repository\IBookRepository;
 use App\Repository\IGenreRepository;
 use App\Repository\IPublisherRepository;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
 class BookController extends Controller
@@ -35,7 +36,7 @@ class BookController extends Controller
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function index(Request $request)
+    public function index(Request $request) : View
     {
         $books = $this->bookRepository->getBooksByFilter($request);
         $genres = $this->genreRepository->all();
@@ -50,6 +51,25 @@ class BookController extends Controller
         }
 
         return view('/books/index', compact('books', 'genres', 'authors', 'publishers', 'filter_params'));
+    }
+
+    /**
+     * @param int $id
+     * @return View
+     */
+    public function detail(int $id) : View
+    {
+        $params = [
+            'with' => [
+                'genres',
+                'author',
+                'publisher',
+            ],
+        ];
+        $book = $this->bookRepository->getBook($id, $params);
+        $popularBooks = $this->bookRepository->getPopular(10, true);
+
+        return view('/books/detail', compact('book', 'popularBooks'));
     }
 
     /**

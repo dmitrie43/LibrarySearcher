@@ -19,7 +19,7 @@ interface IBookRepository
 
     public function getNovelties($limit);
 
-    public function getPopular($limit);
+    public function getPopular(int $limit, bool $withAuthor = false);
 
     public function getDefaultPathCoverImg();
 
@@ -34,4 +34,6 @@ interface IBookRepository
     public function getBooks(int $limit, bool $withAuthor);
 
     public function getBooksByFilter(Request $request);
+
+    public function getBook(int $id, array $params = []);
 }

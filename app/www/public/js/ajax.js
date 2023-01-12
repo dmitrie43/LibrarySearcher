@@ -1,5 +1,6 @@
 function getContentBookByGenre(book) {
     let content =   '<div class="creators">' +
+                        '<a href="/books/'+ book.id +'">' +
                         '<div class="creatorImg">' +
                             '<img class="img-fluid" src="'+ book.cover_img +'" alt="img">' +
                         '</div>';
@@ -15,7 +16,7 @@ function getContentBookByGenre(book) {
                         '<h3 class="textbluecolor">'+ book.author.full_name +'</h3>' +
                     '</div>';
     }
-    content += '</div>';
+    content += '</a></div>';
     return content;
 }
 
