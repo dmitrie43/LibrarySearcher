@@ -158,15 +158,42 @@ class BookRepository extends BaseRepository implements IBookRepository
         return $model->limit($limit)->get();
     }
 
-
+    /**
+     * @param Request $request
+     * @return mixed
+     */
     public function getBooksByFilter(Request $request)
     {
         $model = $this->model;
-        $filter = [
-            ''
+        $filters = [
+            'genre' => [
+                'relation' => 'many',
+                'id' => 'genre_id',
+                'table' => 'genres',
+            ],
+            'author' => [
+                'relation' => 'single',
+                'id' => 'author_id',
+            ],
+            'publisher' => [
+                'relation' => 'single',
+                'id' => 'publisher_id',
+            ]
         ];
-        foreach ($request->all() as $item) {
 
+        $model = $model->with('author');
+
+        foreach ($filters as $filter => $arParam) {
+            if ($request->has($filter)) {
+                if ($arParam['relation'] == 'single') {
+                    $model = $model->where($arParam['id'], $request->get($filter));
+                } elseif ($arParam['relation'] == 'many') {
+                    $value_id = $request->get($filter);
+                    $model = $this->model->whereHas($arParam['table'], function($q) use ($value_id, $arParam) {
+                        $q->where($arParam['id'], $value_id);
+                    });
+                }
+            }
         }
 
         if ($request->has('sort') && $request->has('sortBy')) {

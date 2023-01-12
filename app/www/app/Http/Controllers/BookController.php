@@ -41,8 +41,15 @@ class BookController extends Controller
         $genres = $this->genreRepository->all();
         $authors = $this->authorRepository->all();
         $publishers = $this->publisherRepository->all();
+        $filter_params = [];
+        $params = ['genre', 'author', 'publisher'];
+        foreach ($params as $param) {
+            if ($request->has($param)) {
+                $filter_params[$param] = $request->get($param);
+            }
+        }
 
-        return view('/books/index', compact('books', 'genres', 'authors', 'publishers'));
+        return view('/books/index', compact('books', 'genres', 'authors', 'publishers', 'filter_params'));
     }
 
     /**

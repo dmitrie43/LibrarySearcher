@@ -16,7 +16,11 @@
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                     @foreach($genres as $genre)
-                                        <li><a class="dropdown-item" href="#">{{$genre->name}}</a></li>
+                                        <li>
+                                            <a class="dropdown-item"
+                                               href="{{ route('books.index', array_merge($filter_params, ['genre' => $genre->id])) }}">{{$genre->name}}
+                                            </a>
+                                        </li>
                                     @endforeach
                                 </ul>
                             </div>
@@ -27,7 +31,11 @@
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                     @foreach($authors as $author)
-                                        <li><a class="dropdown-item" href="#">{{$author->full_name}}</a></li>
+                                        <li>
+                                            <a class="dropdown-item"
+                                               href="{{ route('books.index', array_merge($filter_params, ['author' => $author->id])) }}">{{$author->full_name}}
+                                            </a>
+                                        </li>
                                     @endforeach
                                 </ul>
                             </div>
@@ -38,7 +46,11 @@
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                     @foreach($publishers as $publisher)
-                                        <li><a class="dropdown-item" href="#">{{$publisher->name}}</a></li>
+                                        <li>
+                                            <a class="dropdown-item"
+                                               href="{{ route('books.index', array_merge($filter_params, ['publisher' => $publisher->id])) }}">{{$publisher->name}}
+                                            </a>
+                                        </li>
                                     @endforeach
                                 </ul>
                             </div>
@@ -87,7 +99,7 @@
                         </div>
                         <div class="bgdarkbluecolor aboutitemcnt">
                             <div class="itemtitlecode">
-                                <h2 class="textgraycolor">Автор</h2>
+                                <h2 class="textgraycolor">{{$book->author->full_name}}</h2>
                                 <h3 class="textwhitecolor">{{$book->name}}</h3>
                             </div>
                             <div class="itemtitlePrice">
