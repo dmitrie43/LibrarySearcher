@@ -8,6 +8,7 @@ use App\Repository\IGenreRepository;
 use App\Repository\IPublisherRepository;
 use App\Repository\Search\ISearchBookRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
 class SearchController extends Controller
 {
@@ -38,7 +39,7 @@ class SearchController extends Controller
      */
     public function index(Request $request)
     {
-        $books = [];
+        $books = new Collection();
         if ($request->has('query') && $request->filled('query')) {
             $books = $this->searchBookRepository->search($request->get('query'));
         }
