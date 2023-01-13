@@ -6,7 +6,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <h2 class="headingWh mb-2 mb-md-4">Найдено</h2>
+                    <h2 class="headingWh mb-2 mb-md-4">Найдено: {{$books->count()}}</h2>
                 </div>
             </div>
 
