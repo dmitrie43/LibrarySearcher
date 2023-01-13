@@ -16,10 +16,9 @@ use App\Repository\IPublisherRepository;
 use App\Repository\IUserRepository;
 use App\Repository\Search\ElasticsearchBookRepository;
 use App\Repository\Search\ISearchBookRepository;
-use App\Repository\Search\ISearchRepository;
 use App\Repository\Search\SearchBookRepository;
-use App\Repository\Search\SearchRepository;
 use Elastic\Elasticsearch\Client;
+use Elastic\Elasticsearch\ClientBuilder;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider
@@ -38,7 +37,6 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(IPublisherRepository::class, PublisherRepository::class);
         $this->app->bind(IUserRepository::class, UserRepository::class);
 
-        $this->app->bind(ISearchRepository::class, SearchRepository::class);
         if (!config('services.search.enabled')) {
             $this->app->bind(ISearchBookRepository::class, SearchBookRepository::class);
         } else {
@@ -47,7 +45,17 @@ class RepositoryServiceProvider extends ServiceProvider
                     $this->app->make(Client::class)
                 );
             });
+            $this->bindSearchClient();
         }
+    }
+
+    private function bindSearchClient()
+    {
+        $this->app->bind(Client::class, function ($app) {
+            return ClientBuilder::create()
+                ->setHosts($app['config']->get('services.search.hosts'))
+                ->build();
+        });
     }
 
     /**
