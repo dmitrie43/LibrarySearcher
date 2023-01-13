@@ -16,7 +16,7 @@
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                     @foreach($genres as $genre)
-                                        <li>
+                                        <li class="<?= request()->get('genre') == $genre->id ? 'active' : '' ?>">
                                             <a class="dropdown-item"
                                                href="{{ route('books.index', array_merge($filter_params, ['genre' => $genre->id])) }}">{{$genre->name}}
                                             </a>
@@ -31,7 +31,7 @@
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                     @foreach($authors as $author)
-                                        <li>
+                                        <li class="<?= request()->get('author') == $author->id ? 'active' : '' ?>">
                                             <a class="dropdown-item"
                                                href="{{ route('books.index', array_merge($filter_params, ['author' => $author->id])) }}">{{$author->full_name}}
                                             </a>
@@ -46,7 +46,7 @@
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                     @foreach($publishers as $publisher)
-                                        <li>
+                                        <li class="<?= request()->get('publisher') == $publisher->id ? 'active' : '' ?>">
                                             <a class="dropdown-item"
                                                href="{{ route('books.index', array_merge($filter_params, ['publisher' => $publisher->id])) }}">{{$publisher->name}}
                                             </a>
