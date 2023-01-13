@@ -8,6 +8,7 @@ use App\Models\Genre;
 use App\Models\Publisher;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Collection;
 
 interface IBookRepository
 {
