@@ -47,9 +47,9 @@ class RepositoryServiceProvider extends ServiceProvider
 
     private function bindSearchClient()
     {
-        $this->app->bind(Client::class, function ($app) {
+        $this->app->bind(Client::class, function () {
             return ClientBuilder::create()
-                ->setHosts($app['config']->get('services.search.hosts'))
+                ->setHosts($this->app['config']->get('services.search.hosts'))
                 ->build();
         });
     }

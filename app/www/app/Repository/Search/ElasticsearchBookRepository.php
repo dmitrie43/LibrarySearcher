@@ -65,8 +65,8 @@ class ElasticsearchBookRepository implements ISearchBookRepository
     {
         $ids = Arr::pluck($items['hits']['hits'], '_id');
         return Book::findMany($ids)
-            ->sortBy(function ($id) use ($ids) {
-                return array_search($id->getKey(), $ids);
+            ->sortBy(function ($item) use ($ids) {
+                return array_search($item->getKey(), $ids);
             });
     }
 }
