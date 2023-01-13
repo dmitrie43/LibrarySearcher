@@ -40,11 +40,7 @@ class RepositoryServiceProvider extends ServiceProvider
         if (!config('services.search.enabled')) {
             $this->app->bind(ISearchBookRepository::class, SearchBookRepository::class);
         } else {
-            $this->app->bind(ISearchBookRepository::class, function () {
-                return new ElasticsearchBookRepository(
-                    $this->app->make(Client::class)
-                );
-            });
+            $this->app->bind(ISearchBookRepository::class, ElasticsearchBookRepository::class);
             $this->bindSearchClient();
         }
     }
