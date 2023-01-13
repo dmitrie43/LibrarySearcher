@@ -33,8 +33,8 @@
                     </a>
                 </div>
                 <div class="searchform d-none d-md-inline-flex">
-                    <form>
-                        <input type="text" name="SearchItem" placeholder="Поиск">
+                    <form method="get" action="{{route('search')}}">
+                        <input type="text" name="query" placeholder="Поиск">
                         <button><img src="{{asset('img/searchicon.svg')}}" alt="img"></button>
                     </form>
                 </div>
