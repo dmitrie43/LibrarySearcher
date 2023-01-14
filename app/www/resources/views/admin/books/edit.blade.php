@@ -34,6 +34,11 @@
                                        id="date_publish" placeholder="">
                             </div>
                             <div class="form-group">
+                                <label for="file">Файл {{($book->file) ? 'закачен: '.$book->file : ''}}</label>
+                                <input name="file" type="file" id="file" accept=".pdf, .epub, .fb2">
+                                <p class="help-block">Формат: pdf, epub, fb2</p>
+                            </div>
+                            <div class="form-group">
                                 <img src="{{asset($book->cover_img)}}" alt="" width="200" class="img-responsive">
                                 <label for="cover_img">Обложка</label>
                                 <input name="cover_img" type="file" id="cover_img">

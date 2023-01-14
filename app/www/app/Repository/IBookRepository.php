@@ -30,6 +30,10 @@ interface IBookRepository
 
     public function removeCoverImg(Book $book);
 
+    public function uploadFile(UploadedFile $file);
+
+    public function removeFile(Book $book);
+
     public function genres();
 
     public function getBooks(int $limit, bool $withAuthor);

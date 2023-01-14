@@ -33,6 +33,11 @@
                                        id="date_publish" placeholder="">
                             </div>
                             <div class="form-group">
+                                <label for="file">Файл</label>
+                                <input name="file" type="file" id="file" accept=".pdf, .epub, .fb2">
+                                <p class="help-block">Формат: pdf, epub, fb2</p>
+                            </div>
+                            <div class="form-group">
                                 <label for="cover_img">Обложка</label>
                                 <input name="cover_img" type="file" id="cover_img">
                                 <p class="help-block">Формат: png, jpg, jpeg, svg</p>

@@ -89,7 +89,9 @@
                         <p>{{$book->description}}</p>
                     </div>
                     <div class=" w-100 prevActions order-3 d-block d-md-flex mb-3 mb-lg-0">
-                        <button class="btn btnlightblue mb-3 mb-md-4 me-0 me-md-4  ">Скачать</button>
+                        <a href="{{asset($book->file)}}">
+                            <button class="btn btnlightblue mb-3 mb-md-4 me-0 me-md-4  ">Скачать</button>
+                        </a>
                         <button class="btn btndarkblue mb-3 mb-md-4 ">Посмотреть</button>
                     </div>
                 </div>

@@ -62,6 +62,7 @@ class BooksController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'date_publish' => ['required', 'date'],
             'cover_img' => ['image', 'nullable'],
+            'file' => ['mimes:pdf,epub,fb2'],
             'pages_quantity' => ['integer', 'nullable'],
             'description' => ['string', 'max:1000', 'nullable'],
             'age_rating' => ['string', 'max:255', 'nullable'],
@@ -79,10 +80,15 @@ class BooksController extends Controller
             $this->bookRepository->uploadCoverImg($this->bookRepository->getDefaultCoverImg());
         }
 
+        if ($request->hasFile('file')) {
+            $this->bookRepository->uploadFile($request->file('file'));
+        }
+
         $book = $this->bookRepository->create([
             'name' => $request->name,
             'date_publish' => $request->date_publish,
             'cover_img' => $this->bookRepository->cover_img,
+            'file' => $this->bookRepository->file,
             'pages_quantity' => $request->pages_quantity,
             'description' => $request->description,
             'age_rating' => $request->age_rating,
@@ -126,6 +132,7 @@ class BooksController extends Controller
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'date_publish' => ['required', 'date'],
+            'file' => ['mimes:pdf,epub,fb2'],
             'cover_img' => ['image', 'nullable'],
             'pages_quantity' => ['integer', 'nullable'],
             'description' => ['string', 'max:1000', 'nullable'],
@@ -149,6 +156,13 @@ class BooksController extends Controller
                             if ($request->hasFile($key)) {
                                 $this->bookRepository->removeCoverImg($book);
                                 $this->bookRepository->uploadCoverImg($request->file($key));
+                                $book->$key = $this->bookRepository->$key;
+                            }
+                            break;
+                        case 'file':
+                            if ($request->hasFile($key)) {
+                                $this->bookRepository->removeFile($book);
+                                $this->bookRepository->uploadFile($request->file($key));
                                 $book->$key = $this->bookRepository->$key;
                             }
                             break;

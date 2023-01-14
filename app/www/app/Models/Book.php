@@ -13,7 +13,7 @@ class Book extends Model
     use Searchable;
 
     protected $fillable = [
-        'name', 'date_publish', 'cover_img', 'pages_quantity',
+        'name', 'date_publish', 'cover_img', 'pages_quantity', 'file',
         'description', 'age_rating', 'novelty', 'popular', 'recommended',
     ];
 

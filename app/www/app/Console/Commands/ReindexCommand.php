@@ -53,6 +53,6 @@ class ReindexCommand extends Command
             ]);
             $this->output->write('.');
         }
-        $this->info('\nDone!');
+        $this->info("\nDone!");
     }
 }
