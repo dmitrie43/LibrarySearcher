@@ -230,4 +230,9 @@ class BookRepository extends BaseRepository implements IBookRepository
 
         return $model->first();
     }
+
+    public function getRandomBook()
+    {
+        return $this->model->all()->random(1)->first();
+    }
 }

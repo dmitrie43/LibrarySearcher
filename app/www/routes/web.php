@@ -25,6 +25,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [IndexController::class, 'index'])->name('/');
 Route::get('/books', [BookController::class, 'index'])->name('books.index');
+Route::get('/books/random', [BookController::class, 'random'])->name('books.random');
 Route::get('/books/{id}', [BookController::class, 'detail'])->name('books.detail');
 Route::get('/search', [SearchController::class, 'index'])->name('search');
 

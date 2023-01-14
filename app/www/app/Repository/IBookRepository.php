@@ -37,4 +37,6 @@ interface IBookRepository
     public function getBooksByFilter(Request $request);
 
     public function getBook(int $id, array $params = []);
+
+    public function getRandomBook();
 }

@@ -82,6 +82,7 @@
                                 <ul class="dropdown-menu shadow">
                                     <li><a class="dropdown-item" href="/novelties">Новинки</a></li>
                                     <li><a class="dropdown-item" href="/popular">Популярное</a></li>
+                                    <li><a class="dropdown-item" href="{{route('books.random')}}">Случайная книга</a></li>
                                 </ul>
                             </li>
 
