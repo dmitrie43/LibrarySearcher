@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
+use App\Traits\Searchable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 
 class Book extends Model
 {
     use HasFactory;
+    use Searchable;
 
     protected $fillable = [
         'name', 'date_publish', 'cover_img', 'pages_quantity',
@@ -36,5 +39,17 @@ class Book extends Model
     public function genres()
     {
         return $this->belongsToMany(Genre::class, 'genre_book', 'book_id', 'genre_id');
+    }
+
+    /**
+     * @param string $query
+     * @return Collection
+     */
+    public function defaultSearch(string $query) : Collection
+    {
+        return $this->query()
+            ->where('name', 'like', "%{$query}%")
+            ->limit(20)
+            ->get();
     }
 }
