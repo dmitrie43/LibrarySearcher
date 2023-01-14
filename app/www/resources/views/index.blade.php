@@ -4,9 +4,6 @@
 
     <!-- banner sec -->
     <div class="bannerSec">
-        <div class="bannerImg-sm d-sm-block d-md-none">
-            <img src="{{asset('img/bannermain.png')}}" alt="img">
-        </div>
         @if($noveltyBooks->isNotEmpty())
             <div class="container">
                 <div class="row">
