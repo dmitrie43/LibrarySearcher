@@ -17,6 +17,7 @@ class CreateBooksTable extends Migration
             $table->id();
             $table->string('name');
             $table->date('date_publish');
+            $table->string('file')->nullable();
             $table->string('cover_img')->nullable();
             $table->integer('pages_quantity')->nullable();
             $table->text('description')->nullable();
