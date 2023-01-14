@@ -18,5 +18,6 @@ class DatabaseSeeder extends Seeder
         GenreSeeder::run();
         RoleSeeder::run();
         BookSeeder::run();
+        UserSeeder::run();
     }
 }
