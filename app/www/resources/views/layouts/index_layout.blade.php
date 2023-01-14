@@ -16,13 +16,10 @@
     <link rel="icon" type="image/png" sizes="28x28" href="{{asset('favicon.png')}}">
     <meta name="theme-color" content="#sdfsf">
 </head>
-<body class="themebgcolor">
-<div class="circlebg1"><img class="img-fluid" src="{{asset('img/circlebg19.svg')}}" alt="img"></div>
-<div class="circlebg2"><img class="img-fluid" src="{{asset('img/circlebg20.svg')}}" alt="img"></div>
-<div class="circlebg3"><img class="img-fluid" src="{{asset('img/circlebg21.svg')}}" alt="img"></div>
+<body>
 
 <!-- header -->
-<header>
+<header class="header_custom">
     <div class="container">
         <div class="row">
             <div class="col-md-12">
