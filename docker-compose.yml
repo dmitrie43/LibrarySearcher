@@ -72,6 +72,14 @@ services:
 #        networks:
 #            - app-network
 #
+    redis:
+        image: redis:7.0
+        restart: always
+        ports:
+          - "6379:6379"
+        volumes:
+          - ./docker/redis/data/:/data
+
     elastic:
         image: elasticsearch:8.4.1
         command: elasticsearch
