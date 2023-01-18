@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreBookRequest;
 use App\Http\Requests\UpdateBookRequest;
 use App\Models\Book;
+use App\Models\SectionComment;
 use App\Repository\IAuthorRepository;
 use App\Repository\IBookRepository;
+use App\Repository\ICommentRepository;
 use App\Repository\IGenreRepository;
 use App\Repository\IPublisherRepository;
 use Illuminate\Contracts\View\View;
@@ -18,18 +20,21 @@ class BookController extends Controller
     private IGenreRepository $genreRepository;
     private IAuthorRepository $authorRepository;
     private IPublisherRepository $publisherRepository;
+    private ICommentRepository $commentRepository;
 
     public function __construct(
         IBookRepository $bookRepository,
         IGenreRepository $genreRepository,
         IAuthorRepository $authorRepository,
-        IPublisherRepository $publisherRepository
+        IPublisherRepository $publisherRepository,
+        ICommentRepository $commentRepository
     )
     {
         $this->bookRepository = $bookRepository;
         $this->genreRepository = $genreRepository;
         $this->authorRepository = $authorRepository;
         $this->publisherRepository = $publisherRepository;
+        $this->commentRepository = $commentRepository;
     }
 
     /**
@@ -68,8 +73,10 @@ class BookController extends Controller
         ];
         $book = $this->bookRepository->getBook($id, $params);
         $popularBooks = $this->bookRepository->getPopular(10, true);
+        $section = SectionComment::where('name', 'books')->first();
+        $reviews = $this->commentRepository->getComments($id, intval($section->id));
 
-        return view('/books/detail', compact('book', 'popularBooks'));
+        return view('/books/detail', compact('book', 'popularBooks', 'reviews'));
     }
 
     /**

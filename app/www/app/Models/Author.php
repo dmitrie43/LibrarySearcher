@@ -14,6 +14,9 @@ class Author extends Model
         'photo',
     ];
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function book()
     {
         return $this->hasMany(Book::class);

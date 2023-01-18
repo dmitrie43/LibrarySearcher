@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\PublishersController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\AuthorsController;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -24,13 +25,18 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [IndexController::class, 'index'])->name('/');
+/* Books */
 Route::get('/books', [BookController::class, 'index'])->name('books.index');
 Route::get('/books/random', [BookController::class, 'random'])->name('books.random');
 Route::get('/books/{id}', [BookController::class, 'detail'])->name('books.detail');
+/* Search */
 Route::get('/search', [SearchController::class, 'index'])->name('search');
+/* Comments */
+Route::get('/comments/{section}/{item_id}', [CommentController::class, 'index'])->name('comments.index');
+Route::post('/set-review', [CommentController::class, 'setReview'])->name('comments.set_review');
 
 Route::middleware(['auth'])->group(function () {
-    //Профиль
+    //profile
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
 });
 

@@ -5,11 +5,13 @@ namespace App\Providers;
 use App\Repository\Eloquent\AuthorRepository;
 use App\Repository\Eloquent\BaseRepository;
 use App\Repository\Eloquent\BookRepository;
+use App\Repository\Eloquent\CommentRepository;
 use App\Repository\Eloquent\GenreRepository;
 use App\Repository\Eloquent\PublisherRepository;
 use App\Repository\Eloquent\UserRepository;
 use App\Repository\IAuthorRepository;
 use App\Repository\IBookRepository;
+use App\Repository\ICommentRepository;
 use App\Repository\IEloquentRepository;
 use App\Repository\IGenreRepository;
 use App\Repository\IPublisherRepository;
@@ -36,6 +38,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(IGenreRepository::class, GenreRepository::class);
         $this->app->bind(IPublisherRepository::class, PublisherRepository::class);
         $this->app->bind(IUserRepository::class, UserRepository::class);
+        $this->app->bind(ICommentRepository::class, CommentRepository::class);
 
         if (!config('services.search.enabled')) {
             $this->app->bind(ISearchBookRepository::class, SearchBookRepository::class);
