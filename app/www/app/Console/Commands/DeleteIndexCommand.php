@@ -2,18 +2,17 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Book;
 use Elastic\Elasticsearch\Client;
 use Illuminate\Console\Command;
 
-class ReindexCommand extends Command
+class DeleteIndexCommand extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'search:reindex';
+    protected $signature = 'search:delete';
 
     /**
      * The console command description.
@@ -41,18 +40,7 @@ class ReindexCommand extends Command
      */
     public function handle()
     {
-        $this->info('Indexing all...');
-        //Books
-        foreach (Book::cursor() as $item)
-        {
-            $this->elasticsearch->index([
-                'index' => $item->getSearchIndex(),
-                'type' => $item->getSearchType(),
-                'id' => $item->getKey(),
-                'body' => $item->toSearchArray(),
-            ]);
-            $this->output->write('.');
-        }
+        $this->elasticsearch->indices()->delete(['index' => 'books']);
         $this->info("\nDone!");
     }
 }

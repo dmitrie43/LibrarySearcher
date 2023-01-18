@@ -2,3 +2,4 @@
 docker/mysql/
 docker/rabbitmq/
 docker/esdata/
+docker/redis/

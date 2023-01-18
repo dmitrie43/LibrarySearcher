@@ -40,7 +40,6 @@ RUN apt-get update && apt-get install -y \
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Install extensions
 RUN docker-php-ext-install bcmath
 RUN docker-php-ext-install sockets
 RUN docker-php-ext-install curl
@@ -73,6 +72,8 @@ RUN docker-php-ext-install pdo_mysql exif pcntl
 RUN pecl install xdebug
 RUN pecl install amqp
 RUN docker-php-ext-enable amqp
+RUN pecl install redis
+RUN docker-php-ext-enable redis
 
 # Install composer
 RUN curl --silent --show-error https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer

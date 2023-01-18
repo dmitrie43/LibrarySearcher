@@ -16,6 +16,7 @@ use Illuminate\Support\Str;
 class BookRepository extends BaseRepository implements IBookRepository
 {
     public string $cover_img = '';
+    public string $file = '';
     private string $default_img = 'img/template.jpg';
 
     /**
@@ -132,11 +133,33 @@ class BookRepository extends BaseRepository implements IBookRepository
     }
 
     /**
+     * @param \Illuminate\Http\UploadedFile $file
+     */
+    public function uploadFile(UploadedFile $file) : void
+    {
+        if ($file == null) return;
+        $filename = Str::random(10) . '.' . $file->extension();
+        $file->storeAs('storage/', $filename);
+        $this->file = 'storage/'.$filename;
+    }
+
+    /**
+     * @param Book $book
+     */
+    public function removeFile(Book $book) : void
+    {
+        if (!empty($book->file)) {
+            Storage::delete($book->file);
+        }
+    }
+
+    /**
      * @param Book $book
      */
     public function remove(Book $book) : void
     {
         $this->removeCoverImg($book);
+        $this->removeFile($book);
         $book->genres()->detach();
         $book->delete();
     }
@@ -229,5 +252,10 @@ class BookRepository extends BaseRepository implements IBookRepository
         }
 
         return $model->first();
+    }
+
+    public function getRandomBook()
+    {
+        return $this->model->all()->random(1)->first();
     }
 }
