@@ -80,6 +80,8 @@ services:
           - "6379:6379"
         volumes:
           - ./docker/redis/data/:/data
+        networks:
+          - app-network
 
     elastic:
         image: elasticsearch:8.4.1
