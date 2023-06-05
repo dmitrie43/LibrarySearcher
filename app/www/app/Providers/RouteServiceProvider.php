@@ -20,6 +20,11 @@ class RouteServiceProvider extends ServiceProvider
     public const HOME = '/profile';
 
     /**
+     * The path to the admin-panel
+     */
+    public const ADMIN_PANEL = '/admin';
+
+    /**
      * The controller namespace for the application.
      *
      * When present, controller route declarations will automatically be prefixed with this namespace.
@@ -42,6 +47,10 @@ class RouteServiceProvider extends ServiceProvider
                 ->middleware('api')
                 ->namespace($this->namespace)
                 ->group(base_path('routes/api.php'));
+
+            Route::prefix('admin')
+                ->middleware(['admin'])
+                ->group(base_path('routes/admin.php'));
 
             Route::middleware('web')
                 ->namespace($this->namespace)

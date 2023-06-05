@@ -32,6 +32,11 @@ class CommentRepository extends BaseRepository implements ICommentRepository
      */
     public function getComments(int $item_id, int $section_id) : Collection
     {
-        return $this->model->where('section', $section_id)->where('item_id', $item_id)->with('user')->get();
+        return $this->model
+            ->where('section', $section_id)
+            ->where('item_id', $item_id)
+            ->where('is_approved', 1)
+            ->with('user')
+            ->get();
     }
 }

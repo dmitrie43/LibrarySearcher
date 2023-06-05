@@ -15,6 +15,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class ProcessFormReview implements ShouldQueue
 {
@@ -56,7 +57,7 @@ class ProcessFormReview implements ShouldQueue
                 $review->save();
             });
         } catch (\Throwable $exception) {
-            //log
+            Log::error($exception->getMessage());
         }
     }
 }
