@@ -49,7 +49,7 @@ class CommentController extends Controller
             'item_id' => ['required', 'integer']
         ]);
 
-        ProcessFormReview::dispatch($request->all(), Auth::id())->onQueue('form');
+        ProcessFormReview::dispatch($request->all(), Auth::id());
 
         return back();
     }

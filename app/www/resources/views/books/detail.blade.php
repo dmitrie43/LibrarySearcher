@@ -88,10 +88,10 @@
                         <p><strong>Описание</strong></p>
                         <p>{{$book->description}}</p>
                     </div>
-                    @if($book->file)
+                    @if($book->file && \Illuminate\Support\Facades\Auth::check())
                         <div class=" w-100 prevActions order-3 d-block d-md-flex mb-3 mb-lg-0">
                             <a href="{{asset($book->file)}}">
-                                <button class="btn btnlightblue mb-3 mb-md-4 me-0 me-md-4  ">Скачать</button>
+                                <button class="btn btnlightblue mb-3 mb-md-4 me-0 me-md-4 ">Скачать</button>
                             </a>
                         </div>
                     @endif
@@ -168,7 +168,7 @@
 @endif
 
 <!-- write review -->
-@if(Auth::check())
+@if(\Illuminate\Support\Facades\Auth::check())
 <div class="contactsec">
     <div class="container">
         <div class="row">

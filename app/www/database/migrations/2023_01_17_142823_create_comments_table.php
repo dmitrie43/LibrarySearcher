@@ -18,6 +18,7 @@ class CreateCommentsTable extends Migration
             $table->string('theme');
             $table->text('text');
             $table->set('recommended', [0, 1])->default(0);
+            $table->boolean('is_approved')->default(0);
 
             $table->foreignId('section')->nullable()->constrained('sections_comments');
             $table->foreignId('user_id')->nullable()->constrained('users');

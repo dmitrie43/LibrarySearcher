@@ -31,10 +31,10 @@
         </a>
     </li>
     <li>
-        <a href="/admin/comments">
+        <a href="{{route('admin_panel.comments.index')}}">
             <i class="fa fa-commenting"></i><span>Комментарии</span>
             <span class="pull-right-container">
-{{--              <small class="label pull-right bg-green">{{App\Comment::where('status', 0)->count()}}</small>--}}
+                <small class="label pull-right bg-green">{{\App\Models\Comment::where('is_approved', 0)->count()}}</small>
             </span>
         </a>
     </li>
