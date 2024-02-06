@@ -53,6 +53,7 @@ class ElasticsearchBookRepository implements ISearchBookRepository
                     'multi_match' => [
                         'fields' => ['name^5', 'description'],
                         'query' => $query,
+                        'type' => 'phrase_prefix',
                     ],
                 ],
             ],
