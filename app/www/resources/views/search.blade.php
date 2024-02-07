@@ -6,7 +6,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <h2 class="headingWh mb-2 mb-md-4">Найдено: {{$books->count()}}</h2>
+                    <h2 class="headingWh mb-2 mb-md-4">Найдено совпадений: {{$books->count() + $authors->count()}}</h2>
                 </div>
             </div>
 
@@ -27,6 +27,22 @@
                                         <h2 class="textgraycolor">Дата публикации: {{$book->date_publish}}</h2>
                                         <h2 class="textwhitecolor">Страниц: {{$book->pages_quantity}}</h2>
                                         {{--<h4 class="textgraycolor"><span><img src="img/hearticon.svg"></span> 56</h4>--}}
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                @endforeach
+                @foreach($authors as $author)
+                    <div class="col-md-6 col-xl-3 mb-4">
+                        <a href="{{route('authors.detail', ['id' => $author->id])}}">
+                            <div class="aboutitem">
+                                <div class="aboutitemImg">
+                                    <img class="img-fluid" src="{{isset($author->photo) ? asset($author->photo) : asset('img/author_default.png')}}" alt="img">
+                                </div>
+                                <div class="bgdarkbluecolor aboutitemcnt">
+                                    <div class="itemtitlecode">
+                                        <h2 class="textgraycolor">{{$author->full_name}}</h2>
                                     </div>
                                 </div>
                             </div>

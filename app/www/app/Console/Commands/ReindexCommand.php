@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Author;
 use App\Models\Book;
 use Elastic\Elasticsearch\Client;
 use Illuminate\Console\Command;
@@ -42,16 +43,21 @@ class ReindexCommand extends Command
     public function handle()
     {
         $this->info('Indexing all...');
-        //Books
-        foreach (Book::cursor() as $item)
+        $cursors = [
+            Book::cursor(),
+            Author::cursor(),
+        ];
+        foreach ($cursors as $cursor)
         {
-            $this->elasticsearch->index([
-                'index' => $item->getSearchIndex(),
-                'type' => $item->getSearchType(),
-                'id' => $item->getKey(),
-                'body' => $item->toSearchArray(),
-            ]);
-            $this->output->write('.');
+            foreach ($cursor as $item) {
+                $this->elasticsearch->index([
+                    'index' => $item->getSearchIndex(),
+                    'type' => $item->getSearchType(),
+                    'id' => $item->getKey(),
+                    'body' => $item->toSearchArray(),
+                ]);
+                $this->output->write('.');
+            }
         }
         $this->info("\nDone!");
     }

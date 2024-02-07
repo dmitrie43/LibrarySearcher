@@ -16,8 +16,11 @@ use App\Repository\IEloquentRepository;
 use App\Repository\IGenreRepository;
 use App\Repository\IPublisherRepository;
 use App\Repository\IUserRepository;
+use App\Repository\Search\ElasticsearchAuthorRepository;
 use App\Repository\Search\ElasticsearchBookRepository;
+use App\Repository\Search\ISearchAuthorRepository;
 use App\Repository\Search\ISearchBookRepository;
+use App\Repository\Search\SearchAuthorRepository;
 use App\Repository\Search\SearchBookRepository;
 use Elastic\Elasticsearch\Client;
 use Elastic\Elasticsearch\ClientBuilder;
@@ -42,8 +45,10 @@ class RepositoryServiceProvider extends ServiceProvider
 
         if (!config('services.search.enabled')) {
             $this->app->bind(ISearchBookRepository::class, SearchBookRepository::class);
+            $this->app->bind(ISearchAuthorRepository::class, SearchAuthorRepository::class);
         } else {
             $this->app->bind(ISearchBookRepository::class, ElasticsearchBookRepository::class);
+            $this->app->bind(ISearchAuthorRepository::class, ElasticsearchAuthorRepository::class);
             $this->bindSearchClient();
         }
     }

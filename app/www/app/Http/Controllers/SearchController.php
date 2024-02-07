@@ -6,31 +6,23 @@ use App\Repository\IAuthorRepository;
 use App\Repository\IBookRepository;
 use App\Repository\IGenreRepository;
 use App\Repository\IPublisherRepository;
+use App\Repository\Search\ISearchAuthorRepository;
 use App\Repository\Search\ISearchBookRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
 class SearchController extends Controller
 {
-    private IBookRepository $bookRepository;
-    private IGenreRepository $genreRepository;
-    private IAuthorRepository $authorRepository;
-    private IPublisherRepository $publisherRepository;
     private ISearchBookRepository $searchBookRepository;
+    private ISearchAuthorRepository $searchAuthorRepository;
 
     public function __construct(
-        IBookRepository $bookRepository,
-        IGenreRepository $genreRepository,
-        IAuthorRepository $authorRepository,
-        IPublisherRepository $publisherRepository,
-        ISearchBookRepository $searchBookRepository
+        ISearchBookRepository $searchBookRepository,
+        ISearchAuthorRepository $searchAuthorRepository
     )
     {
-        $this->bookRepository = $bookRepository;
-        $this->genreRepository = $genreRepository;
-        $this->authorRepository = $authorRepository;
-        $this->publisherRepository = $publisherRepository;
         $this->searchBookRepository = $searchBookRepository;
+        $this->searchAuthorRepository = $searchAuthorRepository;
     }
 
     /**
@@ -40,10 +32,13 @@ class SearchController extends Controller
     public function index(Request $request)
     {
         $books = new Collection();
+        $authors = new Collection();
+
         if ($request->has('query') && $request->filled('query')) {
             $books = $this->searchBookRepository->search($request->get('query'));
+            $authors = $this->searchAuthorRepository->search($request->get('query'));
         }
 
-        return view('search', compact('books'));
+        return view('search', compact('books', 'authors'));
     }
 }
