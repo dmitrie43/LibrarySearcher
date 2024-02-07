@@ -27,7 +27,7 @@ class RegistrationTest extends TestCase
             'password_confirmation' => 'password123',
         ]);
 
-//        $this->assertAuthenticated();
-        $response->assertRedirect('/');
+        $this->assertAuthenticated();
+        $response->assertRedirect('/profile');
     }
 }

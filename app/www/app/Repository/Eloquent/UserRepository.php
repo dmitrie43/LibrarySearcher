@@ -37,7 +37,7 @@ class UserRepository extends BaseRepository implements IUserRepository
      */
     public function getDefaultPathAvatar() : ?string
     {
-        return 'img/usericon.svg';
+        return public_path('img/usericon.svg');
     }
 
     /**
