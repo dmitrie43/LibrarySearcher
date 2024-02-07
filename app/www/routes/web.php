@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\IndexController;
@@ -25,6 +26,9 @@ Route::get('/books/random', [BookController::class, 'random'])->name('books.rand
 Route::get('/books/{id}', [BookController::class, 'detail'])->name('books.detail');
 /* Search */
 Route::get('/search', [SearchController::class, 'index'])->name('search');
+/* Authors */
+Route::get('/authors', [AuthorController::class, 'index'])->name('authors.index');
+Route::get('/authors/{id}', [AuthorController::class, 'detail'])->name('authors.detail');
 /* Comments */
 Route::get('/comments/{section}/{item_id}', [CommentController::class, 'index'])->name('comments.index');
 Route::post('/set-review', [CommentController::class, 'setReview'])->name('comments.set_review');

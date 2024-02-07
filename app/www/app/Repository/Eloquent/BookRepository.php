@@ -19,6 +19,8 @@ class BookRepository extends BaseRepository implements IBookRepository
     public string $file = '';
     private string $default_img = 'img/template.jpg';
 
+    const PAGINATE = 20;
+
     /**
      * BookRepository constructor.
      * @param Book $model
@@ -227,7 +229,7 @@ class BookRepository extends BaseRepository implements IBookRepository
             $model = $model->orderBy($request->get('sortBy'), $sort);
         }
 
-        return $model->paginate(20)->withQueryString();
+        return $model->paginate(self::PAGINATE)->withQueryString();
     }
 
     /**

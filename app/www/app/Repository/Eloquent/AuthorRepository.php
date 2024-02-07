@@ -13,6 +13,8 @@ class AuthorRepository extends BaseRepository implements IAuthorRepository
 {
     public string $photo = '';
 
+    const PAGINATE = 20;
+
     /**
      * AuthorRepository constructor.
      * @param Author $model
