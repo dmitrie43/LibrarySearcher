@@ -25,6 +25,16 @@ use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
+    public array $bindings = [
+        IEloquentRepository::class => BaseRepository::class,
+        IBookRepository::class => BookRepository::class,
+        IAuthorRepository::class => AuthorRepository::class,
+        IGenreRepository::class => GenreRepository::class,
+        IPublisherRepository::class => PublisherRepository::class,
+        IUserRepository::class => UserRepository::class,
+        ICommentRepository::class => CommentRepository::class,
+    ];
+
     /**
      * Register services.
      *
@@ -32,14 +42,6 @@ class RepositoryServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(IEloquentRepository::class, BaseRepository::class);
-        $this->app->bind(IBookRepository::class, BookRepository::class);
-        $this->app->bind(IAuthorRepository::class, AuthorRepository::class);
-        $this->app->bind(IGenreRepository::class, GenreRepository::class);
-        $this->app->bind(IPublisherRepository::class, PublisherRepository::class);
-        $this->app->bind(IUserRepository::class, UserRepository::class);
-        $this->app->bind(ICommentRepository::class, CommentRepository::class);
-
         if (!config('services.search.enabled')) {
             $this->app->bind(ISearchBookRepository::class, SearchBookRepository::class);
         } else {
