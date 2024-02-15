@@ -6,13 +6,17 @@ use App\Http\Requests\StoreBookRequest;
 use App\Http\Requests\UpdateBookRequest;
 use App\Models\Book;
 use App\Models\SectionComment;
+use App\Models\User;
 use App\Repository\IAuthorRepository;
 use App\Repository\IBookRepository;
 use App\Repository\ICommentRepository;
 use App\Repository\IGenreRepository;
 use App\Repository\IPublisherRepository;
+use App\Repository\IUserRepository;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class BookController extends Controller
 {
@@ -21,13 +25,15 @@ class BookController extends Controller
     private IAuthorRepository $authorRepository;
     private IPublisherRepository $publisherRepository;
     private ICommentRepository $commentRepository;
+    private IUserRepository $userRepository;
 
     public function __construct(
         IBookRepository $bookRepository,
         IGenreRepository $genreRepository,
         IAuthorRepository $authorRepository,
         IPublisherRepository $publisherRepository,
-        ICommentRepository $commentRepository
+        ICommentRepository $commentRepository,
+        IUserRepository $userRepository
     )
     {
         $this->bookRepository = $bookRepository;
@@ -35,6 +41,7 @@ class BookController extends Controller
         $this->authorRepository = $authorRepository;
         $this->publisherRepository = $publisherRepository;
         $this->commentRepository = $commentRepository;
+        $this->userRepository = $userRepository;
     }
 
     /**
@@ -75,8 +82,9 @@ class BookController extends Controller
         $popularBooks = $this->bookRepository->getPopular(10, true);
         $section = SectionComment::where('name', 'books')->first();
         $reviews = $this->commentRepository->getComments($id, intval($section->id));
+        $is_favorite = Auth::user() ? $this->userRepository->isBookFavorite(Auth::user(), $id) : false;
 
-        return view('/books/detail', compact('book', 'popularBooks', 'reviews'));
+        return view('/books/detail', compact('book', 'popularBooks', 'reviews', 'is_favorite'));
     }
 
     /**
@@ -87,5 +95,30 @@ class BookController extends Controller
         $book = $this->bookRepository->getRandomBook();
 
         return view('/books/random', compact('book'));
+    }
+
+    /**
+     * @param Request $request
+     * @return false|string
+     */
+    public function set_favorite(Request $request)
+    {
+        $request->validate([
+            'book_id' => ['required', 'integer'],
+        ]);
+
+        $book_id = (int) $request->post('book_id');
+        $user = $request->user();
+
+        $is_favorite = false;
+        try {
+            $is_favorite = $this->userRepository->setFavoriteBook($user, $book_id);
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
+        }
+
+        return json_encode([
+            'is_favorite' => $is_favorite
+        ]);
     }
 }

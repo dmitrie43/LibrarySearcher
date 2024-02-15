@@ -18,4 +18,8 @@ interface IUserRepository
     public function removeAvatar(User $user);
 
     public function getByEmail(string $email);
+
+    public function setFavoriteBook(User $user, int $book_id);
+
+    public function isBookFavorite(User $user, int $book_id);
 }

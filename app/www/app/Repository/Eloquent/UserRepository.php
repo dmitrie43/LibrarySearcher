@@ -2,6 +2,7 @@
 
 namespace App\Repository\Eloquent;
 
+use App\Models\FavoriteBook;
 use App\Models\Role;
 use App\Models\User;
 use App\Repository\IUserRepository;
@@ -90,5 +91,35 @@ class UserRepository extends BaseRepository implements IUserRepository
     public function getByEmail(string $email)
     {
         return User::where('email', $email)->first();
+    }
+
+    /**
+     * @param User $user
+     * @param int $book_id
+     * @return bool Is favorite now or not
+     */
+    public function setFavoriteBook(User $user, int $book_id) : bool
+    {
+        $is_favorite = FavoriteBook::where('book_id', $book_id)->first();
+        if ($is_favorite) {
+            $is_favorite->delete();
+            return false;
+        } else {
+            $user->favorite_book()->create([
+                'book_id' => $book_id,
+                'user_id' => $user->id,
+            ]);
+            return true;
+        }
+    }
+
+    /**
+     * @param User $user
+     * @param int $book_id
+     * @return bool
+     */
+    public function isBookFavorite(User $user, int $book_id)
+    {
+        return (bool) $user->favorite_book()->where('book_id', $book_id)->first();
     }
 }

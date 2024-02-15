@@ -27,11 +27,14 @@ Route::get('/books/{id}', [BookController::class, 'detail'])->name('books.detail
 Route::get('/search', [SearchController::class, 'index'])->name('search');
 /* Comments */
 Route::get('/comments/{section}/{item_id}', [CommentController::class, 'index'])->name('comments.index');
-Route::post('/set-review', [CommentController::class, 'setReview'])->name('comments.set_review');
 
 Route::middleware(['auth'])->group(function () {
     //profile
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
+    //books
+    Route::post('/books/set_favorite', [BookController::class, 'set_favorite'])->name('books.set_favorite');
+    //comments
+    Route::post('/set-review', [CommentController::class, 'setReview'])->name('comments.set_review');
 });
 
 require __DIR__.'/auth.php';

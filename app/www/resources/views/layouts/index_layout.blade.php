@@ -15,6 +15,7 @@
     <link rel="stylesheet" media="all" href="{{asset('css/style.css')}}">
     <link rel="icon" type="image/png" sizes="28x28" href="{{asset('favicon.png')}}">
     <meta name="theme-color" content="#sdfsf">
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
 </head>
 <body>
 

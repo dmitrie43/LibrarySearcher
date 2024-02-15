@@ -14,6 +14,7 @@ class Genre extends Model
     ];
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function books()
     {

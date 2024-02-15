@@ -1,20 +1,20 @@
 function getContentBookByGenre(book) {
-    let content =   '<div class="creators">' +
-                        '<a href="/books/'+ book.id +'">' +
-                        '<div class="creatorImg">' +
-                            '<img class="img-fluid" src="'+ book.cover_img +'" alt="img">' +
-                        '</div>';
+    let content = '<div class="creators">' +
+        '<a href="/books/' + book.id + '">' +
+        '<div class="creatorImg">' +
+        '<img class="img-fluid" src="' + book.cover_img + '" alt="img">' +
+        '</div>';
     if (Object.keys(book.author).length > 0) {
         if (book.author.photo !== null) {
             content += '<div class="creatorIcon">' +
-                            '<img class="img-fluid" src="'+ book.author.photo +'" alt="">' +
-                            '<div class="creatorcheck"><img src="/img/checkicon.svg" alt="img"></div>' +
-                        '</div>';
+                '<img class="img-fluid" src="' + book.author.photo + '" alt="">' +
+                '<div class="creatorcheck"><img src="/img/checkicon.svg" alt="img"></div>' +
+                '</div>';
         }
         content += '<div class="creatorsText text-center">' +
-                        '<h2 class="textwhitecolor">'+ book.name +'</h2>' +
-                        '<h3 class="textbluecolor">'+ book.author.full_name +'</h3>' +
-                    '</div>';
+            '<h2 class="textwhitecolor">' + book.name + '</h2>' +
+            '<h3 class="textbluecolor">' + book.author.full_name + '</h3>' +
+            '</div>';
     }
     content += '</a></div>';
     return content;
@@ -36,7 +36,7 @@ function setSlick(class_name) {
                     slidesToShow: 2,
                     slidesToScroll: 1,
                     infinite: true,
-                    arrows:false,
+                    arrows: false,
                     dots: true
                 }
             },
@@ -45,12 +45,32 @@ function setSlick(class_name) {
                 settings: {
                     slidesToShow: 1,
                     slidesToScroll: 1,
-                    arrows:false,
+                    arrows: false,
                     dots: true
                 }
             }
 
         ]
+    });
+}
+
+function set_favorite(book_id) {
+    $.ajax({
+        url: "/books/set_favorite",
+        method: "POST",
+        data: {"book_id": book_id},
+        dataType: "json",
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function (data) {
+            let src = '/img/wishlist-1.png';
+            if (data.is_favorite) {
+                src = '/img/wishlist-2.png';
+            }
+            $('#wishlist-img').attr('src', src);
+            $('#')
+        }
     });
 }
 
@@ -64,7 +84,7 @@ function getBooksByGenre(genre_id) {
             let content = '';
             let popular = $('.popular');
             popular.slick('unslick');
-            $.each(data['data']['books'], function(index, book){
+            $.each(data['data']['books'], function (index, book) {
                 content += getContentBookByGenre(book);
             });
             document.getElementById('books-by-genre').innerHTML = content;
@@ -83,7 +103,7 @@ function getBooks() {
             let content = '';
             let popular = $('.popular');
             popular.slick('unslick');
-            $.each(data['data']['books'], function(index, book){
+            $.each(data['data']['books'], function (index, book) {
                 content += getContentBookByGenre(book);
             });
             document.getElementById('books-by-genre').innerHTML = content;
