@@ -10,6 +10,7 @@ use App\Repository\IBookRepository;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -18,6 +19,8 @@ class BookRepository extends BaseRepository implements IBookRepository
     public string $cover_img = '';
     public string $file = '';
     private string $default_img = 'img/template.jpg';
+
+    private const CACHE_TTL = 3600;
 
     /**
      * BookRepository constructor.
@@ -67,7 +70,17 @@ class BookRepository extends BaseRepository implements IBookRepository
      */
     public function getNovelties($limit)
     {
-        return $this->model::where('novelty', '1')->orderBy('date_publish', 'desc')->limit($limit)->get();
+        $key = 'novelties_book_' . $limit;
+        if ($novelty = Cache::get($key, false)) {
+            return $novelty;
+        }
+        $novelty = $this->model::where('novelty', '1')
+            ->orderBy('date_publish', 'desc')
+            ->limit($limit)
+            ->get();
+        Cache::put($key, $novelty, self::CACHE_TTL);
+
+        return $novelty;
     }
 
     /**
@@ -77,9 +90,16 @@ class BookRepository extends BaseRepository implements IBookRepository
      */
     public function getPopular(int $limit, bool $withAuthor = false)
     {
+        $key = 'popular_books_' . $limit . intval($withAuthor);
+        if ($popular = Cache::get($key, false)) {
+            return $popular;
+        }
         $model = $this->model::where('popular', '1');
         $model = $withAuthor ? $model->with('author') : $model;
-        return $model->limit($limit)->get();
+        $popular = $model->limit($limit)->get();
+        Cache::put($key, $popular, self::CACHE_TTL);
+
+        return $popular;
     }
 
     /**
