@@ -44,8 +44,9 @@ class RepositoryServiceProvider extends ServiceProvider
             $this->app->bind(ISearchBookRepository::class, SearchBookRepository::class);
         } else {
             $this->app->bind(ISearchBookRepository::class, ElasticsearchBookRepository::class);
-            $this->bindSearchClient();
         }
+
+        $this->bindSearchClient();
     }
 
     private function bindSearchClient()
