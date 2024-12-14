@@ -1,4 +1,4 @@
-FROM php:8.0-fpm
+FROM php:8.4-fpm
 
 USER root
 
@@ -83,7 +83,7 @@ COPY ./www/ /var/www/app
 
 ENV COMPOSER_ALLOW_SUPERUSER 1
 
-RUN composer install --ignore-platform-reqs
+#RUN composer install --ignore-platform-reqs
 
 # Copy existing application directory permissions
 COPY --chown=www:www . /var/www/app
