@@ -87,7 +87,7 @@ class BookRepository extends BaseRepository implements IBookRepository
      */
     public function getDefaultPathCoverImg() : ?string
     {
-        return $this->default_img;
+        return public_path($this->default_img);
     }
 
     /**
