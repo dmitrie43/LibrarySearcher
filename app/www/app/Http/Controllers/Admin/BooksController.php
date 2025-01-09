@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Book;
 use App\Repository\IAuthorRepository;
 use App\Repository\IBookRepository;
 use App\Repository\IGenreRepository;
@@ -14,8 +13,11 @@ use Illuminate\Support\Facades\DB;
 class BooksController extends Controller
 {
     private IBookRepository $bookRepository;
+
     private IAuthorRepository $authorRepository;
+
     private IPublisherRepository $publisherRepository;
+
     private IGenreRepository $genreRepository;
 
     public function __construct(
@@ -23,8 +25,7 @@ class BooksController extends Controller
         IAuthorRepository $authorRepository,
         IPublisherRepository $publisherRepository,
         IGenreRepository $genreRepository
-    )
-    {
+    ) {
         $this->bookRepository = $bookRepository;
         $this->authorRepository = $authorRepository;
         $this->publisherRepository = $publisherRepository;
@@ -37,6 +38,7 @@ class BooksController extends Controller
     public function index()
     {
         $books = $this->bookRepository->paginate(20);
+
         return view('admin.books.index', compact('books'));
     }
 
@@ -48,12 +50,13 @@ class BooksController extends Controller
         $authors = $this->authorRepository->all();
         $publishers = $this->publisherRepository->all();
         $genres = $this->genreRepository->all();
+
         return view('admin.books.create', compact('authors', 'publishers', 'genres'));
     }
 
     /**
-     * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
+     *
      * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request)
@@ -105,7 +108,6 @@ class BooksController extends Controller
     }
 
     /**
-     * @param int $id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function edit(int $id)
@@ -113,18 +115,19 @@ class BooksController extends Controller
         $book = $this->bookRepository->find($id);
         $bookGenres = $book->genres()->get()->toArray();
         $bookGenresId = [];
-        foreach ($bookGenres as $bookGenre)
+        foreach ($bookGenres as $bookGenre) {
             $bookGenresId[$bookGenre['pivot']['genre_id']] = $bookGenre;
+        }
         $authors = $this->authorRepository->all();
         $publishers = $this->publisherRepository->all();
         $genres = $this->genreRepository->all();
+
         return view('admin.books.edit', compact('book', 'authors', 'publishers', 'genres', 'bookGenresId'));
     }
 
     /**
-     * @param Request $request
-     * @param int $id
      * @return \Illuminate\Http\RedirectResponse
+     *
      * @throws \Illuminate\Validation\ValidationException
      */
     public function update(Request $request, int $id)
@@ -144,7 +147,7 @@ class BooksController extends Controller
             'publisher' => ['integer'],
         ]);
 
-        DB::transaction(function() use ($id, $request) {
+        DB::transaction(function () use ($id, $request) {
             $book = $this->bookRepository->find($id);
             foreach ($request->all() as $key => $item) {
                 if (
@@ -189,13 +192,13 @@ class BooksController extends Controller
     }
 
     /**
-     * @param int $id
      * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(int $id)
     {
         $book = $this->bookRepository->find($id);
         $this->bookRepository->remove($book);
+
         return redirect()->route('admin_panel.books.index');
     }
 }

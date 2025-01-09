@@ -2,9 +2,4 @@
 
 namespace App\Repository;
 
-use Illuminate\Support\Collection;
-
-interface IPublisherRepository
-{
-
-}
+interface IPublisherRepository {}

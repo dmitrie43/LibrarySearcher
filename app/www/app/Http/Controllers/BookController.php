@@ -2,9 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreBookRequest;
-use App\Http\Requests\UpdateBookRequest;
-use App\Models\Book;
 use App\Models\SectionComment;
 use App\Repository\IAuthorRepository;
 use App\Repository\IBookRepository;
@@ -17,9 +14,13 @@ use Illuminate\Http\Request;
 class BookController extends Controller
 {
     private IBookRepository $bookRepository;
+
     private IGenreRepository $genreRepository;
+
     private IAuthorRepository $authorRepository;
+
     private IPublisherRepository $publisherRepository;
+
     private ICommentRepository $commentRepository;
 
     public function __construct(
@@ -28,8 +29,7 @@ class BookController extends Controller
         IAuthorRepository $authorRepository,
         IPublisherRepository $publisherRepository,
         ICommentRepository $commentRepository
-    )
-    {
+    ) {
         $this->bookRepository = $bookRepository;
         $this->genreRepository = $genreRepository;
         $this->authorRepository = $authorRepository;
@@ -38,10 +38,9 @@ class BookController extends Controller
     }
 
     /**
-     * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function index(Request $request) : View
+    public function index(Request $request): View
     {
         $books = $this->bookRepository->getBooksByFilter($request);
         $genres = $this->genreRepository->all();
@@ -58,11 +57,7 @@ class BookController extends Controller
         return view('/books/index', compact('books', 'genres', 'authors', 'publishers', 'filter_params'));
     }
 
-    /**
-     * @param int $id
-     * @return View
-     */
-    public function detail(int $id) : View
+    public function detail(int $id): View
     {
         $params = [
             'with' => [
@@ -79,10 +74,7 @@ class BookController extends Controller
         return view('/books/detail', compact('book', 'popularBooks', 'reviews'));
     }
 
-    /**
-     * @return View
-     */
-    public function random() : View
+    public function random(): View
     {
         $book = $this->bookRepository->getRandomBook();
 

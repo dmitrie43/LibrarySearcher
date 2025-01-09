@@ -3,14 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Role;
-use App\Models\User;
 use App\Repository\IUserRepository;
-use http\Env;
-use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 
 class AuthController extends Controller
@@ -30,7 +25,7 @@ class AuthController extends Controller
                 'password' => ['required', Rules\Password::defaults()],
             ]);
 
-            if(!Auth::attempt($request->only(['email', 'password']))){
+            if (! Auth::attempt($request->only(['email', 'password']))) {
                 return response()->json([
                     'success' => false,
                     'message' => 'Email / Password does not match with our record.',
@@ -42,7 +37,7 @@ class AuthController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'User Logged In Successfully',
-                'token' => $user->createToken(env('API_TOKEN'))->plainTextToken
+                'token' => $user->createToken(env('API_TOKEN'))->plainTextToken,
             ], 200);
 
         } catch (\Throwable $throwable) {

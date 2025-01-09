@@ -2,24 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Author;
-use App\Models\Book;
-use App\Models\Genre;
-use App\Models\Publisher;
 use App\Repository\IBookRepository;
 use App\Repository\IGenreRepository;
-use Illuminate\Http\Request;
 
 class IndexController extends Controller
 {
     private IBookRepository $bookRepository;
+
     private IGenreRepository $genreRepository;
 
     public function __construct(
         IBookRepository $bookRepository,
         IGenreRepository $genreRepository
-    )
-    {
+    ) {
         $this->bookRepository = $bookRepository;
         $this->genreRepository = $genreRepository;
     }

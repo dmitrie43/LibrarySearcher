@@ -9,19 +9,19 @@ use App\Models\Publisher;
 use App\Repository\IBookRepository;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class BookRepository extends BaseRepository implements IBookRepository
 {
     public string $cover_img = '';
+
     public string $file = '';
+
     private string $default_img = 'img/template.jpg';
 
     /**
      * BookRepository constructor.
-     * @param Book $model
      */
     public function __construct(Book $model)
     {
@@ -29,7 +29,6 @@ class BookRepository extends BaseRepository implements IBookRepository
     }
 
     /**
-     * @param Author $author
      * @return mixed
      */
     public function getByAuthor(Author $author)
@@ -38,7 +37,6 @@ class BookRepository extends BaseRepository implements IBookRepository
     }
 
     /**
-     * @param Publisher $publisher
      * @return mixed
      */
     public function getByPublisher(Publisher $publisher)
@@ -47,22 +45,19 @@ class BookRepository extends BaseRepository implements IBookRepository
     }
 
     /**
-     * @param Genre $genre
-     * @param int $limit
-     * @param bool $withAuthor
      * @return mixed
      */
     public function getByGenre(Genre $genre, int $limit, bool $withAuthor)
     {
-        $model = $this->model::whereHas('genres', function($q) use ($genre) {
+        $model = $this->model::whereHas('genres', function ($q) use ($genre) {
             $q->where('genre_id', $genre->id);
         });
         $model = $withAuthor ? $model->with('author') : $model;
+
         return $model->limit($limit)->get();
     }
 
     /**
-     * @param $limit
      * @return mixed
      */
     public function getNovelties($limit)
@@ -71,39 +66,30 @@ class BookRepository extends BaseRepository implements IBookRepository
     }
 
     /**
-     * @param int $limit
-     * @param bool $withAuthor
      * @return mixed
      */
     public function getPopular(int $limit, bool $withAuthor = false)
     {
         $model = $this->model::where('popular', '1');
         $model = $withAuthor ? $model->with('author') : $model;
+
         return $model->limit($limit)->get();
     }
 
-    /**
-     * @return string|null
-     */
-    public function getDefaultPathCoverImg() : ?string
+    public function getDefaultPathCoverImg(): ?string
     {
         return public_path($this->default_img);
     }
 
-    /**
-     * @param string $path
-     */
-    public function setDefaultPathCoverImg(string $path) : void
+    public function setDefaultPathCoverImg(string $path): void
     {
         $this->default_img = $path;
     }
 
-    /**
-     * @return UploadedFile
-     */
-    public function getDefaultCoverImg() : UploadedFile
+    public function getDefaultCoverImg(): UploadedFile
     {
         $file_info = pathinfo($this->getDefaultPathCoverImg());
+
         return new UploadedFile(
             $this->getDefaultPathCoverImg(),
             $file_info['basename'],
@@ -111,52 +97,41 @@ class BookRepository extends BaseRepository implements IBookRepository
         );
     }
 
-    /**
-     * @param \Illuminate\Http\UploadedFile $image
-     */
-    public function uploadCoverImg(UploadedFile $image) : void
+    public function uploadCoverImg(UploadedFile $image): void
     {
-        if ($image == null) return;
-        $filename = Str::random(10) . '.' . $image->extension();
+        if ($image == null) {
+            return;
+        }
+        $filename = Str::random(10).'.'.$image->extension();
         $image->storeAs('storage/', $filename);
         $this->cover_img = 'storage/'.$filename;
     }
 
-    /**
-     * @param Book $book
-     */
-    public function removeCoverImg(Book $book) : void
+    public function removeCoverImg(Book $book): void
     {
-        if (!empty($book->cover_img)) {
+        if (! empty($book->cover_img)) {
             Storage::delete($book->cover_img);
         }
     }
 
-    /**
-     * @param \Illuminate\Http\UploadedFile $file
-     */
-    public function uploadFile(UploadedFile $file) : void
+    public function uploadFile(UploadedFile $file): void
     {
-        if ($file == null) return;
-        $filename = Str::random(10) . '.' . $file->extension();
+        if ($file == null) {
+            return;
+        }
+        $filename = Str::random(10).'.'.$file->extension();
         $file->storeAs('storage/', $filename);
         $this->file = 'storage/'.$filename;
     }
 
-    /**
-     * @param Book $book
-     */
-    public function removeFile(Book $book) : void
+    public function removeFile(Book $book): void
     {
-        if (!empty($book->file)) {
+        if (! empty($book->file)) {
             Storage::delete($book->file);
         }
     }
 
-    /**
-     * @param Book $book
-     */
-    public function remove(Book $book) : void
+    public function remove(Book $book): void
     {
         $this->removeCoverImg($book);
         $this->removeFile($book);
@@ -173,19 +148,17 @@ class BookRepository extends BaseRepository implements IBookRepository
     }
 
     /**
-     * @param int $limit
-     * @param bool $withAuthor
      * @return \Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
      */
     public function getBooks(int $limit, bool $withAuthor = false)
     {
         $model = $this->model;
         $model = $withAuthor ? $model->with('author') : $model;
+
         return $model->limit($limit)->get();
     }
 
     /**
-     * @param Request $request
      * @return mixed
      */
     public function getBooksByFilter(Request $request)
@@ -204,7 +177,7 @@ class BookRepository extends BaseRepository implements IBookRepository
             'publisher' => [
                 'relation' => 'single',
                 'id' => 'publisher_id',
-            ]
+            ],
         ];
 
         $model = $model->with('author');
@@ -215,7 +188,7 @@ class BookRepository extends BaseRepository implements IBookRepository
                     $model = $model->where($arParam['id'], $request->get($filter));
                 } elseif ($arParam['relation'] == 'many') {
                     $value_id = $request->get($filter);
-                    $model = $this->model->whereHas($arParam['table'], function($q) use ($value_id, $arParam) {
+                    $model = $this->model->whereHas($arParam['table'], function ($q) use ($value_id, $arParam) {
                         $q->where($arParam['id'], $value_id);
                     });
                 }
@@ -223,7 +196,7 @@ class BookRepository extends BaseRepository implements IBookRepository
         }
 
         if ($request->has('sort') && $request->has('sortBy')) {
-            $sort = !empty($request->get('sort')) ? $request->get('sort') : 'ASC';
+            $sort = ! empty($request->get('sort')) ? $request->get('sort') : 'ASC';
             $model = $model->orderBy($request->get('sortBy'), $sort);
         }
 
@@ -231,8 +204,6 @@ class BookRepository extends BaseRepository implements IBookRepository
     }
 
     /**
-     * @param int $id
-     * @param array $params
      * @return mixed
      */
     public function getBook(int $id, array $params = [])

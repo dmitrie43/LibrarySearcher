@@ -13,9 +13,13 @@ use Illuminate\Support\Collection;
 class SearchController extends Controller
 {
     private IBookRepository $bookRepository;
+
     private IGenreRepository $genreRepository;
+
     private IAuthorRepository $authorRepository;
+
     private IPublisherRepository $publisherRepository;
+
     private ISearchBookRepository $searchBookRepository;
 
     public function __construct(
@@ -24,8 +28,7 @@ class SearchController extends Controller
         IAuthorRepository $authorRepository,
         IPublisherRepository $publisherRepository,
         ISearchBookRepository $searchBookRepository
-    )
-    {
+    ) {
         $this->bookRepository = $bookRepository;
         $this->genreRepository = $genreRepository;
         $this->authorRepository = $authorRepository;
@@ -34,12 +37,11 @@ class SearchController extends Controller
     }
 
     /**
-     * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function index(Request $request)
     {
-        $books = new Collection();
+        $books = new Collection;
         if ($request->has('query') && $request->filled('query')) {
             $books = $this->searchBookRepository->search($request->get('query'));
         }

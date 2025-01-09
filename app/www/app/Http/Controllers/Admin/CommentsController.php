@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Repository\ICommentRepository;
-use Illuminate\Http\Request;
 
 class CommentsController extends Controller
 {
@@ -21,13 +20,14 @@ class CommentsController extends Controller
     public function index()
     {
         $comments = $this->commentRepository->paginate(20);
+
         return view('admin.comments.index', compact('comments'));
     }
 
     /**
      * Approve comment to showing
      *
-     * @param int $id
+     * @param  int  $id
      * @return \Illuminate\Http\RedirectResponse
      */
     public function approve($id)
@@ -42,7 +42,7 @@ class CommentsController extends Controller
     /**
      * Disapprove comment to showing
      *
-     * @param int $id
+     * @param  int  $id
      * @return \Illuminate\Http\RedirectResponse
      */
     public function disapprove($id)
@@ -55,13 +55,13 @@ class CommentsController extends Controller
     }
 
     /**
-     * @param int $id
      * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(int $id)
     {
         $comment = $this->commentRepository->find($id);
         $this->commentRepository->remove($comment);
+
         return redirect()->route('admin_panel.comments.index');
     }
 }

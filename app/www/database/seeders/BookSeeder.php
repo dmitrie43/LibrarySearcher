@@ -3,10 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Book;
-use Database\Factories\AuthorFactory;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 
 class BookSeeder extends Seeder
 {

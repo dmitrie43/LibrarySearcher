@@ -40,7 +40,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(IUserRepository::class, UserRepository::class);
         $this->app->bind(ICommentRepository::class, CommentRepository::class);
 
-        if (!config('services.search.enabled')) {
+        if (! config('services.search.enabled')) {
             $this->app->bind(ISearchBookRepository::class, SearchBookRepository::class);
         } else {
             $this->app->bind(ISearchBookRepository::class, ElasticsearchBookRepository::class);

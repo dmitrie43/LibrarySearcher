@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post('/auth/login', [AuthController::class, 'login']);
-Route::group(['middleware' => 'auth:sanctum'], function() {
+Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::post('/user', function (Request $request) {
         return [
             'data' => $request->user(),
@@ -27,10 +27,10 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
     });
 });
 
-Route::group(['prefix' => '/book'], function() {
+Route::group(['prefix' => '/book'], function () {
     Route::get('/get', [BookController::class, 'get']);
 });
 
-Route::group(['prefix' => '/genre'], function() {
+Route::group(['prefix' => '/genre'], function () {
     Route::get('/get', [GenreController::class, 'get']);
 });

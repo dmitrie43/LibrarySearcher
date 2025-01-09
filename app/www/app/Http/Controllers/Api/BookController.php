@@ -10,27 +10,26 @@ use Illuminate\Http\Request;
 class BookController extends Controller
 {
     private IBookRepository $bookRepository;
+
     private IGenreRepository $genreRepository;
 
     public function __construct(
         IBookRepository $bookRepository,
         IGenreRepository $genreRepository
-    )
-    {
+    ) {
         $this->bookRepository = $bookRepository;
         $this->genreRepository = $genreRepository;
     }
 
     /**
-     * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function get(Request $request)
     {
         try {
             $request->validate([
-                "genre" => ['nullable', 'integer'],
-                "limit" => ['nullable', 'integer'],
+                'genre' => ['nullable', 'integer'],
+                'limit' => ['nullable', 'integer'],
             ]);
 
             $limit = isset($request->limit) ? $request->limit : 10;

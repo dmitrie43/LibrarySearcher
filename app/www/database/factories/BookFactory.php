@@ -5,9 +5,6 @@ namespace Database\Factories;
 use App\Models\Book;
 use App\Repository\Eloquent\BookRepository;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
 
 class BookFactory extends Factory
 {
@@ -18,12 +15,13 @@ class BookFactory extends Factory
      */
     public function definition()
     {
-        $bookRepository = new BookRepository(new Book());
+        $bookRepository = new BookRepository(new Book);
         $bookRepository->setDefaultPathCoverImg(public_path('img/template.jpg'));
         $bookRepository->uploadCoverImg($bookRepository->getDefaultCoverImg());
         $ageRatings = [
-            '0+', '6+', '12+', '16+', '18+'
+            '0+', '6+', '12+', '16+', '18+',
         ];
+
         return [
             'name' => $this->faker->name(),
             'date_publish' => $this->faker->date('Y-m-d'),

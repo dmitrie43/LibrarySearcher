@@ -41,11 +41,7 @@ class Book extends Model
         return $this->belongsToMany(Genre::class, 'genre_book', 'book_id', 'genre_id');
     }
 
-    /**
-     * @param string $query
-     * @return Collection
-     */
-    public function defaultSearch(string $query) : Collection
+    public function defaultSearch(string $query): Collection
     {
         return $this->query()
             ->where('name', 'like', "%{$query}%")

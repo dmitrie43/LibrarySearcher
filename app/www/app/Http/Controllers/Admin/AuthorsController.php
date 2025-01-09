@@ -3,15 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Role;
-use App\Models\Author;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules;
 use App\Repository\IAuthorRepository;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
 
 class AuthorsController extends Controller
 {
@@ -28,6 +22,7 @@ class AuthorsController extends Controller
     public function index()
     {
         $authors = $this->authorRepository->all();
+
         return view('admin.authors.index', compact('authors'));
     }
 
@@ -40,8 +35,8 @@ class AuthorsController extends Controller
     }
 
     /**
-     * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
+     *
      * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request)
@@ -65,19 +60,18 @@ class AuthorsController extends Controller
     }
 
     /**
-     * @param int $id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function edit(int $id)
     {
         $author = $this->authorRepository->find($id);
+
         return view('admin.authors.edit', compact('author'));
     }
 
     /**
-     * @param Request $request
-     * @param int $id
      * @return \Illuminate\Http\RedirectResponse
+     *
      * @throws \Illuminate\Validation\ValidationException
      */
     public function update(Request $request, int $id)
@@ -87,7 +81,7 @@ class AuthorsController extends Controller
             'photo' => ['image', 'nullable'],
         ]);
 
-        DB::transaction(function() use ($id, $request) {
+        DB::transaction(function () use ($id, $request) {
             $author = $this->authorRepository->find($id);
             foreach ($request->all() as $key => $item) {
                 if (($request->filled($key) || $request->hasFile($key)) && in_array($key, $author->getFillable())) {
@@ -112,13 +106,13 @@ class AuthorsController extends Controller
     }
 
     /**
-     * @param int $id
      * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(int $id)
     {
         $author = $this->authorRepository->find($id);
         $this->authorRepository->remove($author);
+
         return redirect()->route('admin_panel.authors.index');
     }
 }

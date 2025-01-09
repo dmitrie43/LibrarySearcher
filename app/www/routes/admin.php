@@ -1,12 +1,12 @@
 <?php
 
+use App\Http\Controllers\Admin\AuthorsController;
 use App\Http\Controllers\Admin\BooksController;
 use App\Http\Controllers\Admin\CommentsController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\GenresController;
 use App\Http\Controllers\Admin\PublishersController;
 use App\Http\Controllers\Admin\UsersController;
-use App\Http\Controllers\Admin\AuthorsController;
-use App\Http\Controllers\Admin\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,27 +21,27 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [DashboardController::class, 'index'])->name('admin_panel.dashboard');
-//users
+// users
 Route::resource('/users', UsersController::class)
     ->except(['show'])
     ->names('admin_panel.users');
-//authors
+// authors
 Route::resource('/authors', AuthorsController::class)
     ->except(['show'])
     ->names('admin_panel.authors');
-//genres
+// genres
 Route::resource('/genres', GenresController::class)
     ->except(['show'])
     ->names('admin_panel.genres');
-//publishers
+// publishers
 Route::resource('/publishers', PublishersController::class)
     ->except(['show'])
     ->names('admin_panel.publishers');
-//books
+// books
 Route::resource('/books', BooksController::class)
     ->except(['show'])
     ->names('admin_panel.books');
-//comments
+// comments
 Route::resource('/comments', CommentsController::class)
     ->except(['show', 'create', 'store', 'edit', 'update'])
     ->names('admin_panel.comments');

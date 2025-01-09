@@ -26,7 +26,6 @@ class ReindexCommand extends Command
 
     /**
      * ReindexCommand constructor.
-     * @param Client $elasticsearch
      */
     public function __construct(Client $elasticsearch)
     {
@@ -42,9 +41,8 @@ class ReindexCommand extends Command
     public function handle()
     {
         $this->info('Indexing all...');
-        //Books
-        foreach (Book::cursor() as $item)
-        {
+        // Books
+        foreach (Book::cursor() as $item) {
             $this->elasticsearch->index([
                 'index' => $item->getSearchIndex(),
                 'type' => $item->getSearchType(),

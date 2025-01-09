@@ -4,16 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Role;
-use App\Models\User;
+use App\Repository\IUserRepository;
 use Illuminate\Auth\Events\Registered;
-use Illuminate\Http\UploadedFile;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Validation\Rules;
-use App\Repository\IUserRepository;
-use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules;
 
 class UsersController extends Controller
 {
@@ -30,6 +27,7 @@ class UsersController extends Controller
     public function index()
     {
         $users = $this->userRepository->all();
+
         return view('admin.users.index', compact('users'));
     }
 
@@ -39,12 +37,13 @@ class UsersController extends Controller
     public function create()
     {
         $roles = Role::all();
+
         return view('admin.users.create', compact('roles'));
     }
 
     /**
-     * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
+     *
      * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request)
@@ -76,20 +75,19 @@ class UsersController extends Controller
     }
 
     /**
-     * @param int $id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function edit(int $id)
     {
         $user = $this->userRepository->find($id);
         $roles = Role::all();
+
         return view('admin.users.edit', compact('user', 'roles'));
     }
 
     /**
-     * @param Request $request
-     * @param int $id
      * @return \Illuminate\Http\RedirectResponse
+     *
      * @throws \Illuminate\Validation\ValidationException
      */
     public function update(Request $request, int $id)
@@ -101,7 +99,7 @@ class UsersController extends Controller
             'avatar' => ['image', 'nullable'],
         ]);
 
-        DB::transaction(function() use ($id, $request) {
+        DB::transaction(function () use ($id, $request) {
             $user = $this->userRepository->find($id);
             foreach ($request->all() as $key => $item) {
                 if (($request->filled($key) || $request->hasFile($key)) && isset($user->$key)) {
@@ -129,13 +127,13 @@ class UsersController extends Controller
     }
 
     /**
-     * @param int $id
      * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(int $id)
     {
         $user = $this->userRepository->find($id);
         $this->userRepository->remove($user);
+
         return redirect()->route('admin_panel.users.index');
     }
 }

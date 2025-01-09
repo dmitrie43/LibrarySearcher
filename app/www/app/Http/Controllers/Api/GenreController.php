@@ -12,21 +12,19 @@ class GenreController extends Controller
 
     public function __construct(
         IGenreRepository $genreRepository
-    )
-    {
+    ) {
         $this->genreRepository = $genreRepository;
     }
 
     /**
-     * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function get(Request $request)
     {
         try {
             $request->validate([
-                "id" => ['nullable', 'integer'],
-                "limit" => ['nullable', 'integer'],
+                'id' => ['nullable', 'integer'],
+                'limit' => ['nullable', 'integer'],
             ]);
 
             $limit = isset($request->limit) ? $request->limit : 10;

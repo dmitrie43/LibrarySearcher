@@ -30,7 +30,7 @@ Route::get('/comments/{section}/{item_id}', [CommentController::class, 'index'])
 Route::post('/set-review', [CommentController::class, 'setReview'])->name('comments.set_review');
 
 Route::middleware(['auth'])->group(function () {
-    //profile
+    // profile
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
 });
 

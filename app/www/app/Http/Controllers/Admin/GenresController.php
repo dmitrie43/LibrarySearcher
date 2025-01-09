@@ -22,6 +22,7 @@ class GenresController extends Controller
     public function index()
     {
         $genres = $this->genreRepository->all();
+
         return view('admin.genres.index', compact('genres'));
     }
 
@@ -34,8 +35,8 @@ class GenresController extends Controller
     }
 
     /**
-     * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
+     *
      * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request)
@@ -52,19 +53,18 @@ class GenresController extends Controller
     }
 
     /**
-     * @param int $id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function edit(int $id)
     {
         $genre = $this->genreRepository->find($id);
+
         return view('admin.genres.edit', compact('genre'));
     }
 
     /**
-     * @param Request $request
-     * @param int $id
      * @return \Illuminate\Http\RedirectResponse
+     *
      * @throws \Illuminate\Validation\ValidationException
      */
     public function update(Request $request, int $id)
@@ -73,7 +73,7 @@ class GenresController extends Controller
             'name' => ['string', 'max:255', 'nullable'],
         ]);
 
-        DB::transaction(function() use ($id, $request) {
+        DB::transaction(function () use ($id, $request) {
             $genre = $this->genreRepository->find($id);
             foreach ($request->all() as $key => $item) {
                 if (($request->filled($key) || $request->hasFile($key)) && in_array($key, $genre->getFillable())) {
@@ -91,13 +91,13 @@ class GenresController extends Controller
     }
 
     /**
-     * @param int $id
      * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(int $id)
     {
         $genre = $this->genreRepository->find($id);
         $this->genreRepository->remove($genre);
+
         return redirect()->route('admin_panel.genres.index');
     }
 }

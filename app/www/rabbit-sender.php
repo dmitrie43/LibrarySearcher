@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__.'/vendor/autoload.php';
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;
 
@@ -17,7 +17,8 @@ function fib($n)
     if ($n == 1) {
         return 1;
     }
-    return fib($n-1) + fib($n-2);
+
+    return fib($n - 1) + fib($n - 2);
 }
 
 echo " [x] Awaiting RPC requests\n";
@@ -27,7 +28,7 @@ $callback = function ($req) {
 
     $msg = new AMQPMessage(
         (string) fib($n),
-        array('correlation_id' => $req->get('correlation_id'))
+        ['correlation_id' => $req->get('correlation_id')]
     );
 
     $req->getChannel()->basic_publish(

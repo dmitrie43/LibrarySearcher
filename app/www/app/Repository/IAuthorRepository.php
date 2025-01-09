@@ -4,7 +4,6 @@ namespace App\Repository;
 
 use App\Models\Author;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Collection;
 
 interface IAuthorRepository
 {

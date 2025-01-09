@@ -1,15 +1,19 @@
 <?php
 
-require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__.'/vendor/autoload.php';
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;
 
 class FibonacciRpcClient
 {
     private $connection;
+
     private $channel;
+
     private $callback_queue;
+
     private $response;
+
     private $corr_id;
 
     public function __construct()
@@ -21,8 +25,8 @@ class FibonacciRpcClient
             'guest'
         );
         $this->channel = $this->connection->channel();
-        list($this->callback_queue, ,) = $this->channel->queue_declare(
-            "",
+        [$this->callback_queue] = $this->channel->queue_declare(
+            '',
             false,
             false,
             true,
@@ -35,10 +39,10 @@ class FibonacciRpcClient
             true,
             false,
             false,
-            array(
+            [
                 $this,
-                'onResponse'
-            )
+                'onResponse',
+            ]
         );
     }
 
@@ -56,20 +60,21 @@ class FibonacciRpcClient
 
         $msg = new AMQPMessage(
             (string) $n,
-            array(
+            [
                 'correlation_id' => $this->corr_id,
-                'reply_to' => $this->callback_queue
-            )
+                'reply_to' => $this->callback_queue,
+            ]
         );
         $this->channel->basic_publish($msg, '', 'rpc_queue');
-        while (!$this->response) {
+        while (! $this->response) {
             $this->channel->wait();
         }
+
         return intval($this->response);
     }
 }
 
-$fibonacci_rpc = new FibonacciRpcClient();
+$fibonacci_rpc = new FibonacciRpcClient;
 for ($i = 0; $i < 20; $i++) {
     $response = $fibonacci_rpc->call(10);
     echo ' [.] Got ', $response, "\n";

@@ -25,7 +25,6 @@ class DeleteIndexCommand extends Command
 
     /**
      * ReindexCommand constructor.
-     * @param Client $elasticsearch
      */
     public function __construct(Client $elasticsearch)
     {

@@ -6,5 +6,5 @@ use Illuminate\Support\Collection;
 
 interface ICommentRepository
 {
-    public function getComments(int $item_id, int $section_id) : Collection;
+    public function getComments(int $item_id, int $section_id): Collection;
 }

@@ -4,8 +4,6 @@ namespace Tests\Feature\Api;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class ApiUserTest extends TestCase
@@ -31,7 +29,7 @@ class ApiUserTest extends TestCase
         $this->assertIsString($responseContent->token);
 
         $response = $this->withHeaders([
-            'Authorization' => 'Bearer '.$responseContent->token
+            'Authorization' => 'Bearer '.$responseContent->token,
         ])->postJson('/api/user');
         $response
             ->assertStatus(200)
