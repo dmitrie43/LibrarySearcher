@@ -7,7 +7,7 @@ use App\Repository\IAuthorRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class AuthorsController extends Controller
+class AuthorController extends Controller
 {
     private IAuthorRepository $authorRepository;
 

@@ -7,7 +7,7 @@ use App\Repository\IPublisherRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class PublishersController extends Controller
+class PublisherController extends Controller
 {
     private IPublisherRepository $publisherRepository;
 

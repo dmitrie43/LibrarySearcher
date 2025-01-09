@@ -1,12 +1,12 @@
 <?php
 
-use App\Http\Controllers\Admin\AuthorsController;
-use App\Http\Controllers\Admin\BooksController;
-use App\Http\Controllers\Admin\CommentsController;
+use App\Http\Controllers\Admin\AuthorController;
+use App\Http\Controllers\Admin\BookController;
+use App\Http\Controllers\Admin\CommentController;
 use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\GenresController;
-use App\Http\Controllers\Admin\PublishersController;
-use App\Http\Controllers\Admin\UsersController;
+use App\Http\Controllers\Admin\GenreController;
+use App\Http\Controllers\Admin\PublisherController;
+use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,32 +22,32 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [DashboardController::class, 'index'])->name('admin_panel.dashboard');
 // users
-Route::resource('/users', UsersController::class)
+Route::resource('/users', UserController::class)
     ->except(['show'])
     ->names('admin_panel.users');
 // authors
-Route::resource('/authors', AuthorsController::class)
+Route::resource('/authors', AuthorController::class)
     ->except(['show'])
     ->names('admin_panel.authors');
 // genres
-Route::resource('/genres', GenresController::class)
+Route::resource('/genres', GenreController::class)
     ->except(['show'])
     ->names('admin_panel.genres');
 // publishers
-Route::resource('/publishers', PublishersController::class)
+Route::resource('/publishers', PublisherController::class)
     ->except(['show'])
     ->names('admin_panel.publishers');
 // books
-Route::resource('/books', BooksController::class)
+Route::resource('/books', BookController::class)
     ->except(['show'])
     ->names('admin_panel.books');
 // comments
-Route::resource('/comments', CommentsController::class)
+Route::resource('/comments', CommentController::class)
     ->except(['show', 'create', 'store', 'edit', 'update'])
     ->names('admin_panel.comments');
-Route::get('/comments/approve/{id}', [CommentsController::class, 'approve'])
+Route::get('/comments/approve/{id}', [CommentController::class, 'approve'])
     ->name('admin_panel.comments.approve');
-Route::get('/comments/disapprove/{id}', [CommentsController::class, 'disapprove'])
+Route::get('/comments/disapprove/{id}', [CommentController::class, 'disapprove'])
     ->name('admin_panel.comments.disapprove');
 
 require __DIR__.'/auth.php';

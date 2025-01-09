@@ -7,7 +7,7 @@ use App\Repository\IGenreRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class GenresController extends Controller
+class GenreController extends Controller
 {
     private IGenreRepository $genreRepository;
 

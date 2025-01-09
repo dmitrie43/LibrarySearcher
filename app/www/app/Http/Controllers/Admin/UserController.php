@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules;
 
-class UsersController extends Controller
+class UserController extends Controller
 {
     private IUserRepository $userRepository;
 

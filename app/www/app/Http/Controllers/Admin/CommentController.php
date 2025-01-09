@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Repository\ICommentRepository;
 
-class CommentsController extends Controller
+class CommentController extends Controller
 {
     private ICommentRepository $commentRepository;
 

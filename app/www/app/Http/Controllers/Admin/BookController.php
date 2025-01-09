@@ -10,7 +10,7 @@ use App\Repository\IPublisherRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class BooksController extends Controller
+class BookController extends Controller
 {
     private IBookRepository $bookRepository;
 
