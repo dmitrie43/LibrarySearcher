@@ -21,10 +21,6 @@ class IndexController extends Controller
         $this->genreRepository = $genreRepository;
     }
 
-    /**
-     * @param IndexRequest $request
-     * @return View
-     */
     public function index(IndexRequest $request): View
     {
         $noveltyBooks = $this->bookRepository->getNovelties(3);

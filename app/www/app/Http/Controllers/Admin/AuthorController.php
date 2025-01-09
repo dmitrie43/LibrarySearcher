@@ -3,58 +3,36 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Repository\IAuthorRepository;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use App\Http\Requests\Authors\StoreRequest;
+use App\Http\Requests\Authors\UpdateRequest;
+use App\Models\Author;
+use App\Services\FileUploader;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\View\View;
 
 class AuthorController extends Controller
 {
-    private IAuthorRepository $authorRepository;
-
-    public function __construct(IAuthorRepository $authorRepository)
+    public function index(): View
     {
-        $this->authorRepository = $authorRepository;
-    }
-
-    /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
-     */
-    public function index()
-    {
-        $authors = $this->authorRepository->all();
+        $authors = Author::query()->get();
 
         return view('admin.authors.index', compact('authors'));
     }
 
-    /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
-     */
-    public function create()
+    public function create(): View
     {
         return view('admin.authors.create');
     }
 
-    /**
-     * @return \Illuminate\Http\RedirectResponse
-     *
-     * @throws \Illuminate\Validation\ValidationException
-     */
-    public function store(Request $request)
+    public function store(StoreRequest $request): RedirectResponse
     {
-        $request->validate([
-            'full_name' => ['required', 'string', 'max:255'],
-            'photo' => ['image'],
-        ]);
-
+        $photo = null;
         if ($request->hasFile('photo')) {
-            $this->authorRepository->uploadPhoto($request->file('photo'));
+            $photo = FileUploader::uploadImage($request->file('photo'));
         }
-        $photo = $this->authorRepository->photo ? $this->authorRepository->photo : null;
 
-        $this->authorRepository->create([
-            'full_name' => $request->full_name,
-            'photo' => $photo,
-        ]);
+        Author::create(array_merge($request->validated(), ['photo' => $photo]));
 
         return redirect()->route('admin_panel.authors.index');
     }
@@ -62,56 +40,27 @@ class AuthorController extends Controller
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function edit(int $id)
+    public function edit(Author $author)
     {
-        $author = $this->authorRepository->find($id);
-
         return view('admin.authors.edit', compact('author'));
     }
 
-    /**
-     * @return \Illuminate\Http\RedirectResponse
-     *
-     * @throws \Illuminate\Validation\ValidationException
-     */
-    public function update(Request $request, int $id)
+    public function update(UpdateRequest $request, Author $author): RedirectResponse
     {
-        $request->validate([
-            'name' => ['string', 'max:255', 'nullable'],
-            'photo' => ['image', 'nullable'],
-        ]);
+        $photo = $author->photo;
+        if ($request->hasFile('photo')) {
+            Storage::delete($photo);
+            $photo = FileUploader::uploadImage($request->file('photo'));
+        }
 
-        DB::transaction(function () use ($id, $request) {
-            $author = $this->authorRepository->find($id);
-            foreach ($request->all() as $key => $item) {
-                if (($request->filled($key) || $request->hasFile($key)) && in_array($key, $author->getFillable())) {
-                    switch ($key) {
-                        case 'photo':
-                            if ($request->hasFile($key)) {
-                                $this->authorRepository->removePhoto($author);
-                                $this->authorRepository->uploadPhoto($request->file($key));
-                                $author->$key = $this->authorRepository->$key;
-                            }
-                            break;
-                        default:
-                            $author->$key = $item;
-                            break;
-                    }
-                }
-            }
-            $author->save();
-        });
+        $author->update(array_merge($request->validated(), ['photo' => $photo]));
 
         return redirect()->route('admin_panel.authors.index');
     }
 
-    /**
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function destroy(int $id)
+    public function destroy(Author $author): RedirectResponse
     {
-        $author = $this->authorRepository->find($id);
-        $this->authorRepository->remove($author);
+        $author->delete();
 
         return redirect()->route('admin_panel.authors.index');
     }

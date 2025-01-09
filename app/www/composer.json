@@ -13,6 +13,7 @@
         "laravel/horizon": "^5.14",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.5",
+        "nesbot/carbon": "3.8.4",
         "php-amqplib/php-amqplib": "^3.7",
         "predis/predis": "^2.1"
     },

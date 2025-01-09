@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ReviewCreate;
 use App\Http\Requests\Comments\IndexRequest;
 use App\Http\Requests\Comments\SetReviewRequest;
-use App\Jobs\ProcessFormReview;
 use App\Models\SectionComment;
 use App\Repository\ICommentRepository;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
@@ -21,10 +20,6 @@ class CommentController extends Controller
         $this->commentRepository = $commentRepository;
     }
 
-    /**
-     * @param IndexRequest $request
-     * @return View
-     */
     public function index(IndexRequest $request): View
     {
         $section = SectionComment::where('name', $request->section)->firstOrFail();
@@ -33,17 +28,10 @@ class CommentController extends Controller
         return view('comments.index', compact('comments'));
     }
 
-    /**
-     * @param SetReviewRequest $request
-     * @return RedirectResponse
-     */
     public function setReview(SetReviewRequest $request): RedirectResponse
     {
-        if (! Auth::check()) {
-            back();
-        }
-
-        ProcessFormReview::dispatch($request->all(), Auth::id());
+        // TODO auth check in gate
+        event(new ReviewCreate($request->validated()));
 
         return back();
     }

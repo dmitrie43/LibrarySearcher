@@ -6,7 +6,7 @@ use Elastic\Elasticsearch\Client;
 
 class ElasticsearchObserver
 {
-    private $elasticsearch;
+    private Client $elasticsearch;
 
     public function __construct(Client $elasticsearch)
     {

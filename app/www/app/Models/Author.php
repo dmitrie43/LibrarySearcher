@@ -2,15 +2,20 @@
 
 namespace App\Models;
 
+use App\Traits\HasImage;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Author extends Model
 {
-    use HasFactory;
+    use HasFactory, HasImage;
 
     protected $fillable = [
         'full_name',
+        'photo',
+    ];
+
+    protected array $images = [
         'photo',
     ];
 

@@ -8,7 +8,6 @@ use App\Repository\IBookRepository;
 use App\Repository\IGenreRepository;
 use App\Repository\IPublisherRepository;
 use App\Repository\Search\ISearchBookRepository;
-use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\View\View;
 
@@ -38,10 +37,6 @@ class SearchController extends Controller
         $this->searchBookRepository = $searchBookRepository;
     }
 
-    /**
-     * @param IndexRequest $request
-     * @return View
-     */
     public function index(IndexRequest $request): View
     {
         $books = new Collection;
