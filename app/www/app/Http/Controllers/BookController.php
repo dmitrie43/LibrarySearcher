@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Books\IndexRequest;
 use App\Models\SectionComment;
 use App\Repository\IAuthorRepository;
 use App\Repository\IBookRepository;
@@ -9,7 +10,6 @@ use App\Repository\ICommentRepository;
 use App\Repository\IGenreRepository;
 use App\Repository\IPublisherRepository;
 use Illuminate\Contracts\View\View;
-use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
@@ -40,7 +40,7 @@ class BookController extends Controller
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function index(Request $request): View
+    public function index(IndexRequest $request): View
     {
         $books = $this->bookRepository->getBooksByFilter($request);
         $genres = $this->genreRepository->all();

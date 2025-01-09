@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Comments\IndexRequest;
+use App\Http\Requests\Comments\SetReviewRequest;
 use App\Jobs\ProcessFormReview;
 use App\Models\SectionComment;
 use App\Repository\ICommentRepository;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -18,9 +22,10 @@ class CommentController extends Controller
     }
 
     /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @param IndexRequest $request
+     * @return View
      */
-    public function index(Request $request)
+    public function index(IndexRequest $request): View
     {
         $section = SectionComment::where('name', $request->section)->firstOrFail();
         $comments = $this->commentRepository->getComments($request->item_id, intval($section->id));
@@ -29,21 +34,14 @@ class CommentController extends Controller
     }
 
     /**
-     * @return \Illuminate\Http\RedirectResponse
+     * @param SetReviewRequest $request
+     * @return RedirectResponse
      */
-    public function setReview(Request $request)
+    public function setReview(SetReviewRequest $request): RedirectResponse
     {
         if (! Auth::check()) {
             back();
         }
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255'],
-            'theme' => ['required', 'string', 'max:255'],
-            'text' => ['required', 'string'],
-            'section' => ['required', 'string'],
-            'item_id' => ['required', 'integer'],
-        ]);
 
         ProcessFormReview::dispatch($request->all(), Auth::id());
 

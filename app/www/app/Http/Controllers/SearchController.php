@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Search\IndexRequest;
 use App\Repository\IAuthorRepository;
 use App\Repository\IBookRepository;
 use App\Repository\IGenreRepository;
@@ -9,6 +10,7 @@ use App\Repository\IPublisherRepository;
 use App\Repository\Search\ISearchBookRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\View\View;
 
 class SearchController extends Controller
 {
@@ -37,9 +39,10 @@ class SearchController extends Controller
     }
 
     /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @param IndexRequest $request
+     * @return View
      */
-    public function index(Request $request)
+    public function index(IndexRequest $request): View
     {
         $books = new Collection;
         if ($request->has('query') && $request->filled('query')) {

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\IndexRequest;
 use App\Repository\IBookRepository;
 use App\Repository\IGenreRepository;
+use Illuminate\View\View;
 
 class IndexController extends Controller
 {
@@ -19,7 +21,11 @@ class IndexController extends Controller
         $this->genreRepository = $genreRepository;
     }
 
-    public function index()
+    /**
+     * @param IndexRequest $request
+     * @return View
+     */
+    public function index(IndexRequest $request): View
     {
         $noveltyBooks = $this->bookRepository->getNovelties(3);
         $genres = $this->genreRepository->getGenresWithBooks();

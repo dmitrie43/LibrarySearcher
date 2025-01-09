@@ -43,10 +43,9 @@ class ProcessFormReview implements ShouldQueue
                     'item_id' => $request['item_id'],
                 ]);
                 $review->user_id = $user_id;
-                $section = SectionComment::where('name', $request['section'])->first();
-                if (empty($section)) {
-                    throw new NotFound;
-                }
+                $section = SectionComment::query()
+                    ->where('name', $request['section'])
+                    ->firstOrFail();
                 $review->section = $section->id;
                 $review->save();
             });
