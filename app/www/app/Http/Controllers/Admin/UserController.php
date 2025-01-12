@@ -93,7 +93,7 @@ class UserController extends Controller
             if (! empty($avatar)) {
                 Storage::delete($avatar);
             }
-            $avatar = FileUploader::uploadImage($request->file('avatar'));
+            $avatar = FileUploader::uploadAvatar($request->file('avatar'));
         }
 
         $user->update(array_merge($request->validated(), [
