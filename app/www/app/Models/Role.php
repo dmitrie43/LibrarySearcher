@@ -14,6 +14,7 @@ class Role extends Model
         return self::where('code', 'user')->first();
     }
 
+    //TODO
     public static function getAllowAdminPanelRolesId(): array
     {
         $arItems = self::where('access_admin_panel', '1')->select('id')->get()->toArray();

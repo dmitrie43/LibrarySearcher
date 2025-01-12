@@ -232,4 +232,11 @@ return [
 
     ],
 
+    'paths' => [
+        'images' => 'storage/images',
+        'avatars' => 'storage/avatars',
+        'book_files' => 'storage/books/files',
+        'book_covers' => 'storage/books/covers',
+    ],
+
 ];

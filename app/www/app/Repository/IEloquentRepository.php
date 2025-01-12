@@ -2,4 +2,9 @@
 
 namespace App\Repository;
 
-interface IEloquentRepository {}
+use Illuminate\Database\Eloquent\Collection;
+
+interface IEloquentRepository
+{
+    public function getAll(): Collection;
+}

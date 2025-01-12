@@ -9,13 +9,5 @@ interface IUserRepository
 {
     public function isAllowAdminPanel(User $user);
 
-    public function getDefaultPathAvatar();
-
-    public function getDefaultAvatar(): UploadedFile;
-
-    public function uploadAvatar(UploadedFile $image);
-
-    public function removeAvatar(User $user);
-
     public function getByEmail(string $email);
 }

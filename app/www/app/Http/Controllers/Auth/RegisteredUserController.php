@@ -3,22 +3,25 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\RegisterRequest;
 use App\Models\Role;
+use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use App\Repository\IUserRepository;
+use App\Services\FileUploader;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules;
+use Illuminate\View\View;
 
 class RegisteredUserController extends Controller
 {
-    private IUserRepository $userRepository;
-
-    public function __construct(IUserRepository $userRepository)
+    public function __construct(
+        private IUserRepository $userRepository,
+    )
     {
-        $this->userRepository = $userRepository;
     }
 
     /**
@@ -26,7 +29,7 @@ class RegisteredUserController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function create()
+    public function create(): View
     {
         return view('auth.register');
     }
@@ -38,24 +41,21 @@ class RegisteredUserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request)
+    public function store(RegisterRequest $request): RedirectResponse
     {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        ]);
-
         $defaultRole = Role::getDefaultRole();
 
-        $this->userRepository->uploadAvatar($this->userRepository->getDefaultAvatar());
+        $avatar = null;
+        if ($request->hasFile('avatar')) {
+            $avatar = FileUploader::uploadAvatar($request->file('avatar'));
+        }
 
-        $user = $this->userRepository->create([
+        $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role_id' => $defaultRole ? $defaultRole->id : 0,
-            'avatar' => $this->userRepository->avatar,
+            'avatar' => $avatar,
         ]);
 
         event(new Registered($user));

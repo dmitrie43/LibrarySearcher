@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Authors\StoreRequest;
 use App\Http\Requests\Authors\UpdateRequest;
 use App\Models\Author;
+use App\Repository\IAuthorRepository;
 use App\Services\FileUploader;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
@@ -13,9 +14,15 @@ use Illuminate\View\View;
 
 class AuthorController extends Controller
 {
+    public function __construct(
+        private IAuthorRepository $authorRepository
+    )
+    {
+    }
+
     public function index(): View
     {
-        $authors = Author::query()->get();
+        $authors = $this->authorRepository->getAll();
 
         return view('admin.authors.index', compact('authors'));
     }

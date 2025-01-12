@@ -11,8 +11,6 @@ use Illuminate\Support\Str;
 
 class UserRepository extends BaseRepository implements IUserRepository
 {
-    public string $avatar = '';
-
     /**
      * UserRepository constructor.
      */
@@ -26,50 +24,12 @@ class UserRepository extends BaseRepository implements IUserRepository
         return in_array($user->role_id, Role::getAllowAdminPanelRolesId());
     }
 
-    public function getDefaultPathAvatar(): ?string
-    {
-        return public_path('img/usericon.svg');
-    }
-
-    public function getDefaultAvatar(): UploadedFile
-    {
-        $file_info = pathinfo($this->getDefaultPathAvatar());
-
-        return new UploadedFile(
-            $this->getDefaultPathAvatar(),
-            $file_info['basename'],
-            mime_content_type($this->getDefaultPathAvatar())
-        );
-    }
-
-    public function uploadAvatar(UploadedFile $image): void
-    {
-        if ($image == null) {
-            return;
-        }
-        $filename = Str::random(10).'.'.$image->extension();
-        $image->storeAs('storage/', $filename);
-        $this->avatar = 'storage/'.$filename;
-    }
-
-    public function removeAvatar(User $user): void
-    {
-        if (! empty($user->avatar)) {
-            Storage::delete($user->avatar);
-        }
-    }
-
-    public function remove(User $user): void
-    {
-        $this->removeAvatar($user);
-        $user->delete();
-    }
-
     /**
-     * @return mixed
+     * @param string $email
+     * @return array|null
      */
-    public function getByEmail(string $email)
+    public function getByEmail(string $email): ?array
     {
-        return User::where('email', $email)->first();
+        return User::query()->where('email', $email)->first();
     }
 }

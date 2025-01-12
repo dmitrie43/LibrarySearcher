@@ -3,22 +3,27 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\User\StoreRequest;
+use App\Http\Requests\User\UpdateRequest;
 use App\Models\Role;
+use App\Models\User;
 use App\Repository\IUserRepository;
+use App\Services\FileUploader;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules;
 
 class UserController extends Controller
 {
-    private IUserRepository $userRepository;
-
-    public function __construct(IUserRepository $userRepository)
+    public function __construct(
+        private IUserRepository $userRepository
+    )
     {
-        $this->userRepository = $userRepository;
     }
 
     /**
@@ -26,7 +31,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = $this->userRepository->all();
+        $users = $this->userRepository->getAll();
 
         return view('admin.users.index', compact('users'));
     }
@@ -46,27 +51,19 @@ class UserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', Rules\Password::defaults()],
-            'avatar' => ['image'],
-        ]);
-
+        $avatar = null;
         if ($request->hasFile('avatar')) {
-            $this->userRepository->uploadAvatar($request->file('avatar'));
-        } else {
-            $this->userRepository->uploadAvatar($this->userRepository->getDefaultAvatar());
+            $avatar = FileUploader::uploadAvatar($request->file('avatar'));
         }
 
-        $user = $this->userRepository->create([
+        $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role_id' => $request->role,
-            'avatar' => $this->userRepository->avatar,
+            'avatar' => $avatar,
         ]);
 
         event(new Registered($user));
@@ -77,9 +74,8 @@ class UserController extends Controller
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function edit(int $id)
+    public function edit(User $user)
     {
-        $user = $this->userRepository->find($id);
         $roles = Role::all();
 
         return view('admin.users.edit', compact('user', 'roles'));
@@ -90,38 +86,20 @@ class UserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function update(Request $request, int $id)
+    public function update(UpdateRequest $request, User $user)
     {
-        $request->validate([
-            'name' => ['string', 'max:255', 'nullable'],
-            'email' => ['string', 'email', 'max:255', Rule::unique('users')->ignore($id), 'nullable'],
-            'password' => [Rules\Password::defaults(), 'nullable'],
-            'avatar' => ['image', 'nullable'],
-        ]);
-
-        DB::transaction(function () use ($id, $request) {
-            $user = $this->userRepository->find($id);
-            foreach ($request->all() as $key => $item) {
-                if (($request->filled($key) || $request->hasFile($key)) && isset($user->$key)) {
-                    switch ($key) {
-                        case 'avatar':
-                            if ($request->hasFile($key)) {
-                                $this->userRepository->removeAvatar($user);
-                                $this->userRepository->uploadAvatar($request->file($key));
-                                $user->$key = $this->userRepository->$key;
-                            }
-                            break;
-                        case 'password':
-                            $user->$key = Hash::make($item);
-                            break;
-                        default:
-                            $user->$key = $item;
-                            break;
-                    }
-                }
+        $avatar = $user->avatar;
+        if ($request->hasFile('avatar')) {
+            if (! empty($avatar)) {
+                Storage::delete($avatar);
             }
-            $user->save();
-        });
+            $avatar = FileUploader::uploadImage($request->file('avatar'));
+        }
+
+        $user->update(array_merge($request->validated(), [
+            'avatar' => $avatar,
+            'password' => Hash::make($request->input('password')),
+        ]));
 
         return redirect()->route('admin_panel.users.index');
     }
@@ -129,10 +107,9 @@ class UserController extends Controller
     /**
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy(int $id)
+    public function destroy(User $user): RedirectResponse
     {
-        $user = $this->userRepository->find($id);
-        $this->userRepository->remove($user);
+        $user->delete();
 
         return redirect()->route('admin_panel.users.index');
     }
