@@ -77,14 +77,8 @@
                                                 <div class="creatorImg">
                                                     <img class="img-fluid" src="{{$book->cover_img}}" alt="img">
                                                 </div>
-                                                @if(!empty($book->author->photo))
-                                                    <div class="creatorIcon">
-                                                        <img class="img-fluid" src="{{$book->author->photo}}" alt="">
-                                                        <div class="creatorcheck"><img src="{{asset('img/checkicon.svg')}}" alt="img"></div>
-                                                    </div>
-                                                @endif
                                                 <div class="creatorsText text-center">
-                                                    <h2 class="textwhitecolor">{{$book->author->name}}</h2>
+                                                    <h2 class="textwhitecolor">{{$book->name}}</h2>
                                                     <h3 class="textbluecolor">{{$book->author->full_name}}</h3>
                                                 </div>
                                             </a>
@@ -738,9 +732,8 @@
         </div>
     </div>
 </div>
-*/?>
-
-    <? /*
+*/
+    /*
 <!-- Last Added Items -->
 <div class="LastAddedItems mt-5 pt-3">
     <div class="container">
@@ -866,6 +859,7 @@
                                     <div class="bgdarkbluecolor aboutitemcnt">
                                         <div class="itemtitlecode">
                                             <h3 class="textwhitecolor">{{$book->name}}</h3>
+                                            <h3 class="textwhitecolor">{{$book->author->full_name}}</h3>
                                         </div>
                                     </div>
                                 </div>

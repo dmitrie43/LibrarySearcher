@@ -5,12 +5,6 @@ function getContentBookByGenre(book) {
                             '<img class="img-fluid" src="'+ book.cover_img +'" alt="img">' +
                         '</div>';
     if (Object.keys(book.author).length > 0) {
-        if (book.author.photo !== null) {
-            content += '<div class="creatorIcon">' +
-                            '<img class="img-fluid" src="'+ book.author.photo +'" alt="">' +
-                            '<div class="creatorcheck"><img src="/img/checkicon.svg" alt="img"></div>' +
-                        '</div>';
-        }
         content += '<div class="creatorsText text-center">' +
                         '<h2 class="textwhitecolor">'+ book.name +'</h2>' +
                         '<h3 class="textbluecolor">'+ book.author.full_name +'</h3>' +
