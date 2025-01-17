@@ -10,7 +10,7 @@
             </div>
             <div class="col-md-10 row mt-3 mt-md-3">
                 <div class="col-md-6 col-xl-3 mb-4">
-                    <a href="{{route('books.detail', ['id' => $book->id])}}">
+                    <a href="{{route('books.detail', ['book' => $book->id])}}">
                         <div class="aboutitem">
                             <div class="aboutitemImg">
                                 <img class="img-fluid" src="{{asset($book->cover_img)}}" alt="img">

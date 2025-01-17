@@ -32,7 +32,7 @@ class ProcessFormReview implements ShouldQueue
                 $review = Comment::create([
                     'theme' => $this->reviewData['theme'],
                     'text' => $this->reviewData['text'],
-                    'recommended' => isset($this->reviewData['recommended']) ? '1' : '0',
+                    'is_recommended' => isset($this->reviewData['is_recommended']),
                     'item_id' => $this->reviewData['item_id'],
                 ]);
                 $review->user_id = Auth::id();

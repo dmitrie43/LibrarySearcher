@@ -6,37 +6,40 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Authors\StoreRequest;
 use App\Http\Requests\Authors\UpdateRequest;
 use App\Models\Author;
-use App\Repository\IAuthorRepository;
-use App\Services\FileUploader;
+use App\Helpers\FileUploader;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class AuthorController extends Controller
 {
-    public function __construct(
-        private IAuthorRepository $authorRepository
-    )
-    {
-    }
-
+    /**
+     * @return View
+     */
     public function index(): View
     {
-        $authors = $this->authorRepository->getAll();
+        $authors = Author::query()->get();
 
         return view('admin.authors.index', compact('authors'));
     }
 
+    /**
+     * @return View
+     */
     public function create(): View
     {
         return view('admin.authors.create');
     }
 
+    /**
+     * @param StoreRequest $request
+     * @return RedirectResponse
+     */
     public function store(StoreRequest $request): RedirectResponse
     {
         $photo = null;
         if ($request->hasFile('photo')) {
-            $photo = FileUploader::uploadImage($request->file('photo'));
+            $photo = FileUploader::upload($request->file('photo'), FileUploader::IMAGE_PATH);
         }
 
         Author::create(array_merge($request->validated(), ['photo' => $photo]));
@@ -45,19 +48,27 @@ class AuthorController extends Controller
     }
 
     /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @param Author $author
+     * @return View
      */
-    public function edit(Author $author)
+    public function edit(Author $author): View
     {
         return view('admin.authors.edit', compact('author'));
     }
 
+    /**
+     * @param UpdateRequest $request
+     * @param Author $author
+     * @return RedirectResponse
+     */
     public function update(UpdateRequest $request, Author $author): RedirectResponse
     {
-        $photo = $author->photo;
+        $photo = $author->getOriginal('photo');
         if ($request->hasFile('photo')) {
-            Storage::delete($photo);
-            $photo = FileUploader::uploadImage($request->file('photo'));
+            if ($photo) {
+                $author->removeImage('photo');
+            }
+            $photo = FileUploader::upload($request->file('photo'), FileUploader::IMAGE_PATH);
         }
 
         $author->update(array_merge($request->validated(), ['photo' => $photo]));
@@ -65,6 +76,10 @@ class AuthorController extends Controller
         return redirect()->route('admin_panel.authors.index');
     }
 
+    /**
+     * @param Author $author
+     * @return RedirectResponse
+     */
     public function destroy(Author $author): RedirectResponse
     {
         $author->delete();

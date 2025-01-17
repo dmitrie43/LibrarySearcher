@@ -22,7 +22,7 @@ Route::get('/', [IndexController::class, 'index'])->name('/');
 /* Books */
 Route::get('/books', [BookController::class, 'index'])->name('books.index');
 Route::get('/books/random', [BookController::class, 'random'])->name('books.random');
-Route::get('/books/{id}', [BookController::class, 'detail'])->name('books.detail');
+Route::get('/books/{book}', [BookController::class, 'detail'])->name('books.detail');
 /* Search */
 Route::get('/search', [SearchController::class, 'index'])->name('search');
 /* Comments */

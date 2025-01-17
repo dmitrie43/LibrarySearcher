@@ -2,20 +2,13 @@
 
 namespace App\Http\Middleware;
 
-use App\Repository\IUserRepository;
+use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class Admin
 {
-    private IUserRepository $userRepository;
-
-    public function __construct(IUserRepository $userRepository)
-    {
-        $this->userRepository = $userRepository;
-    }
-
     /**
      * Handle an incoming request.
      *
@@ -24,8 +17,11 @@ class Admin
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::check() && $this->userRepository->isAllowAdminPanel(Auth::user())) {
-            return $next($request);
+        /** @var User $user */
+        if ($user = Auth::user()) {
+            if ($user->isAllowAdminPanel()) {
+                return $next($request);
+            }
         }
         abort(404);
     }

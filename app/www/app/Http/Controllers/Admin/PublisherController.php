@@ -3,100 +3,71 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Repository\IPublisherRepository;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use App\Http\Requests\Publishers\StoreRequest;
+use App\Http\Requests\Publishers\UpdateRequest;
+use App\Models\Publisher;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class PublisherController extends Controller
 {
-    private IPublisherRepository $publisherRepository;
-
-    public function __construct(IPublisherRepository $publisherRepository)
-    {
-        $this->publisherRepository = $publisherRepository;
-    }
-
     /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return View
      */
-    public function index()
+    public function index(): View
     {
-        $publishers = $this->publisherRepository->all();
+        $publishers = Publisher::query()->get();
 
         return view('admin.publishers.index', compact('publishers'));
     }
 
     /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return View
      */
-    public function create()
+    public function create(): View
     {
         return view('admin.publishers.create');
     }
 
     /**
-     * @return \Illuminate\Http\RedirectResponse
-     *
-     * @throws \Illuminate\Validation\ValidationException
+     * @param StoreRequest $request
+     * @return RedirectResponse
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request): RedirectResponse
     {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-        ]);
-
-        $this->publisherRepository->create([
-            'name' => $request->name,
-        ]);
+        Publisher::create($request->validated());
 
         return redirect()->route('admin_panel.publishers.index');
     }
 
     /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @param Publisher $publisher
+     * @return View
      */
-    public function edit(int $id)
+    public function edit(Publisher $publisher): View
     {
-        $publisher = $this->publisherRepository->find($id);
-
         return view('admin.publishers.edit', compact('publisher'));
     }
 
     /**
-     * @return \Illuminate\Http\RedirectResponse
-     *
-     * @throws \Illuminate\Validation\ValidationException
+     * @param UpdateRequest $request
+     * @param Publisher $publisher
+     * @return RedirectResponse
      */
-    public function update(Request $request, int $id)
+    public function update(UpdateRequest $request, Publisher $publisher): RedirectResponse
     {
-        $request->validate([
-            'name' => ['string', 'max:255', 'nullable'],
-        ]);
-
-        DB::transaction(function () use ($id, $request) {
-            $publisher = $this->publisherRepository->find($id);
-            foreach ($request->all() as $key => $item) {
-                if (($request->filled($key) || $request->hasFile($key)) && in_array($key, $publisher->getFillable())) {
-                    switch ($key) {
-                        default:
-                            $publisher->$key = $item;
-                            break;
-                    }
-                }
-            }
-            $publisher->save();
-        });
+        $publisher->update($request->validated());
 
         return redirect()->route('admin_panel.publishers.index');
     }
 
     /**
-     * @return \Illuminate\Http\RedirectResponse
+     * @param Publisher $publisher
+     * @return RedirectResponse
      */
-    public function destroy(int $id)
+    public function destroy(Publisher $publisher): RedirectResponse
     {
-        $publisher = $this->publisherRepository->find($id);
-        $this->publisherRepository->remove($publisher);
+        $publisher->delete();
 
         return redirect()->route('admin_panel.publishers.index');
     }

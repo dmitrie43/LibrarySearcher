@@ -56,10 +56,10 @@ function setSlick(class_name) {
 
 function getBooksByGenre(genre_id) {
     $.ajax({
-        url: "/api/book/get", // указываем URL
-        method: "GET",            // HTTP метод, по умолчанию GET
-        data: {"genre": genre_id},         // данные, которые отправляем на сервер
-        dataType: "json",         // тип данных загружаемых с сервера
+        url: "/api/books",
+        method: "GET",
+        data: {"genre": genre_id},
+        dataType: "json",
         success: function (data) {
             let content = '';
             let popular = $('.popular');
@@ -75,10 +75,10 @@ function getBooksByGenre(genre_id) {
 
 function getBooks() {
     $.ajax({
-        url: "/api/book/get", // указываем URL
-        method: "GET",            // HTTP метод, по умолчанию GET
-        data: {},         // данные, которые отправляем на сервер
-        dataType: "json",         // тип данных загружаемых с сервера
+        url: "/api/books",
+        method: "GET",
+        data: {},
+        dataType: "json",
         success: function (data) {
             let content = '';
             let popular = $('.popular');

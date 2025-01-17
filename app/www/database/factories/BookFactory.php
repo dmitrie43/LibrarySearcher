@@ -15,9 +15,6 @@ class BookFactory extends Factory
      */
     public function definition()
     {
-        $bookRepository = new BookRepository(new Book);
-        $bookRepository->setDefaultPathCoverImg(public_path('img/template.jpg'));
-        $bookRepository->uploadCoverImg($bookRepository->getDefaultCoverImg());
         $ageRatings = [
             '0+', '6+', '12+', '16+', '18+',
         ];
@@ -25,13 +22,13 @@ class BookFactory extends Factory
         return [
             'name' => $this->faker->name(),
             'date_publish' => $this->faker->date('Y-m-d'),
-            'cover_img' => $bookRepository->cover_img,
+            'cover_img' => null,
             'pages_quantity' => $this->faker->numberBetween(100, 1000),
             'description' => $this->faker->text(255),
             'age_rating' => $ageRatings[mt_rand(0, 4)],
-            'novelty' => (string) mt_rand(0, 1),
-            'popular' => (string) mt_rand(0, 1),
-            'recommended' => (string) mt_rand(0, 1),
+            'is_novelty' => (string) mt_rand(0, 1),
+            'is_popular' => (string) mt_rand(0, 1),
+            'is_recommended' => (string) mt_rand(0, 1),
         ];
     }
 }

@@ -2,12 +2,16 @@
 
 namespace App\Models;
 
+use App\Observers\UserObserver;
 use App\Traits\HasImage;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+#[ObservedBy([UserObserver::class])]
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, HasImage;
@@ -49,10 +53,18 @@ class User extends Authenticatable
     ];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
-    public function comment()
+    public function comment(): HasMany
     {
         return $this->hasMany(Comment::class);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isAllowAdminPanel(): bool
+    {
+        return in_array($this->role_id, Role::getAllowAdminPanelRolesId());
     }
 }

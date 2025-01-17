@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 class SectionsComment extends Seeder
 {
+    //TODO morph
     /**
      * Run the database seeds.
      *

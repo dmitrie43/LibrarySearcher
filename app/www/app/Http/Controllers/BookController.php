@@ -3,80 +3,57 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Books\IndexRequest;
+use App\Models\Author;
+use App\Models\Book;
+use App\Models\Genre;
+use App\Models\Publisher;
 use App\Models\SectionComment;
-use App\Repository\IAuthorRepository;
-use App\Repository\IBookRepository;
-use App\Repository\ICommentRepository;
-use App\Repository\IGenreRepository;
-use App\Repository\IPublisherRepository;
+use App\Services\BookService;
+use App\Services\CommentService;
 use Illuminate\Contracts\View\View;
 
 class BookController extends Controller
 {
-    private IBookRepository $bookRepository;
-
-    private IGenreRepository $genreRepository;
-
-    private IAuthorRepository $authorRepository;
-
-    private IPublisherRepository $publisherRepository;
-
-    private ICommentRepository $commentRepository;
-
-    public function __construct(
-        IBookRepository $bookRepository,
-        IGenreRepository $genreRepository,
-        IAuthorRepository $authorRepository,
-        IPublisherRepository $publisherRepository,
-        ICommentRepository $commentRepository
-    ) {
-        $this->bookRepository = $bookRepository;
-        $this->genreRepository = $genreRepository;
-        $this->authorRepository = $authorRepository;
-        $this->publisherRepository = $publisherRepository;
-        $this->commentRepository = $commentRepository;
-    }
-
     /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @param IndexRequest $request
+     * @return View
      */
     public function index(IndexRequest $request): View
     {
-        $books = $this->bookRepository->getBooksByFilter($request);
-        $genres = $this->genreRepository->all();
-        $authors = $this->authorRepository->all();
-        $publishers = $this->publisherRepository->all();
-        $filter_params = [];
-        $params = ['genre', 'author', 'publisher'];
-        foreach ($params as $param) {
-            if ($request->has($param)) {
-                $filter_params[$param] = $request->get($param);
-            }
-        }
+        $books = (new BookService())->getList(array_merge($request->validated(), [
+            'paginate' => $request->input('paginate', 20),
+        ]));
 
-        return view('/books/index', compact('books', 'genres', 'authors', 'publishers', 'filter_params'));
+        $genres = Genre::query()->get();
+        $authors = Author::query()->get();
+        $publishers = Publisher::query()->get();
+
+        $filterParams = $request->validated();
+
+        return view('/books/index', compact('books', 'genres', 'authors', 'publishers', 'filterParams'));
     }
 
-    public function detail(int $id): View
+    /**
+     * @param Book $book
+     * @return View
+     */
+    public function detail(Book $book): View
     {
-        $params = [
-            'with' => [
-                'genres',
-                'author',
-                'publisher',
-            ],
-        ];
-        $book = $this->bookRepository->getBook($id, $params);
-        $popularBooks = $this->bookRepository->getPopular(10, true);
+        $book->load(['author', 'publisher', 'genres']);
+        $popularBooks = Book::query()->with(['author'])->popular()->limit(10)->get();
+        //TODO morph
         $section = SectionComment::where('name', 'books')->first();
-        $reviews = $this->commentRepository->getComments($id, intval($section->id));
+        $reviews = (new CommentService())->getComments($book->id, intval($section->id));
 
         return view('/books/detail', compact('book', 'popularBooks', 'reviews'));
     }
 
+    /**
+     * @return View
+     */
     public function random(): View
     {
-        $book = $this->bookRepository->getRandomBook();
+        $book = (new BookService())->getRandomBook();
 
         return view('/books/random', compact('book'));
     }

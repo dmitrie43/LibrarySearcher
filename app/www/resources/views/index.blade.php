@@ -11,7 +11,7 @@
                         <div class="bannercntSec">
                             <div class="bannerImg">
                                 @foreach($noveltyBooks as $noveltyBook)
-                                    <a href="{{route('books.detail', ['id' => $noveltyBook->id])}}">
+                                    <a href="{{route('books.detail', ['book' => $noveltyBook->id])}}">
                                         <div class="bannerimg0{{++$loop->index}} d-none d-md-block novelty-book">
                                             <img class="img-fluid" width="252" height="309"
                                                  src="{{asset($noveltyBook->cover_img)}}" alt="img">
@@ -55,7 +55,7 @@
                                     @if($loop->iteration > 3)
                                         @break
                                     @endif
-                                    <button class="nav-link d-none d-sm-none d-md-block" data-bs-toggle="tab" onclick="getBooksByGenre({{$genre->id}});">{{$genre->name}}</button>
+                                    <button class="nav-link d-none d-sm-none d-md-block" data-bs-toggle="tab" onclick="">{{$genre->name}}</button>
                                 @endforeach
                                 <div class="more-tab">
                                     <a href="javascript:void(0)" class="textbluecolor categorytab">Выберите жанр <img
@@ -73,22 +73,20 @@
                                 <div class="popular slider" id="books-by-genre">
                                     @foreach($books as $book)
                                         <div class="creators">
-                                            <a href="{{route('books.detail', ['id' => $book->id])}}">
+                                            <a href="{{route('books.detail', ['book' => $book->id])}}">
                                                 <div class="creatorImg">
                                                     <img class="img-fluid" src="{{$book->cover_img}}" alt="img">
                                                 </div>
-                                                @if($author = $book->author()->select('photo', 'full_name')->first())
-                                                    @if(!empty($author->photo))
-                                                        <div class="creatorIcon">
-                                                            <img class="img-fluid" src="{{$author->photo}}" alt="">
-                                                            <div class="creatorcheck"><img src="{{asset('img/checkicon.svg')}}" alt="img"></div>
-                                                        </div>
-                                                    @endif
-                                                    <div class="creatorsText text-center">
-                                                        <h2 class="textwhitecolor">{{$book->name}}</h2>
-                                                        <h3 class="textbluecolor">{{$author->full_name}}</h3>
+                                                @if(!empty($book->author->photo))
+                                                    <div class="creatorIcon">
+                                                        <img class="img-fluid" src="{{$book->author->photo}}" alt="">
+                                                        <div class="creatorcheck"><img src="{{asset('img/checkicon.svg')}}" alt="img"></div>
                                                     </div>
                                                 @endif
+                                                <div class="creatorsText text-center">
+                                                    <h2 class="textwhitecolor">{{$book->author->name}}</h2>
+                                                    <h3 class="textbluecolor">{{$book->author->full_name}}</h3>
+                                                </div>
                                             </a>
                                         </div>
                                     @endforeach
@@ -860,7 +858,7 @@
                     <h2 class="headingWh mb-3 mb-sm-3 mb-md-4 mb-xl-4">Популярное</h2>
                     <div class="lastAdded slider">
                         @foreach($popularBooks as $book)
-                            <a href="{{route('books.detail', ['id' => $book->id])}}">
+                            <a href="{{route('books.detail', ['book' => $book->id])}}">
                                 <div class="aboutitem">
                                     <div class="aboutitemImg">
                                         <img class="img-fluid" src="{{asset($book->cover_img)}}" alt="img">

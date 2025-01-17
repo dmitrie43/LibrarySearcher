@@ -109,7 +109,7 @@
                 <h2 class="headingWh mb-3 mb-sm-3 mb-md-4 mb-xl-5">Популярное</h2>
                 <div class="lastAdded slider">
                     @foreach($popularBooks as $popularBook)
-                        <a href="{{route('books.detail', ['id' => $popularBook->id])}}">
+                        <a href="{{route('books.detail', ['book' => $popularBook->id])}}">
                             <div class="aboutitem">
                                 <div class="bgdarkbluecolor aboutitemcnt">
                                     <div class="itemtitlecode">
@@ -148,7 +148,7 @@
                                             <h3 class="textwhitecolor">{{$review->theme}}</h3>
                                         </div>
                                         <div class="itemtitlePrice">
-                                            <h2 class="textgraycolor">{{$review->recommended ? 'Рекомендую' : 'Не рекомендую'}}</h2>
+                                            <h2 class="textgraycolor">{{$review->is_recommended ? 'Рекомендую' : 'Не рекомендую'}}</h2>
                                             <h3 class="textwhitecolor"><strong>{{date('d.m.Y', strtotime($review->created_at))}}</strong></h3>
                                         </div>
                                     </div>
@@ -211,7 +211,7 @@
                         </div>
                         <div class="input-box">
                             <label for="recommended"><span class="textwhitecolor">Рекомендую</span></label>
-                            <input id="recommended" type="checkbox" name="recommended" class="form-check-input" value="Y">
+                            <input id="recommended" type="checkbox" name="is_recommended" class="form-check-input" value="1">
                         </div>
                         <div class="contact-submit">
                             <button class="btn btnlightblue">Отправить</button>

@@ -14,7 +14,7 @@ return [
     */
 
     'failed' => 'Учетная запись не найдена, либо данные не совпадают',
-    'password' => 'The provided password is incorrect.',
-    'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
+    'password' => 'Пароль неверный',
+    'throttle' => 'Слишком много попыток. Пожалуйста, попробуйте снова через :seconds секунд.',
 
 ];

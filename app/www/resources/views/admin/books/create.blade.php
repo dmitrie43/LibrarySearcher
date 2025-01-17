@@ -58,28 +58,28 @@
                             </div>
                             <div class="form-group">
                                 <label for="novelty">Новинка</label>
-                                <select class="form-control" name="novelty" id="novelty">
+                                <select class="form-control" name="is_novelty" id="novelty">
                                     <option value="0">Нет</option>
                                     <option value="1">Да</option>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="popular">Популярное</label>
-                                <select class="form-control" name="popular" id="popular">
+                                <select class="form-control" name="is_popular" id="popular">
                                     <option value="0">Нет</option>
                                     <option value="1">Да</option>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="recommended">Рекомендация</label>
-                                <select class="form-control" name="recommended" id="recommended">
+                                <select class="form-control" name="is_recommended" id="recommended">
                                     <option value="0">Нет</option>
                                     <option value="1">Да</option>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="author">Автор</label>
-                                <select class="form-control" name="author" id="author">
+                                <select class="form-control" name="author_id" id="author">
                                     @foreach($authors as $author)
                                         <option value="{{$author->id}}" @if($loop->iteration === 1) selected @endif>{{$author->full_name}}</option>
                                     @endforeach
@@ -87,7 +87,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="publisher">Издатель</label>
-                                <select class="form-control" name="publisher" id="publisher">
+                                <select class="form-control" name="publisher_id" id="publisher">
                                     @foreach($publishers as $publisher)
                                         <option value="{{$publisher->id}}" @if($loop->iteration === 1) selected @endif>{{$publisher->name}}</option>
                                     @endforeach

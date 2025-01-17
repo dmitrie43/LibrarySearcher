@@ -17,7 +17,7 @@ class CreateRoles extends Migration
             $table->id();
             $table->string('name');
             $table->string('code');
-            $table->set('access_admin_panel', [0, 1])->default(0);
+            $table->boolean('is_allow_admin_panel')->default(0);
             $table->timestamps();
         });
     }

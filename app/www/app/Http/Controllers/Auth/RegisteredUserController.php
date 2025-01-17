@@ -7,23 +7,15 @@ use App\Http\Requests\Auth\RegisterRequest;
 use App\Models\Role;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
-use App\Repository\IUserRepository;
-use App\Services\FileUploader;
+use App\Helpers\FileUploader;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
 
 class RegisteredUserController extends Controller
 {
-    public function __construct(
-        private IUserRepository $userRepository,
-    )
-    {
-    }
-
     /**
      * Display the registration view.
      *
@@ -47,7 +39,7 @@ class RegisteredUserController extends Controller
 
         $avatar = null;
         if ($request->hasFile('avatar')) {
-            $avatar = FileUploader::uploadAvatar($request->file('avatar'));
+            $avatar = FileUploader::upload($request->file('avatar'), FileUploader::AVATAR_PATH);
         }
 
         $user = User::create([

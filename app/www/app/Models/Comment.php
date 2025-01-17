@@ -12,8 +12,15 @@ class Comment extends Model
     protected $fillable = [
         'theme',
         'text',
-        'recommended',
+        'is_recommended',
         'item_id',
+        'is_approved',
+        'section',
+        'user_id',
+    ];
+
+    protected $casts = [
+        'is_recommended' => 'boolean',
     ];
 
     /**

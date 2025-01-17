@@ -2,56 +2,30 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
-use App\Repository\IBookRepository;
-use App\Repository\IGenreRepository;
-use Illuminate\Http\Request;
+use App\Http\Requests\Api\Books\IndexRequest;
+use App\Services\BookService;
+use Illuminate\Http\JsonResponse;
 
-class BookController extends Controller
+class BookController extends ApiController
 {
-    private IBookRepository $bookRepository;
-
-    private IGenreRepository $genreRepository;
-
-    public function __construct(
-        IBookRepository $bookRepository,
-        IGenreRepository $genreRepository
-    ) {
-        $this->bookRepository = $bookRepository;
-        $this->genreRepository = $genreRepository;
-    }
-
     /**
-     * @return \Illuminate\Http\JsonResponse
+     * @param IndexRequest $request
+     * @return JsonResponse
      */
-    public function get(Request $request)
+    public function index(IndexRequest $request): JsonResponse
     {
         try {
-            $request->validate([
-                'genre' => ['nullable', 'integer'],
-                'limit' => ['nullable', 'integer'],
+            $limit = $request->input('limit', 10);
+
+            $books = (new BookService())->getList(array_merge($request->validated(), [
+                'limit' => $limit,
+            ]));
+
+            return $this->successResponse([
+                'books' => $books,
             ]);
-
-            $limit = isset($request->limit) ? $request->limit : 10;
-
-            if ($request->has('genre')) {
-                $genre = $this->genreRepository->find($request->get('genre'));
-                $books = $this->bookRepository->getByGenre($genre, $limit, true);
-            } else {
-                $books = $this->bookRepository->getBooks($limit, true);
-            }
-
-            return response()->json([
-                'success' => true,
-                'data' => [
-                    'books' => $books,
-                ],
-            ], 200);
         } catch (\Throwable $throwable) {
-            return response()->json([
-                'success' => false,
-                'message' => $throwable->getMessage(),
-            ], 500);
+            return $this->errorResponse($throwable->getMessage());
         }
     }
 }

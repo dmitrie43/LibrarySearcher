@@ -16,11 +16,19 @@
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                     @foreach($genres as $genre)
-                                        <li class="<?= request()->get('genre') == $genre->id ? 'active' : '' ?>">
-                                            <a class="dropdown-item"
-                                               href="{{ route('books.index', array_merge($filter_params, ['genre' => $genre->id])) }}">{{$genre->name}}
-                                            </a>
-                                        </li>
+                                        @if(in_array($genre->id, request()->input('genre_id', [])))
+                                            <li class="active">
+                                                <a class="dropdown-item"
+                                                   href="{{ route('books.index', array_merge($filterParams, ['genre_id' => array_diff($filterParams['genre_id'], [$genre->id])])) }}">{{$genre->name}}
+                                                </a>
+                                            </li>
+                                        @else
+                                            <li class="">
+                                                <a class="dropdown-item"
+                                                   href="{{ route('books.index', array_merge($filterParams, ['genre_id[]' => $genre->id])) }}">{{$genre->name}}
+                                                </a>
+                                            </li>
+                                        @endif
                                     @endforeach
                                 </ul>
                             </div>
@@ -31,11 +39,19 @@
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                     @foreach($authors as $author)
-                                        <li class="<?= request()->get('author') == $author->id ? 'active' : '' ?>">
-                                            <a class="dropdown-item"
-                                               href="{{ route('books.index', array_merge($filter_params, ['author' => $author->id])) }}">{{$author->full_name}}
-                                            </a>
-                                        </li>
+                                        @if(in_array($author->id, request()->input('author_id', [])))
+                                            <li class="active">
+                                                <a class="dropdown-item"
+                                                   href="{{ route('books.index', array_merge($filterParams, ['author_id' => array_diff($filterParams['author_id'], [$author->id])])) }}">{{$author->full_name}}
+                                                </a>
+                                            </li>
+                                        @else
+                                            <li class="">
+                                                <a class="dropdown-item"
+                                                   href="{{ route('books.index', array_merge($filterParams, ['author_id[]' => $author->id])) }}">{{$author->full_name}}
+                                                </a>
+                                            </li>
+                                        @endif
                                     @endforeach
                                 </ul>
                             </div>
@@ -46,11 +62,19 @@
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                     @foreach($publishers as $publisher)
-                                        <li class="<?= request()->get('publisher') == $publisher->id ? 'active' : '' ?>">
-                                            <a class="dropdown-item"
-                                               href="{{ route('books.index', array_merge($filter_params, ['publisher' => $publisher->id])) }}">{{$publisher->name}}
-                                            </a>
-                                        </li>
+                                        @if(in_array($publisher->id, request()->input('publisher_id', [])))
+                                            <li class="active">
+                                                <a class="dropdown-item"
+                                                   href="{{ route('books.index', array_merge($filterParams, ['publisher_id' => array_diff($filterParams['publisher_id'], [$publisher->id])])) }}">{{$publisher->name}}
+                                                </a>
+                                            </li>
+                                        @else
+                                            <li class="">
+                                                <a class="dropdown-item"
+                                                   href="{{ route('books.index', array_merge($filterParams, ['publisher_id[]' => $publisher->id])) }}">{{$publisher->name}}
+                                                </a>
+                                            </li>
+                                        @endif
                                     @endforeach
                                 </ul>
                             </div>
@@ -93,7 +117,7 @@
         <div class="row mt-3 mt-md-5">
             @foreach($books as $book)
                 <div class="col-md-6 col-xl-3 mb-4">
-                    <a href="{{route('books.detail', ['id' => $book->id])}}">
+                    <a href="{{route('books.detail', ['book' => $book->id])}}">
                         <div class="aboutitem">
                             <div class="aboutitemImg">
                                 <img class="img-fluid" src="{{asset($book->cover_img)}}" alt="img">

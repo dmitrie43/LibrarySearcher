@@ -20,6 +20,7 @@ class SetReviewRequest extends FormRequest
             'text' => ['required', 'string'],
             'section' => ['required', 'string'],
             'item_id' => ['required', 'integer'],
+            'is_recommended' => ['nullable', 'boolean'],
         ];
     }
 }

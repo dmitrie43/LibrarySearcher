@@ -174,6 +174,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\TelescopeServiceProvider::class,
         App\Providers\RepositoryServiceProvider::class,
     ],
 
@@ -231,12 +232,4 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
     ],
-
-    'paths' => [
-        'images' => 'storage/images',
-        'avatars' => 'storage/avatars',
-        'book_files' => 'storage/books/files',
-        'book_covers' => 'storage/books/covers',
-    ],
-
 ];

@@ -3,100 +3,71 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Repository\IGenreRepository;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use App\Http\Requests\Genres\StoreRequest;
+use App\Http\Requests\Genres\UpdateRequest;
+use App\Models\Genre;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class GenreController extends Controller
 {
-    private IGenreRepository $genreRepository;
-
-    public function __construct(IGenreRepository $genreRepository)
-    {
-        $this->genreRepository = $genreRepository;
-    }
-
     /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return View
      */
-    public function index()
+    public function index(): View
     {
-        $genres = $this->genreRepository->all();
+        $genres = Genre::query()->get();
 
         return view('admin.genres.index', compact('genres'));
     }
 
     /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return View
      */
-    public function create()
+    public function create(): View
     {
         return view('admin.genres.create');
     }
 
     /**
-     * @return \Illuminate\Http\RedirectResponse
-     *
-     * @throws \Illuminate\Validation\ValidationException
+     * @param StoreRequest $request
+     * @return RedirectResponse
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request): RedirectResponse
     {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-        ]);
-
-        $this->genreRepository->create([
-            'name' => $request->name,
-        ]);
+        Genre::create($request->validated());
 
         return redirect()->route('admin_panel.genres.index');
     }
 
     /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @param Genre $genre
+     * @return View
      */
-    public function edit(int $id)
+    public function edit(Genre $genre): View
     {
-        $genre = $this->genreRepository->find($id);
-
         return view('admin.genres.edit', compact('genre'));
     }
 
     /**
-     * @return \Illuminate\Http\RedirectResponse
-     *
-     * @throws \Illuminate\Validation\ValidationException
+     * @param UpdateRequest $request
+     * @param Genre $genre
+     * @return RedirectResponse
      */
-    public function update(Request $request, int $id)
+    public function update(UpdateRequest $request, Genre $genre): RedirectResponse
     {
-        $request->validate([
-            'name' => ['string', 'max:255', 'nullable'],
-        ]);
-
-        DB::transaction(function () use ($id, $request) {
-            $genre = $this->genreRepository->find($id);
-            foreach ($request->all() as $key => $item) {
-                if (($request->filled($key) || $request->hasFile($key)) && in_array($key, $genre->getFillable())) {
-                    switch ($key) {
-                        default:
-                            $genre->$key = $item;
-                            break;
-                    }
-                }
-            }
-            $genre->save();
-        });
+        $genre->update($request->validated());
 
         return redirect()->route('admin_panel.genres.index');
     }
 
     /**
-     * @return \Illuminate\Http\RedirectResponse
+     * @param Genre $genre
+     * @return RedirectResponse
      */
-    public function destroy(int $id)
+    public function destroy(Genre $genre): RedirectResponse
     {
-        $genre = $this->genreRepository->find($id);
-        $this->genreRepository->remove($genre);
+        $genre->delete();
 
         return redirect()->route('admin_panel.genres.index');
     }

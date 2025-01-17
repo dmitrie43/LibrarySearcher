@@ -22,9 +22,9 @@ class CreateBooksTable extends Migration
             $table->integer('pages_quantity')->nullable();
             $table->text('description')->nullable();
             $table->string('age_rating')->nullable();
-            $table->set('novelty', [0, 1])->default(0);
-            $table->set('popular', [0, 1])->default(0);
-            $table->set('recommended', [0, 1])->default(0);
+            $table->boolean('is_novelty')->default(0);
+            $table->boolean('is_popular')->default(0);
+            $table->boolean('is_recommended')->default(0);
 
             $table->foreignId('author_id')->nullable()->constrained('authors');
             $table->foreignId('publisher_id')->nullable()->constrained('publishers');

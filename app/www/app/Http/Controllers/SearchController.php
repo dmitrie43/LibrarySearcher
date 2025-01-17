@@ -3,40 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Search\IndexRequest;
-use App\Repository\IAuthorRepository;
-use App\Repository\IBookRepository;
-use App\Repository\IGenreRepository;
-use App\Repository\IPublisherRepository;
 use App\Repository\Search\ISearchBookRepository;
 use Illuminate\Support\Collection;
 use Illuminate\View\View;
 
 class SearchController extends Controller
 {
-    private IBookRepository $bookRepository;
-
-    private IGenreRepository $genreRepository;
-
-    private IAuthorRepository $authorRepository;
-
-    private IPublisherRepository $publisherRepository;
-
-    private ISearchBookRepository $searchBookRepository;
-
     public function __construct(
-        IBookRepository $bookRepository,
-        IGenreRepository $genreRepository,
-        IAuthorRepository $authorRepository,
-        IPublisherRepository $publisherRepository,
-        ISearchBookRepository $searchBookRepository
+        private ISearchBookRepository $searchBookRepository
     ) {
-        $this->bookRepository = $bookRepository;
-        $this->genreRepository = $genreRepository;
-        $this->authorRepository = $authorRepository;
-        $this->publisherRepository = $publisherRepository;
-        $this->searchBookRepository = $searchBookRepository;
     }
 
+    /**
+     * @param IndexRequest $request
+     * @return View
+     */
     public function index(IndexRequest $request): View
     {
         $books = new Collection;

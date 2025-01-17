@@ -2,37 +2,29 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
-use App\Repository\IUserRepository;
-use Illuminate\Http\Request;
+use App\Http\Requests\Auth\LoginRequest;
+use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\Rules;
+use Illuminate\Support\Facades\RateLimiter;
 
-class AuthController extends Controller
+class AuthController extends ApiController
 {
-    private IUserRepository $userRepository;
-
-    public function __construct(IUserRepository $userRepository)
-    {
-        $this->userRepository = $userRepository;
-    }
-
-    public function login(Request $request)
+    public function login(LoginRequest $request): JsonResponse
     {
         try {
-            $request->validate([
-                'email' => ['required', 'string', 'email', 'max:255'],
-                'password' => ['required', Rules\Password::defaults()],
-            ]);
+            $request->ensureIsNotRateLimited();
 
             if (! Auth::attempt($request->only(['email', 'password']))) {
+                RateLimiter::hit($request->throttleKey());
+
                 return response()->json([
                     'success' => false,
-                    'message' => 'Email / Password does not match with our record.',
+                    'message' => trans('auth.failed'),
                 ], 401);
             }
 
-            $user = $this->userRepository->getByEmail($request->email);
+            $user = User::query()->where('email', $request->input('email'))->firstOrFail();
 
             return response()->json([
                 'success' => true,

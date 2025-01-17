@@ -7,39 +7,29 @@ use App\Http\Requests\User\StoreRequest;
 use App\Http\Requests\User\UpdateRequest;
 use App\Models\Role;
 use App\Models\User;
-use App\Repository\IUserRepository;
-use App\Services\FileUploader;
+use App\Helpers\FileUploader;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Validation\Rule;
-use Illuminate\Validation\Rules;
+use Illuminate\View\View;
 
 class UserController extends Controller
 {
-    public function __construct(
-        private IUserRepository $userRepository
-    )
-    {
-    }
-
     /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return View
      */
-    public function index()
+    public function index(): View
     {
-        $users = $this->userRepository->getAll();
+        $users = User::query()->get();
 
         return view('admin.users.index', compact('users'));
     }
 
     /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return View
      */
-    public function create()
+    public function create(): View
     {
         $roles = Role::all();
 
@@ -47,15 +37,14 @@ class UserController extends Controller
     }
 
     /**
-     * @return \Illuminate\Http\RedirectResponse
-     *
-     * @throws \Illuminate\Validation\ValidationException
+     * @param StoreRequest $request
+     * @return RedirectResponse
      */
-    public function store(StoreRequest $request)
+    public function store(StoreRequest $request): RedirectResponse
     {
         $avatar = null;
         if ($request->hasFile('avatar')) {
-            $avatar = FileUploader::uploadAvatar($request->file('avatar'));
+            $avatar = FileUploader::upload($request->file('avatar'), FileUploader::AVATAR_PATH);
         }
 
         $user = User::create([
@@ -72,9 +61,10 @@ class UserController extends Controller
     }
 
     /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @param User $user
+     * @return View
      */
-    public function edit(User $user)
+    public function edit(User $user): View
     {
         $roles = Role::all();
 
@@ -82,18 +72,18 @@ class UserController extends Controller
     }
 
     /**
-     * @return \Illuminate\Http\RedirectResponse
-     *
-     * @throws \Illuminate\Validation\ValidationException
+     * @param UpdateRequest $request
+     * @param User $user
+     * @return RedirectResponse
      */
-    public function update(UpdateRequest $request, User $user)
+    public function update(UpdateRequest $request, User $user): RedirectResponse
     {
-        $avatar = $user->avatar;
+        $avatar = $user->getOriginal('avatar');
         if ($request->hasFile('avatar')) {
             if (! empty($avatar)) {
-                Storage::delete($avatar);
+                $user->removeImage('avatar');
             }
-            $avatar = FileUploader::uploadAvatar($request->file('avatar'));
+            $avatar = FileUploader::upload($request->file('avatar'), FileUploader::AVATAR_PATH);
         }
 
         $user->update(array_merge($request->validated(), [
@@ -105,7 +95,8 @@ class UserController extends Controller
     }
 
     /**
-     * @return \Illuminate\Http\RedirectResponse
+     * @param User $user
+     * @return RedirectResponse
      */
     public function destroy(User $user): RedirectResponse
     {

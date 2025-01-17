@@ -3,64 +3,51 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Repository\ICommentRepository;
+use App\Models\Comment;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class CommentController extends Controller
 {
-    private ICommentRepository $commentRepository;
-
-    public function __construct(ICommentRepository $commentRepository)
-    {
-        $this->commentRepository = $commentRepository;
-    }
-
     /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return View
      */
-    public function index()
+    public function index(): View
     {
-        $comments = $this->commentRepository->paginate(20);
+        $comments = Comment::query()->orderBy('id', 'DESC')->paginate(20);
 
         return view('admin.comments.index', compact('comments'));
     }
 
     /**
-     * Approve comment to showing
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\RedirectResponse
+     * @param Comment $comment
+     * @return RedirectResponse
      */
-    public function approve($id)
+    public function approve(Comment $comment): RedirectResponse
     {
-        $comment = $this->commentRepository->find($id);
-        $comment->is_approved = 1;
-        $comment->save();
+        $comment->update(['is_approved' => 1]);
 
         return redirect()->route('admin_panel.comments.index');
     }
 
     /**
-     * Disapprove comment to showing
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\RedirectResponse
+     * @param Comment $comment
+     * @return RedirectResponse
      */
-    public function disapprove($id)
+    public function disapprove(Comment $comment):  RedirectResponse
     {
-        $comment = $this->commentRepository->find($id);
-        $comment->is_approved = 0;
-        $comment->save();
+        $comment->update(['is_approved' => 0]);
 
         return redirect()->route('admin_panel.comments.index');
     }
 
     /**
-     * @return \Illuminate\Http\RedirectResponse
+     * @param Comment $comment
+     * @return RedirectResponse
      */
-    public function destroy(int $id)
+    public function destroy(Comment $comment): RedirectResponse
     {
-        $comment = $this->commentRepository->find($id);
-        $this->commentRepository->remove($comment);
+        $comment->delete();
 
         return redirect()->route('admin_panel.comments.index');
     }

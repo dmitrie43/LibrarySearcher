@@ -2,50 +2,30 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
-use App\Repository\IGenreRepository;
-use Illuminate\Http\Request;
+use App\Http\Requests\Api\Genres\IndexRequest;
+use App\Services\GenreService;
+use Illuminate\Http\JsonResponse;
 
-class GenreController extends Controller
+class GenreController extends ApiController
 {
-    private IGenreRepository $genreRepository;
-
-    public function __construct(
-        IGenreRepository $genreRepository
-    ) {
-        $this->genreRepository = $genreRepository;
-    }
-
     /**
-     * @return \Illuminate\Http\JsonResponse
+     * @param IndexRequest $request
+     * @return JsonResponse
      */
-    public function get(Request $request)
+    public function index(IndexRequest $request): JsonResponse
     {
         try {
-            $request->validate([
-                'id' => ['nullable', 'integer'],
-                'limit' => ['nullable', 'integer'],
+            $limit = $request->input('limit', 10);
+
+            $genres = (new GenreService())->getList(array_merge($request->validated(), [
+                'limit' => $limit,
+            ]));
+
+            return $this->successResponse([
+                'genres' => $genres,
             ]);
-
-            $limit = isset($request->limit) ? $request->limit : 10;
-
-            if ($request->has('id')) {
-                $genres = $this->genreRepository->find($request->get('id'));
-            } else {
-                $genres = $this->genreRepository->all()->take($limit);
-            }
-
-            return response()->json([
-                'success' => true,
-                'data' => [
-                    'genres' => $genres,
-                ],
-            ], 200);
         } catch (\Throwable $throwable) {
-            return response()->json([
-                'success' => false,
-                'message' => $throwable->getMessage(),
-            ], 500);
+            return $this->errorResponse($throwable->getMessage());
         }
     }
 }

@@ -60,23 +60,23 @@
                             </div>
                             <div class="form-group">
                                 <label for="novelty">Новинка</label>
-                                <select class="form-control" name="novelty" id="novelty">
-                                    <option value="0" {{$book->novelty == '0' ? 'selected' : ''}}>Нет</option>
-                                    <option value="1" {{$book->novelty == '1' ? 'selected' : ''}}>Да</option>
+                                <select class="form-control" name="is_novelty" id="novelty">
+                                    <option value="0" {{$book->is_novelty ? 'selected' : ''}}>Нет</option>
+                                    <option value="1" {{$book->is_novelty ? 'selected' : ''}}>Да</option>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="popular">Популярное</label>
-                                <select class="form-control" name="popular" id="popular">
-                                    <option value="0" {{$book->popular == '0' ? 'selected' : ''}}>Нет</option>
-                                    <option value="1" {{$book->popular == '1' ? 'selected' : ''}}>Да</option>
+                                <select class="form-control" name="is_popular" id="popular">
+                                    <option value="0" {{$book->is_popular ? 'selected' : ''}}>Нет</option>
+                                    <option value="1" {{$book->is_popular ? 'selected' : ''}}>Да</option>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="recommended">Рекомендация</label>
-                                <select class="form-control" name="recommended" id="recommended">
-                                    <option value="0" {{$book->recommended == '0' ? 'selected' : ''}}>Нет</option>
-                                    <option value="1" {{$book->recommended == '1' ? 'selected' : ''}}>Да</option>
+                                <select class="form-control" name="is_recommended" id="recommended">
+                                    <option value="0" {{$book->is_recommended ? 'selected' : ''}}>Нет</option>
+                                    <option value="1" {{$book->is_recommended ? 'selected' : ''}}>Да</option>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -99,7 +99,7 @@
                                 <label for="genres">Жанры</label>
                                 <select class="form-control" name="genres[]" id="genres" multiple>
                                     @foreach($genres as $genre)
-                                        <option value="{{$genre->id}}" {{isset($bookGenresId[$genre->id]) ? 'selected' : ''}}>{{$genre->name}}</option>
+                                        <option value="{{$genre->id}}" {{isset($bookGenreIds[$genre->id]) ? 'selected' : ''}}>{{$genre->name}}</option>
                                     @endforeach
                                 </select>
                             </div>

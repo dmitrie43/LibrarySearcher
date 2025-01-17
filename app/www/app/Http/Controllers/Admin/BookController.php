@@ -2,202 +2,125 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helpers\FileUploader;
 use App\Http\Controllers\Controller;
-use App\Repository\IAuthorRepository;
-use App\Repository\IBookRepository;
-use App\Repository\IGenreRepository;
-use App\Repository\IPublisherRepository;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use App\Http\Requests\Books\StoreRequest;
+use App\Http\Requests\Books\UpdateRequest;
+use App\Models\Author;
+use App\Models\Book;
+use App\Models\Genre;
+use App\Models\Publisher;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\View\View;
 
 class BookController extends Controller
 {
-    private IBookRepository $bookRepository;
-
-    private IAuthorRepository $authorRepository;
-
-    private IPublisherRepository $publisherRepository;
-
-    private IGenreRepository $genreRepository;
-
-    public function __construct(
-        IBookRepository $bookRepository,
-        IAuthorRepository $authorRepository,
-        IPublisherRepository $publisherRepository,
-        IGenreRepository $genreRepository
-    ) {
-        $this->bookRepository = $bookRepository;
-        $this->authorRepository = $authorRepository;
-        $this->publisherRepository = $publisherRepository;
-        $this->genreRepository = $genreRepository;
-    }
-
     /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return View
      */
-    public function index()
+    public function index(): View
     {
-        $books = $this->bookRepository->paginate(20);
+        $books = Book::query()->orderBy('id', 'DESC')->paginate(20);
 
         return view('admin.books.index', compact('books'));
     }
 
     /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return View
      */
-    public function create()
+    public function create(): View
     {
-        $authors = $this->authorRepository->all();
-        $publishers = $this->publisherRepository->all();
-        $genres = $this->genreRepository->all();
+        $authors = Author::query()->get();
+        $publishers = Publisher::query()->get();
+        $genres = Genre::query()->get();
 
         return view('admin.books.create', compact('authors', 'publishers', 'genres'));
     }
 
     /**
-     * @return \Illuminate\Http\RedirectResponse
-     *
-     * @throws \Illuminate\Validation\ValidationException
+     * @param StoreRequest $request
+     * @return RedirectResponse
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request): RedirectResponse
     {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'date_publish' => ['required', 'date'],
-            'cover_img' => ['image', 'nullable'],
-            'file' => ['mimes:pdf,epub,fb2'],
-            'pages_quantity' => ['integer', 'nullable'],
-            'description' => ['string', 'max:1000', 'nullable'],
-            'age_rating' => ['string', 'max:255', 'nullable'],
-            'novelty' => ['boolean', 'nullable'],
-            'popular' => ['boolean', 'nullable'],
-            'recommended' => ['boolean', 'nullable'],
-            'author' => ['integer'],
-            'publisher' => ['integer'],
-            'genres' => ['array'],
-        ]);
-
+        $coverImage = null;
         if ($request->hasFile('cover_img')) {
-            $this->bookRepository->uploadCoverImg($request->file('cover_img'));
-        } else {
-            $this->bookRepository->uploadCoverImg($this->bookRepository->getDefaultCoverImg());
+            $coverImage = FileUploader::upload($request->file('cover_img'), FileUploader::BOOK_COVER_PATH);
         }
 
+        $file = null;
         if ($request->hasFile('file')) {
-            $this->bookRepository->uploadFile($request->file('file'));
+            $file = FileUploader::upload($request->file('file'), FileUploader::BOOK_FILE_PATH);
         }
 
-        $book = $this->bookRepository->create([
-            'name' => $request->name,
-            'date_publish' => $request->date_publish,
-            'cover_img' => $this->bookRepository->cover_img,
-            'file' => $this->bookRepository->file,
-            'pages_quantity' => $request->pages_quantity,
-            'description' => $request->description,
-            'age_rating' => $request->age_rating,
-            'novelty' => $request->novelty,
-            'popular' => $request->popular,
-            'recommended' => $request->recommended,
-        ]);
-        $book->author_id = $request->author;
-        $book->publisher_id = $request->publisher;
-        $book->save();
-        $book->genres()->attach($request->genres);
+        /** @var Book $book */
+        $book = Book::create(array_merge($request->validated(), ['cover_img' => $coverImage, 'file' => $file]));
+
+        $book->genres()->attach($request->input('genres'));
 
         return redirect()->route('admin_panel.books.index');
     }
 
     /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @param Book $book
+     * @return View
      */
-    public function edit(int $id)
+    public function edit(Book $book): View
     {
-        $book = $this->bookRepository->find($id);
-        $bookGenres = $book->genres()->get()->toArray();
-        $bookGenresId = [];
-        foreach ($bookGenres as $bookGenre) {
-            $bookGenresId[$bookGenre['pivot']['genre_id']] = $bookGenre;
-        }
-        $authors = $this->authorRepository->all();
-        $publishers = $this->publisherRepository->all();
-        $genres = $this->genreRepository->all();
+        $bookGenreIds = array_flip($book->genres->pluck('id')->toArray());
+        $authors = Author::query()->get();
+        $publishers = Publisher::query()->get();
+        $genres = Genre::query()->get();
 
-        return view('admin.books.edit', compact('book', 'authors', 'publishers', 'genres', 'bookGenresId'));
+        return view('admin.books.edit', compact('book', 'authors', 'publishers', 'genres', 'bookGenreIds'));
     }
 
     /**
-     * @return \Illuminate\Http\RedirectResponse
-     *
-     * @throws \Illuminate\Validation\ValidationException
+     * @param UpdateRequest $request
+     * @param Book $book
+     * @return RedirectResponse
      */
-    public function update(Request $request, int $id)
+    public function update(UpdateRequest $request, Book $book): RedirectResponse
     {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'date_publish' => ['required', 'date'],
-            'file' => ['mimes:pdf,epub,fb2'],
-            'cover_img' => ['image', 'nullable'],
-            'pages_quantity' => ['integer', 'nullable'],
-            'description' => ['string', 'max:1000', 'nullable'],
-            'age_rating' => ['string', 'max:255', 'nullable'],
-            'novelty' => ['boolean', 'nullable'],
-            'popular' => ['boolean', 'nullable'],
-            'recommended' => ['boolean', 'nullable'],
-            'author' => ['integer'],
-            'publisher' => ['integer'],
-        ]);
-
-        DB::transaction(function () use ($id, $request) {
-            $book = $this->bookRepository->find($id);
-            foreach ($request->all() as $key => $item) {
-                if (
-                    ($request->filled($key) || $request->hasFile($key)) &&
-                    in_array($key, array_merge($book->getFillable(), ['author', 'publisher', 'genres']))
-                ) {
-                    switch ($key) {
-                        case 'cover_img':
-                            if ($request->hasFile($key)) {
-                                $this->bookRepository->removeCoverImg($book);
-                                $this->bookRepository->uploadCoverImg($request->file($key));
-                                $book->$key = $this->bookRepository->$key;
-                            }
-                            break;
-                        case 'file':
-                            if ($request->hasFile($key)) {
-                                $this->bookRepository->removeFile($book);
-                                $this->bookRepository->uploadFile($request->file($key));
-                                $book->$key = $this->bookRepository->$key;
-                            }
-                            break;
-                        case 'author':
-                            $book->author_id = $item;
-                            break;
-                        case 'publisher':
-                            $book->publisher_id = $item;
-                            break;
-                        case 'genres':
-                            $book->genres()->detach();
-                            $book->genres()->attach($item);
-                            break;
-                        default:
-                            $book->$key = $item;
-                            break;
-                    }
-                }
+        $coverImg = $book->getOriginal('cover_img');
+        if ($request->hasFile('cover_img')) {
+            if ($coverImg) {
+                $book->removeImage('cover_img');
             }
-            $book->save();
-        });
+            $coverImg = FileUploader::upload($request->file('cover_img'), FileUploader::BOOK_COVER_PATH);
+        }
+
+        $file = $book->getOriginal('file');
+        if ($request->hasFile('file')) {
+            if ($file) {
+                $book->removeFile('file');
+            }
+            $file = FileUploader::upload($request->file('file'), FileUploader::BOOK_FILE_PATH);
+        }
+
+        $book->update(
+            array_merge(
+                $request->validated(),
+                [
+                    'cover_img' => $coverImg,
+                    'file' => $file,
+                ]
+            )
+        );
+
+        $book->genres()->sync($request->input('genres'));
 
         return redirect()->route('admin_panel.books.index');
     }
 
     /**
-     * @return \Illuminate\Http\RedirectResponse
+     * @param Book $book
+     * @return RedirectResponse
      */
-    public function destroy(int $id)
+    public function destroy(Book $book): RedirectResponse
     {
-        $book = $this->bookRepository->find($id);
-        $this->bookRepository->remove($book);
+        $book->delete();
 
         return redirect()->route('admin_panel.books.index');
     }

@@ -4,25 +4,29 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use function Laravel\Prompts\select;
 
 class Role extends Model
 {
     use HasFactory;
 
-    public static function getDefaultRole(): ?object
+    protected $casts = [
+        'is_allow_admin_panel' => 'boolean',
+    ];
+
+    public static function getDefaultRole(): ?array
     {
-        return self::where('code', 'user')->first();
+        return self::query()
+            ->where('code', 'user')
+            ->first();
     }
 
-    //TODO
     public static function getAllowAdminPanelRolesId(): array
     {
-        $arItems = self::where('access_admin_panel', '1')->select('id')->get()->toArray();
-        $res = [];
-        foreach ($arItems as $item) {
-            $res[] = $item['id'];
-        }
-
-        return $res;
+        return self::query()
+            ->select('id')
+            ->where('is_allow_admin_panel', 1)
+            ->pluck('id')
+            ->toArray();
     }
 }

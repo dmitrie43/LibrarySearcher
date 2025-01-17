@@ -45,9 +45,9 @@ Route::resource('/books', BookController::class)
 Route::resource('/comments', CommentController::class)
     ->except(['show', 'create', 'store', 'edit', 'update'])
     ->names('admin_panel.comments');
-Route::get('/comments/approve/{id}', [CommentController::class, 'approve'])
+Route::get('/comments/approve/{comment}', [CommentController::class, 'approve'])
     ->name('admin_panel.comments.approve');
-Route::get('/comments/disapprove/{id}', [CommentController::class, 'disapprove'])
+Route::get('/comments/disapprove/{comment}', [CommentController::class, 'disapprove'])
     ->name('admin_panel.comments.disapprove');
 
 require __DIR__.'/auth.php';

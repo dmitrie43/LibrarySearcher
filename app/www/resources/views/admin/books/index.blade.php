@@ -50,9 +50,9 @@
                                 </td>
                                 <td>{{$book->pages_quantity}}</td>
                                 <td>{{$book->description}}</td>
-                                <td>{{$book->novelty == '1' ? 'Да' : 'Нет'}}</td>
-                                <td>{{$book->popular == '1' ? 'Да' : 'Нет'}}</td>
-                                <td>{{$book->recommended == '1' ? 'Да' : 'Нет'}}</td>
+                                <td>{{$book->is_novelty ? 'Да' : 'Нет'}}</td>
+                                <td>{{$book->is_popular ? 'Да' : 'Нет'}}</td>
+                                <td>{{$book->is_recommended ? 'Да' : 'Нет'}}</td>
                                 <td>
                                     <a href="{{route('admin_panel.books.edit', $book->id)}}" class="fa fa-pencil"></a>
                                     <form action="{{route('admin_panel.books.destroy', $book->id)}}" method="post">
