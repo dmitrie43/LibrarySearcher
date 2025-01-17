@@ -58,7 +58,7 @@ function getBooksByGenre(genre_id) {
     $.ajax({
         url: "/api/books",
         method: "GET",
-        data: {"genre": genre_id},
+        data: {"genre_id[]": genre_id},
         dataType: "json",
         success: function (data) {
             let content = '';

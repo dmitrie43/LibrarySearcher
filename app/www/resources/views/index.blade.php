@@ -55,7 +55,7 @@
                                     @if($loop->iteration > 3)
                                         @break
                                     @endif
-                                    <button class="nav-link d-none d-sm-none d-md-block" data-bs-toggle="tab" onclick="">{{$genre->name}}</button>
+                                    <button class="nav-link d-none d-sm-none d-md-block" data-bs-toggle="tab" onclick="getBooksByGenre({{$genre->id}});">{{$genre->name}}</button>
                                 @endforeach
                                 <div class="more-tab">
                                     <a href="javascript:void(0)" class="textbluecolor categorytab">Выберите жанр <img
