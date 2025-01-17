@@ -26,7 +26,7 @@ class Author extends Model
     protected function photo(): Attribute
     {
         return Attribute::make(
-            get: fn (?string $value) => !empty($value) ? $value : $this->getDefaultPhoto(),
+            get: fn (?string $value) => ! empty($value) ? $value : $this->getDefaultPhoto(),
         );
     }
 

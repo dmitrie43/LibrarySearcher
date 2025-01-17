@@ -8,16 +8,12 @@ use Illuminate\Http\JsonResponse;
 
 class GenreController extends ApiController
 {
-    /**
-     * @param IndexRequest $request
-     * @return JsonResponse
-     */
     public function index(IndexRequest $request): JsonResponse
     {
         try {
             $limit = $request->input('limit', 10);
 
-            $genres = (new GenreService())->getList(array_merge($request->validated(), [
+            $genres = (new GenreService)->getList(array_merge($request->validated(), [
                 'limit' => $limit,
             ]));
 

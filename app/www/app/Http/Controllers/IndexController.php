@@ -9,10 +9,6 @@ use Illuminate\View\View;
 
 class IndexController extends Controller
 {
-    /**
-     * @param IndexRequest $request
-     * @return View
-     */
     public function index(IndexRequest $request): View
     {
         $noveltyBooks = Book::query()->novelty()->limit(3)->get();

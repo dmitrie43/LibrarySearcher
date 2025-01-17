@@ -7,10 +7,6 @@ use Illuminate\Http\JsonResponse;
 
 class ApiController extends Controller
 {
-    /**
-     * @param array $data
-     * @return JsonResponse
-     */
     public function successResponse(array $data = []): JsonResponse
     {
         return response()->json([
@@ -18,11 +14,6 @@ class ApiController extends Controller
         ]);
     }
 
-    /**
-     * @param string $message
-     * @param int $statusCode
-     * @return JsonResponse
-     */
     public function errorResponse(string $message = '', int $statusCode = 500): JsonResponse
     {
         return response()->json([

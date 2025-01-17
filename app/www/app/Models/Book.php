@@ -16,7 +16,7 @@ use Illuminate\Support\Collection;
 #[ObservedBy([BookObserver::class])]
 class Book extends Model
 {
-    use HasFactory, Searchable, HasImage, HasFile;
+    use HasFactory, HasFile, HasImage, Searchable;
 
     protected $fillable = [
         'name', 'date_publish', 'cover_img', 'pages_quantity', 'file',
@@ -41,7 +41,7 @@ class Book extends Model
     protected function coverImg(): Attribute
     {
         return Attribute::make(
-            get: fn (?string $value) => !empty($value) ? $value : $this->getDefaultCoverImg(),
+            get: fn (?string $value) => ! empty($value) ? $value : $this->getDefaultCoverImg(),
         );
     }
 
@@ -74,7 +74,7 @@ class Book extends Model
         return $this->belongsToMany(Genre::class, 'genre_book', 'book_id', 'genre_id');
     }
 
-    //TODO
+    // TODO
     public function defaultSearch(string $query): Collection
     {
         return $this->query()

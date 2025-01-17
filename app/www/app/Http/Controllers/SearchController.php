@@ -11,13 +11,8 @@ class SearchController extends Controller
 {
     public function __construct(
         private ISearchBookRepository $searchBookRepository
-    ) {
-    }
+    ) {}
 
-    /**
-     * @param IndexRequest $request
-     * @return View
-     */
     public function index(IndexRequest $request): View
     {
         $books = new Collection;

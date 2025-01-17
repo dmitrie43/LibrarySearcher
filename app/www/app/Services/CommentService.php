@@ -9,7 +9,7 @@ class CommentService
 {
     public function getComments(int $item_id, int $section_id): Collection
     {
-        //TODO morph
+        // TODO morph
         return Comment::query()
             ->with(['user'])
             ->where('section', $section_id)

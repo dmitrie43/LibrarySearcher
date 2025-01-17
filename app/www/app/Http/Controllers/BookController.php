@@ -14,13 +14,9 @@ use Illuminate\Contracts\View\View;
 
 class BookController extends Controller
 {
-    /**
-     * @param IndexRequest $request
-     * @return View
-     */
     public function index(IndexRequest $request): View
     {
-        $books = (new BookService())->getList(array_merge($request->validated(), [
+        $books = (new BookService)->getList(array_merge($request->validated(), [
             'paginate' => $request->input('paginate', 20),
         ]));
 
@@ -33,27 +29,20 @@ class BookController extends Controller
         return view('/books/index', compact('books', 'genres', 'authors', 'publishers', 'filterParams'));
     }
 
-    /**
-     * @param Book $book
-     * @return View
-     */
     public function detail(Book $book): View
     {
         $book->load(['author', 'publisher', 'genres']);
         $popularBooks = Book::query()->with(['author'])->popular()->limit(10)->get();
-        //TODO morph
+        // TODO morph
         $section = SectionComment::where('name', 'books')->first();
-        $reviews = (new CommentService())->getComments($book->id, intval($section->id));
+        $reviews = (new CommentService)->getComments($book->id, intval($section->id));
 
         return view('/books/detail', compact('book', 'popularBooks', 'reviews'));
     }
 
-    /**
-     * @return View
-     */
     public function random(): View
     {
-        $book = (new BookService())->getRandomBook();
+        $book = (new BookService)->getRandomBook();
 
         return view('/books/random', compact('book'));
     }

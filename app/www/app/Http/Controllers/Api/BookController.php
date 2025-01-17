@@ -8,16 +8,12 @@ use Illuminate\Http\JsonResponse;
 
 class BookController extends ApiController
 {
-    /**
-     * @param IndexRequest $request
-     * @return JsonResponse
-     */
     public function index(IndexRequest $request): JsonResponse
     {
         try {
             $limit = $request->input('limit', 10);
 
-            $books = (new BookService())->getList(array_merge($request->validated(), [
+            $books = (new BookService)->getList(array_merge($request->validated(), [
                 'limit' => $limit,
             ]));
 

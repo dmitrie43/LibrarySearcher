@@ -9,9 +9,6 @@ use Illuminate\View\View;
 
 class CommentController extends Controller
 {
-    /**
-     * @return View
-     */
     public function index(): View
     {
         $comments = Comment::query()->orderBy('id', 'DESC')->paginate(20);
@@ -19,10 +16,6 @@ class CommentController extends Controller
         return view('admin.comments.index', compact('comments'));
     }
 
-    /**
-     * @param Comment $comment
-     * @return RedirectResponse
-     */
     public function approve(Comment $comment): RedirectResponse
     {
         $comment->update(['is_approved' => 1]);
@@ -30,21 +23,13 @@ class CommentController extends Controller
         return redirect()->route('admin_panel.comments.index');
     }
 
-    /**
-     * @param Comment $comment
-     * @return RedirectResponse
-     */
-    public function disapprove(Comment $comment):  RedirectResponse
+    public function disapprove(Comment $comment): RedirectResponse
     {
         $comment->update(['is_approved' => 0]);
 
         return redirect()->route('admin_panel.comments.index');
     }
 
-    /**
-     * @param Comment $comment
-     * @return RedirectResponse
-     */
     public function destroy(Comment $comment): RedirectResponse
     {
         $comment->delete();

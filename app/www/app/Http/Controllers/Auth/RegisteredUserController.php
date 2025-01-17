@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Helpers\FileUploader;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Models\Role;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
-use App\Helpers\FileUploader;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
@@ -18,8 +18,6 @@ class RegisteredUserController extends Controller
 {
     /**
      * Display the registration view.
-     *
-     * @return \Illuminate\View\View
      */
     public function create(): View
     {
@@ -29,7 +27,6 @@ class RegisteredUserController extends Controller
     /**
      * Handle an incoming registration request.
      *
-     * @return \Illuminate\Http\RedirectResponse
      *
      * @throws \Illuminate\Validation\ValidationException
      */

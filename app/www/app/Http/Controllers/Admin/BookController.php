@@ -11,14 +11,10 @@ use App\Models\Book;
 use App\Models\Genre;
 use App\Models\Publisher;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class BookController extends Controller
 {
-    /**
-     * @return View
-     */
     public function index(): View
     {
         $books = Book::query()->orderBy('id', 'DESC')->paginate(20);
@@ -26,9 +22,6 @@ class BookController extends Controller
         return view('admin.books.index', compact('books'));
     }
 
-    /**
-     * @return View
-     */
     public function create(): View
     {
         $authors = Author::query()->get();
@@ -38,10 +31,6 @@ class BookController extends Controller
         return view('admin.books.create', compact('authors', 'publishers', 'genres'));
     }
 
-    /**
-     * @param StoreRequest $request
-     * @return RedirectResponse
-     */
     public function store(StoreRequest $request): RedirectResponse
     {
         $coverImage = null;
@@ -62,10 +51,6 @@ class BookController extends Controller
         return redirect()->route('admin_panel.books.index');
     }
 
-    /**
-     * @param Book $book
-     * @return View
-     */
     public function edit(Book $book): View
     {
         $bookGenreIds = array_flip($book->genres->pluck('id')->toArray());
@@ -76,11 +61,6 @@ class BookController extends Controller
         return view('admin.books.edit', compact('book', 'authors', 'publishers', 'genres', 'bookGenreIds'));
     }
 
-    /**
-     * @param UpdateRequest $request
-     * @param Book $book
-     * @return RedirectResponse
-     */
     public function update(UpdateRequest $request, Book $book): RedirectResponse
     {
         $coverImg = $book->getOriginal('cover_img');
@@ -114,10 +94,6 @@ class BookController extends Controller
         return redirect()->route('admin_panel.books.index');
     }
 
-    /**
-     * @param Book $book
-     * @return RedirectResponse
-     */
     public function destroy(Book $book): RedirectResponse
     {
         $book->delete();

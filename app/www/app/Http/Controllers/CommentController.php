@@ -15,7 +15,7 @@ class CommentController extends Controller
     public function index(IndexRequest $request): View
     {
         $section = SectionComment::query()->where('name', $request->section)->firstOrFail();
-        $comments = (new CommentService())->getComments($request->input('item_id'), intval($section->id));
+        $comments = (new CommentService)->getComments($request->input('item_id'), intval($section->id));
 
         return view('comments.index', compact('comments'));
     }

@@ -9,18 +9,11 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class BookService extends BaseService
 {
-    /**
-     * @return Book|null
-     */
     public function getRandomBook(): ?Book
     {
         return Book::query()->orderByRaw('RAND()')->limit(1)->first();
     }
 
-    /**
-     * @param array $filter
-     * @return Collection|LengthAwarePaginator
-     */
     public function getList(array $filter = []): Collection|LengthAwarePaginator
     {
         $relations = ! empty($filter['relations']) ?
@@ -28,7 +21,7 @@ class BookService extends BaseService
             [
                 'author',
                 'publisher',
-                'genres'
+                'genres',
             ];
         $builder = Book::query()->with($relations);
 

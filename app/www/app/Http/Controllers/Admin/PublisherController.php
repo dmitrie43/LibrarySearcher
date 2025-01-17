@@ -11,9 +11,6 @@ use Illuminate\View\View;
 
 class PublisherController extends Controller
 {
-    /**
-     * @return View
-     */
     public function index(): View
     {
         $publishers = Publisher::query()->get();
@@ -21,18 +18,11 @@ class PublisherController extends Controller
         return view('admin.publishers.index', compact('publishers'));
     }
 
-    /**
-     * @return View
-     */
     public function create(): View
     {
         return view('admin.publishers.create');
     }
 
-    /**
-     * @param StoreRequest $request
-     * @return RedirectResponse
-     */
     public function store(StoreRequest $request): RedirectResponse
     {
         Publisher::create($request->validated());
@@ -40,20 +30,11 @@ class PublisherController extends Controller
         return redirect()->route('admin_panel.publishers.index');
     }
 
-    /**
-     * @param Publisher $publisher
-     * @return View
-     */
     public function edit(Publisher $publisher): View
     {
         return view('admin.publishers.edit', compact('publisher'));
     }
 
-    /**
-     * @param UpdateRequest $request
-     * @param Publisher $publisher
-     * @return RedirectResponse
-     */
     public function update(UpdateRequest $request, Publisher $publisher): RedirectResponse
     {
         $publisher->update($request->validated());
@@ -61,10 +42,6 @@ class PublisherController extends Controller
         return redirect()->route('admin_panel.publishers.index');
     }
 
-    /**
-     * @param Publisher $publisher
-     * @return RedirectResponse
-     */
     public function destroy(Publisher $publisher): RedirectResponse
     {
         $publisher->delete();
