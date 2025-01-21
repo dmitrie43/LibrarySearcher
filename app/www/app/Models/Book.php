@@ -5,13 +5,14 @@ namespace App\Models;
 use App\Observers\BookObserver;
 use App\Traits\HasFile;
 use App\Traits\HasImage;
-use App\Traits\Searchable;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Collection;
+use Laravel\Scout\Attributes\SearchUsingFullText;
+use Laravel\Scout\Attributes\SearchUsingPrefix;
+use Laravel\Scout\Searchable;
 
 #[ObservedBy([BookObserver::class])]
 class Book extends Model
@@ -74,15 +75,6 @@ class Book extends Model
         return $this->belongsToMany(Genre::class, 'genre_book', 'book_id', 'genre_id');
     }
 
-    // TODO
-    public function defaultSearch(string $query): Collection
-    {
-        return $this->query()
-            ->where('name', 'like', "%{$query}%")
-            ->limit(20)
-            ->get();
-    }
-
     public function scopeNovelty(Builder $query): void
     {
         $query->where('is_novelty', 1);
@@ -96,5 +88,21 @@ class Book extends Model
     public function scopeRecommended(Builder $query): void
     {
         $query->where('is_recommended', 1);
+    }
+
+    /**
+     * Получите индексируемый массив данных для модели.
+     *
+     * @return array<string, mixed>
+     */
+    #[SearchUsingPrefix(['id'])]
+    #[SearchUsingFullText(['description'])]
+    public function toSearchableArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'description' => $this->description,
+        ];
     }
 }

@@ -18,3 +18,4 @@ Refactoring:
 7. API resources
 8. Schedule
 9. JWT
+10. ChatBot

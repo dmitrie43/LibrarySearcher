@@ -2,9 +2,6 @@
 
 namespace App\Providers;
 
-use App\Repository\Search\ElasticsearchBookRepository;
-use App\Repository\Search\ISearchBookRepository;
-use App\Repository\Search\SearchBookRepository;
 use Elastic\Elasticsearch\Client;
 use Elastic\Elasticsearch\ClientBuilder;
 use Illuminate\Support\ServiceProvider;
@@ -18,13 +15,6 @@ class RepositoryServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        if (! config('services.search.enabled')) {
-            $this->app->bind(ISearchBookRepository::class, SearchBookRepository::class);
-        } else {
-            $this->app->bind(ISearchBookRepository::class, ElasticsearchBookRepository::class);
-        }
-
-        $this->bindSearchClient();
     }
 
     private function bindSearchClient()

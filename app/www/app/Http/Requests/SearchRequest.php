@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Search;
+namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class IndexRequest extends FormRequest
+class SearchRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -14,7 +14,7 @@ class IndexRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'query' => ['string'],
         ];
     }
 }

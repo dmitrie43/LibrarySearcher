@@ -7,7 +7,10 @@ use Elastic\Elasticsearch\Client;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 
-class ElasticsearchBookRepository implements ISearchBookRepository
+/**
+ * @deprecated
+ */
+class ElasticsearchBookRepository
 {
     private Client $elasticsearch;
 
