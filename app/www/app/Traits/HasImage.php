@@ -15,8 +15,8 @@ trait HasImage
 
     public function removeImage(string $field): void
     {
-        if (! empty($this->getOriginal($field))) {
-            Storage::delete($this->getOriginal($field));
+        if (! empty($this->getRawOriginal($field))) {
+            Storage::delete($this->getRawOriginal($field));
         }
     }
 }
