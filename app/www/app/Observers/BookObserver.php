@@ -11,5 +11,6 @@ class BookObserver
         $book->removeImages();
         $book->removeFiles();
         $book->genres()->detach();
+        $book->comments()->delete();
     }
 }
