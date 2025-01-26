@@ -23,17 +23,11 @@ class Comment extends Model
         'is_recommended' => 'boolean',
     ];
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
-     */
     public function commentable(): MorphTo
     {
         return $this->morphTo();

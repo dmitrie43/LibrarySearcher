@@ -18,7 +18,7 @@ use Laravel\Scout\Searchable;
 #[ObservedBy([BookObserver::class])]
 class Book extends Model
 {
-    use HasFactory, HasFile, HasImage, Searchable, HasComments;
+    use HasComments, HasFactory, HasFile, HasImage, Searchable;
 
     protected $fillable = [
         'name', 'date_publish', 'cover_img', 'pages_quantity', 'file',

@@ -41,7 +41,7 @@ class AuthorSeeder extends Seeder
                     FileUploader::IMAGE_PATH
                 ),
             ],
-            'Джордж Оруэлл'=> [
+            'Джордж Оруэлл' => [
                 'photo' => FileUploader::upload(
                     new UploadedFile(path: public_path('/img/Oruel.jpg'), originalName: 'JorgeO'),
                     FileUploader::IMAGE_PATH

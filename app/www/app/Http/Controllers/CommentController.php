@@ -2,11 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Comments\IndexRequest;
 use App\Http\Requests\Comments\SetReviewRequest;
 use App\Jobs\CreateReview;
-use App\Services\CommentService;
-use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 
 class CommentController extends Controller

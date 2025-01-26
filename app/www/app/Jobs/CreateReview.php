@@ -2,8 +2,6 @@
 
 namespace App\Jobs;
 
-use App\Models\Book;
-use App\Models\Comment;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Database\Eloquent\Model;
@@ -12,7 +10,6 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class CreateReview implements ShouldQueue
@@ -31,7 +28,7 @@ class CreateReview implements ShouldQueue
         try {
             /** @var Model $class */
             $class = Relation::getMorphedModel($this->reviewData['type']);
-            if (!$class) {
+            if (! $class) {
                 throw new \Exception('Class not found');
             }
 
