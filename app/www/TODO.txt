@@ -10,11 +10,9 @@ Refactoring:
 1. Переделать под микросервисы (Rabbit и GO)
 1.1. Rabbit для взаимодействия
 1.2. GO для микросервиса с функционалом ...
-2. Использовать паттерны
 3. DTO
-4. Morph relation
 5. Tests
-6. Gates and Policies
+6. Gates and Policies (роли)
 7. API resources
 8. Schedule
 9. JWT
