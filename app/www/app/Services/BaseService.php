@@ -4,6 +4,7 @@ namespace App\Services;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\LazyCollection;
 
@@ -31,5 +32,16 @@ abstract class BaseService
         $orderBy = $params['orderBy'] ?? self::DEFAULT_ORDER_FIELD;
         $orderByDirection = $params['orderByDirection'] ?? self::DEFAULT_ORDER_DIRECTION;
         $builder->orderBy($orderBy, $orderByDirection);
+    }
+
+    public function getMorphedModel(string $type): string
+    {
+        /** @var string|null $class */
+        $class = Relation::getMorphedModel($type);
+        if (! $class) {
+            throw new \Exception('Class not found');
+        }
+
+        return $class;
     }
 }

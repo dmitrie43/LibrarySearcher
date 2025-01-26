@@ -33,7 +33,7 @@ class BookController extends Controller
     {
         $book->load(['author', 'publisher', 'genres']);
         $popularBooks = Book::query()->with(['author'])->popular()->limit(10)->get();
-        $reviews = (new CommentService)->getBookComments($book);
+        $reviews = (new CommentService)->getApprovedByModel($book);
 
         return view('/books/detail', compact('book', 'popularBooks', 'reviews'));
     }
@@ -47,7 +47,7 @@ class BookController extends Controller
 
     public function reviews(CommentIndexRequest $request, Book $book): View
     {
-        $reviews = (new CommentService)->getBookComments($book);
+        $reviews = (new CommentService)->getApprovedByModel($book);
 
         return view('comments.index', compact('reviews'));
     }
