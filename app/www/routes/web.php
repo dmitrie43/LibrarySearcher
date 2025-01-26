@@ -26,8 +26,8 @@ Route::get('/books/{book}', [BookController::class, 'detail'])->name('books.deta
 /* Search */
 Route::get('/search', [SearchController::class, 'index'])->name('search');
 /* Comments */
-Route::get('/comments/{section}/{item_id}', [CommentController::class, 'index'])->name('comments.index');
-Route::post('/set-review', [CommentController::class, 'setReview'])->name('comments.set_review');
+Route::get('/comments/books/{book}', [BookController::class, 'reviews'])->name('comments.books.index');
+Route::post('/comments/{type}', [CommentController::class, 'setReview'])->name('comments.set_review');
 
 Route::middleware(['auth'])->group(function () {
     // profile

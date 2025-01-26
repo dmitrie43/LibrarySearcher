@@ -2,19 +2,25 @@
 
 namespace App\Services;
 
-use App\Models\Comment;
+use App\Models\Book;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
 class CommentService
 {
-    public function getComments(int $item_id, int $section_id): Collection
+    /**
+     * @param Book|int $book
+     * @return Collection
+     */
+    public function getBookComments(Book|int $book): Collection
     {
-        // TODO morph
-        return Comment::query()
-            ->with(['user'])
-            ->where('section', $section_id)
-            ->where('item_id', $item_id)
-            ->where('is_approved', 1)
+        if (is_int($book)) {
+            $book = Book::query()->findOrFail($book);
+        }
+
+        return $book
+            ->comments()
+            ->where('is_approved', true)
             ->get();
     }
 }

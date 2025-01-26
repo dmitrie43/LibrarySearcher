@@ -19,6 +19,5 @@ class DatabaseSeeder extends Seeder
         RoleSeeder::run();
         BookSeeder::run();
         UserSeeder::run();
-        SectionsComment::run();
     }
 }

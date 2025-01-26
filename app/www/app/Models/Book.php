@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Observers\BookObserver;
+use App\Traits\HasComments;
 use App\Traits\HasFile;
 use App\Traits\HasImage;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
@@ -17,7 +18,7 @@ use Laravel\Scout\Searchable;
 #[ObservedBy([BookObserver::class])]
 class Book extends Model
 {
-    use HasFactory, HasFile, HasImage, Searchable;
+    use HasFactory, HasFile, HasImage, Searchable, HasComments;
 
     protected $fillable = [
         'name', 'date_publish', 'cover_img', 'pages_quantity', 'file',

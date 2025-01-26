@@ -14,11 +14,8 @@ class SetReviewRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255'],
             'theme' => ['required', 'string', 'max:255'],
             'text' => ['required', 'string'],
-            'section' => ['required', 'string'],
             'item_id' => ['required', 'integer'],
             'is_recommended' => ['nullable', 'boolean'],
         ];

@@ -9,9 +9,9 @@ class ApiController extends Controller
 {
     public function successResponse(array $data = []): JsonResponse
     {
-        return response()->json([
-            'data' => $data,
-        ]);
+        $result = ! empty($data) ? $data : [];
+
+        return response()->json($result);
     }
 
     public function errorResponse(string $message = '', int $statusCode = 500): JsonResponse

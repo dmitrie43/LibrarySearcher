@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Books\IndexRequest;
+use App\Http\Requests\Comments\IndexRequest as CommentIndexRequest;
 use App\Models\Author;
 use App\Models\Book;
 use App\Models\Genre;
 use App\Models\Publisher;
-use App\Models\SectionComment;
 use App\Services\BookService;
 use App\Services\CommentService;
 use Illuminate\Contracts\View\View;
@@ -33,9 +33,7 @@ class BookController extends Controller
     {
         $book->load(['author', 'publisher', 'genres']);
         $popularBooks = Book::query()->with(['author'])->popular()->limit(10)->get();
-        // TODO morph
-        $section = SectionComment::where('name', 'books')->first();
-        $reviews = (new CommentService)->getComments($book->id, intval($section->id));
+        $reviews = (new CommentService)->getBookComments($book);
 
         return view('/books/detail', compact('book', 'popularBooks', 'reviews'));
     }
@@ -45,5 +43,12 @@ class BookController extends Controller
         $book = (new BookService)->getRandomBook();
 
         return view('/books/random', compact('book'));
+    }
+
+    public function reviews(CommentIndexRequest $request, Book $book): View
+    {
+        $reviews = (new CommentService)->getBookComments($book);
+
+        return view('comments.index', compact('reviews'));
     }
 }

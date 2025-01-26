@@ -140,25 +140,23 @@
                     <h2 class="headingWh mb-3 mb-sm-3 mb-md-4 mb-xl-5">Отзывы</h2>
                     <div class="lastAdded slider">
                         @foreach($reviews as $review)
-                            <a href="{{route('comments.index', ['section' => 'books', 'item_id' => $book->id])}}">
-                                <div class="aboutitem">
-                                    <div class="bgdarkbluecolor aboutitemcnt">
-                                        <div class="itemtitlecode">
-                                            <h2 class="textgraycolor">{{$review->user->name}}</h2>
-                                            <h3 class="textwhitecolor">{{$review->theme}}</h3>
-                                        </div>
-                                        <div class="itemtitlePrice">
-                                            <h2 class="textgraycolor">{{$review->is_recommended ? 'Рекомендую' : 'Не рекомендую'}}</h2>
-                                            <h3 class="textwhitecolor"><strong>{{date('d.m.Y', strtotime($review->created_at))}}</strong></h3>
-                                        </div>
+                            <div class="aboutitem">
+                                <div class="bgdarkbluecolor aboutitemcnt">
+                                    <div class="itemtitlecode">
+                                        <h2 class="textgraycolor">{{$review->user->name}}</h2>
+                                        <h3 class="textwhitecolor">{{$review->theme}}</h3>
+                                    </div>
+                                    <div class="itemtitlePrice">
+                                        <h2 class="textgraycolor">{{$review->is_recommended ? 'Рекомендую' : 'Не рекомендую'}}</h2>
+                                        <h3 class="textwhitecolor"><strong>{{date('d.m.Y', strtotime($review->created_at))}}</strong></h3>
                                     </div>
                                 </div>
-                            </a>
+                            </div>
                         @endforeach
                     </div>
                 </div>
                 <div class="col-md-12">
-                    <a href="{{route('comments.index', ['section' => 'books', 'item_id' => $book->id])}}" class="link-light">
+                    <a href="{{route('comments.books.index', ['book' => $book->id])}}" class="link-light">
                         <span class="mb-3 mb-xl-5">Посмотреть все</span>
                     </a>
                 </div>
@@ -175,28 +173,9 @@
             <div class="col-lg-7">
                 <div class="sign-from contact-form">
                     <h2 class="textwhitecolor contact-head">Оставить отзыв</h2>
-                    <form method="post" action="{{route('comments.set_review')}}">
+                    <form method="post" action="{{route('comments.set_review', ['type' => 'books'])}}">
                         @csrf
-                        <input type="hidden" name="section" value="books">
                         <input type="hidden" name="item_id" value="{{$book->id}}">
-                        <div class="row">
-                            <div class="col-md-8">
-                                @if($errors->has('name'))
-                                    <span class="alert-danger">{{$errors->first('name')}}</span>
-                                @endif
-                                <div class="input-box">
-                                    <input type="text" name="name" placeholder="Имя" class="form-input" value="{{\Illuminate\Support\Facades\Auth::user()->name}}">
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                @if($errors->has('email'))
-                                    <span class="alert-danger">{{$errors->first('email')}}</span>
-                                @endif
-                                <div class="input-box">
-                                    <input type="email" name="email" placeholder="E-mail" value="{{\Illuminate\Support\Facades\Auth::user()->email}}" class="form-input">
-                                </div>
-                            </div>
-                        </div>
                         @if($errors->has('theme'))
                             <span class="alert-danger">{{$errors->first('theme')}}</span>
                         @endif

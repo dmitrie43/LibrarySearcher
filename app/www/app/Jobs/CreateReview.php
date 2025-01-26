@@ -2,10 +2,12 @@
 
 namespace App\Jobs;
 
+use App\Models\Book;
 use App\Models\Comment;
-use App\Models\SectionComment;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
@@ -27,21 +29,20 @@ class CreateReview implements ShouldQueue
     public function handle()
     {
         try {
-            DB::transaction(function () {
-                // TODO morph
-                $review = Comment::create([
-                    'theme' => $this->reviewData['theme'],
-                    'text' => $this->reviewData['text'],
-                    'is_recommended' => isset($this->reviewData['is_recommended']),
-                    'item_id' => $this->reviewData['item_id'],
-                ]);
-                $review->user_id = Auth::id();
-                $section = SectionComment::query()
-                    ->where('name', $this->reviewData['section'])
-                    ->firstOrFail();
-                $review->section = $section->id;
-                $review->save();
-            });
+            /** @var Model $class */
+            $class = Relation::getMorphedModel($this->reviewData['type']);
+            if (!$class) {
+                throw new \Exception('Class not found');
+            }
+
+            $model = $class::query()->findOrFail($this->reviewData['item_id']);
+
+            $model->comments()->create([
+                'theme' => $this->reviewData['theme'] ?? '',
+                'text' => $this->reviewData['text'] ?? '',
+                'is_recommended' => isset($this->reviewData['is_recommended']),
+                'user_id' => Auth::id(),
+            ]);
         } catch (\Throwable $exception) {
             Log::error($exception->getMessage());
         }

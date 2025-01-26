@@ -29,7 +29,7 @@ class AuthController extends ApiController
             return response()->json([
                 'success' => true,
                 'message' => 'User Logged In Successfully',
-                'token' => $user->createToken(env('API_TOKEN'))->plainTextToken,
+                'token' => $user->createToken(env('API_TOKEN'), ["*"], now()->addDay())->plainTextToken,
             ], 200);
 
         } catch (\Throwable $throwable) {
