@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\ReviewCreate;
 use App\Http\Requests\Comments\IndexRequest;
 use App\Http\Requests\Comments\SetReviewRequest;
+use App\Jobs\CreateReview;
 use App\Models\SectionComment;
 use App\Services\CommentService;
 use Illuminate\Contracts\View\View;
@@ -22,8 +22,7 @@ class CommentController extends Controller
 
     public function setReview(SetReviewRequest $request): RedirectResponse
     {
-        // TODO auth check in gate
-        event(new ReviewCreate($request->validated()));
+        dispatch(new CreateReview($request->validated()));
 
         return back();
     }
