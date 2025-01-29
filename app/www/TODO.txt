@@ -13,7 +13,6 @@ Refactoring:
 3. DTO
 5. Tests
 6. Gates and Policies (роли)
-7. API resources
 8. Schedule
 9. JWT
 10. ChatBot

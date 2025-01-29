@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\Api\Books\IndexRequest;
+use App\Http\Resources\BookIndexResource;
 use App\Services\BookService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class BookController extends ApiController
 {
-    public function index(IndexRequest $request): JsonResponse
+    public function index(IndexRequest $request): JsonResponse|AnonymousResourceCollection
     {
         try {
             $limit = $request->input('limit', 10);
@@ -17,9 +19,7 @@ class BookController extends ApiController
                 'limit' => $limit,
             ]));
 
-            return $this->successResponse([
-                'books' => $books,
-            ]);
+            return BookIndexResource::collection($books);
         } catch (\Throwable $throwable) {
             return $this->errorResponse($throwable->getMessage());
         }

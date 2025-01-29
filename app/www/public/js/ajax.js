@@ -58,7 +58,7 @@ function getBooksByGenre(genre_id) {
             let content = '';
             let popular = $('.popular');
             popular.slick('unslick');
-            $.each(data['books'], function(index, book){
+            $.each(data['data'], function(index, book){
                 content += getContentBookByGenre(book);
             });
             document.getElementById('books-by-genre').innerHTML = content;
@@ -77,7 +77,7 @@ function getBooks() {
             let content = '';
             let popular = $('.popular');
             popular.slick('unslick');
-            $.each(data['books'], function(index, book){
+            $.each(data['data'], function(index, book){
                 content += getContentBookByGenre(book);
             });
             document.getElementById('books-by-genre').innerHTML = content;
