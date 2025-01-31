@@ -2,8 +2,6 @@ FROM php:8.4-fpm
 
 USER root
 
-#COPY composer.lock composer.json /var/www/app/
-
 WORKDIR /var/www/app
 
 RUN apt-get update && apt-get install -y \
@@ -37,7 +35,6 @@ RUN apt-get update && apt-get install -y \
 	nodejs npm
 
 
-# Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN docker-php-ext-install bcmath
@@ -63,30 +60,15 @@ RUN docker-php-ext-install opcache
 
 RUN docker-php-ext-install pdo_mysql exif pcntl
 
-#RUN docker-php-source extract \
-#    && mkdir /usr/src/php/ext/amqp \
-#    && curl -L https://github.com/php-amqp/php-amqp/archive/master.tar.gz | tar -xzC /usr/src/php/ext/amqp --strip-components=1
-#RUN docker-php-ext-install amqp
-#RUN docker-php-ext-enable amqp
-
 RUN pecl install xdebug
 RUN pecl install amqp
 RUN docker-php-ext-enable amqp
 RUN pecl install redis
 RUN docker-php-ext-enable redis
 
-# Install composer
-RUN curl --silent --show-error https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+#COPY ./www/ /var/www/app
 
-# Copy existing application directory contents
-COPY ./www/ /var/www/app
-
-ENV COMPOSER_ALLOW_SUPERUSER 1
-
-#RUN composer install --ignore-platform-reqs
-
-# Copy existing application directory permissions
-COPY --chown=www:www . /var/www/app
+#COPY --chown=www:www . /var/www/app
 
 EXPOSE 80
 CMD ["/usr/local/sbin/php-fpm", "--nodaemonize"]

@@ -5,14 +5,13 @@ Features:
 4. Фильтрация по возрасту
 5. ЛК
 6. Подборки
+7. Роли (Gates and Policies)
+8. ChatBot (websocket)
 
 Refactoring:
-1. Переделать под микросервисы (Rabbit и GO)
+1. Переделать под микросервисы (Rabbit, GO, grpc)
 1.1. Rabbit для взаимодействия
 1.2. GO для микросервиса с функционалом ...
-3. DTO
-5. Tests
-6. Gates and Policies (роли)
-8. Schedule
-9. JWT
-10. ChatBot
+2. DTO
+3. Tests
+4. JWT

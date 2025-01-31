@@ -4,6 +4,7 @@ services:
         build:
             context: ./app
             dockerfile: Dockerfile
+        image: library-searcher-app
         container_name: app
         volumes:
             - ./app/www/:/var/www/app/
@@ -13,7 +14,7 @@ services:
 
     app-nginx:
         build:
-            context: docker/app-nginx
+            context: ./docker/app-nginx
             dockerfile: Dockerfile
         container_name: app-nginx
         volumes:
@@ -82,6 +83,21 @@ services:
           - ./docker/redis/data/:/data
         networks:
           - app-network
+
+    queue:
+        build:
+            context: ./docker/supervisord
+            dockerfile: supervisord.dockerfile
+        image: library-searcher-queue
+        container_name: queue
+        restart: always
+        depends_on:
+            - app
+        volumes:
+            - ./app/www/:/var/www/app/
+            - ./app/www/storage/logs:/var/www/app/storage/logs:rw
+        networks:
+            - app-network
 
 #    elastic:
 #        image: elasticsearch:8.4.1

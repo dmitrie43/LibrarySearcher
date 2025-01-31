@@ -26,7 +26,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         /** Morph relation alias */
-        Relation::enforceMorphMap([
+        Relation::morphMap([
             'books' => Book::class,
         ]);
     }
