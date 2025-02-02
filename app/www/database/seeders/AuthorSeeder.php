@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Helpers\FileUploader;
+use App\Models\Author;
 use Illuminate\Database\Seeder;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
@@ -49,7 +50,7 @@ class AuthorSeeder extends Seeder
             ],
         ];
         foreach ($authors as $authorName => $authorData) {
-            DB::table('authors')->insert([
+            Author::create([
                 'full_name' => $authorName,
                 'photo' => $authorData['photo'] ?? null,
             ]);

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Role;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -29,7 +30,7 @@ class RoleSeeder extends Seeder
             ],
         ];
         foreach ($roles as $code => $arRole) {
-            DB::table('roles')->insert([
+            Role::create([
                 'name' => $arRole['name'],
                 'code' => $code,
                 'is_allow_admin_panel' => $arRole['access'] ?? 0,

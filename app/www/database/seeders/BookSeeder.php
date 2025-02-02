@@ -2,7 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Models\Author;
 use App\Models\Book;
+use App\Models\Genre;
+use App\Models\Publisher;
 use Illuminate\Database\Seeder;
 
 class BookSeeder extends Seeder
@@ -14,14 +17,16 @@ class BookSeeder extends Seeder
      */
     public static function run()
     {
-        $books = Book::factory()
-            ->count(200)->make();
+        $books = Book::factory()->count(200)->make();
+        $authors = Author::query()->get();
+        $publishers = Publisher::query()->get();
+        $genres = Genre::query()->get();
+
         foreach ($books as $book) {
-            $book->author_id = mt_rand(1, 5);
-            $book->publisher_id = mt_rand(1, 3);
+            $book->author_id = $authors->random(1)->first()->id;
+            $book->publisher_id = $publishers->random(1)->first()->id;
             $book->save();
-            $genres = range(1, mt_rand(1, 5));
-            $book->genres()->attach($genres);
+            $book->genres()->attach($genres->random(2)->pluck('id'));
         }
     }
 }

@@ -49,5 +49,3 @@ Route::get('/comments/approve/{comment}', [CommentController::class, 'approve'])
     ->name('admin_panel.comments.approve');
 Route::get('/comments/disapprove/{comment}', [CommentController::class, 'disapprove'])
     ->name('admin_panel.comments.disapprove');
-
-require __DIR__.'/auth.php';

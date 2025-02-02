@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Publisher;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -20,7 +21,7 @@ class PublisherSeeder extends Seeder
             'Питер',
         ];
         foreach ($publishers as $publisher) {
-            DB::table('publishers')->insert([
+            Publisher::create([
                 'name' => $publisher,
             ]);
         }

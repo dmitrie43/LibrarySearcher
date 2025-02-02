@@ -66,6 +66,8 @@ RUN docker-php-ext-enable amqp
 RUN pecl install redis
 RUN docker-php-ext-enable redis
 
+RUN curl --silent --show-error https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
 #COPY ./www/ /var/www/app
 
 #COPY --chown=www:www . /var/www/app

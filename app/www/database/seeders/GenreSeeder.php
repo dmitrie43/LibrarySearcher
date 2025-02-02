@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Genre;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -22,7 +23,7 @@ class GenreSeeder extends Seeder
             'Драма',
         ];
         foreach ($genres as $genre) {
-            DB::table('genres')->insert([
+            Genre::create([
                 'name' => $genre,
             ]);
         }

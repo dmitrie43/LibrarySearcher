@@ -26,8 +26,15 @@ class CreateBooksTable extends Migration
             $table->boolean('is_popular')->default(0);
             $table->boolean('is_recommended')->default(0);
 
-            $table->foreignId('author_id')->nullable()->constrained('authors');
-            $table->foreignId('publisher_id')->nullable()->constrained('publishers');
+            $table->foreignId('author_id')
+                ->nullable()
+                ->constrained('authors')
+                ->nullOnDelete();
+
+            $table->foreignId('publisher_id')
+                ->nullable()
+                ->constrained('publishers')
+                ->nullOnDelete();
 
             $table->timestamps();
         });

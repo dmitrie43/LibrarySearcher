@@ -2,41 +2,33 @@
 
 namespace Tests\Feature\Api;
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class ApiGenreTest extends TestCase
 {
-    public function test_api_get_genre_status()
-    {
-        $response = $this->get('/api/genre/get');
+    use RefreshDatabase;
 
-        $response->assertStatus(200);
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->seed();
     }
 
-    public function test_api_get_genre_with_params_status()
+    public function test_api_get_genres()
     {
-        $response = $this->get('/api/book/get?id=1');
-
-        $response->assertStatus(200);
-    }
-
-    public function test_api_get_genre_data()
-    {
-        $response = $this->getJson('/api/genre/get');
+        $response = $this->getJson('/api/genres');
         $response
             ->assertStatus(200)
-            ->assertJson([
-                'success' => true,
-            ]);
+            ->assertJsonStructure(['data' => []]);
     }
 
-    public function test_api_get_genre_with_params_data()
+    public function test_api_get_genres_with_params()
     {
-        $response = $this->getJson('/api/genre/get?id=1');
+        $response = $this->getJson('/api/genres?id=1');
         $response
             ->assertStatus(200)
-            ->assertJson([
-                'success' => true,
-            ]);
+            ->assertJsonStructure(['data' => []]);
     }
 }

@@ -21,5 +21,5 @@ Route::post('/auth/login', [AuthController::class, 'login']);
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::put('/comments/{type}/reviews', [CommentController::class, 'setReview']);
 });
-Route::get('/books', [BookController::class, 'index'])->name('books.index');
-Route::get('/genres', [GenreController::class, 'index'])->name('genres.index');
+Route::get('/books', [BookController::class, 'index']);
+Route::get('/genres', [GenreController::class, 'index']);

@@ -18,25 +18,17 @@ class AuthController extends ApiController
             if (! Auth::attempt($request->only(['email', 'password']))) {
                 RateLimiter::hit($request->throttleKey());
 
-                return response()->json([
-                    'success' => false,
-                    'message' => trans('auth.failed'),
-                ], 401);
+                return $this->errorResponse(trans('auth.failed'), 401);
             }
 
             $user = User::query()->where('email', $request->input('email'))->firstOrFail();
 
-            return response()->json([
-                'success' => true,
-                'message' => 'User Logged In Successfully',
+            return $this->successResponse([
                 'token' => $user->createToken(env('API_TOKEN'), ['*'], now()->addDay())->plainTextToken,
-            ], 200);
+            ]);
 
         } catch (\Throwable $throwable) {
-            return response()->json([
-                'success' => false,
-                'message' => $throwable->getMessage(),
-            ], 500);
+            return $this->errorResponse($throwable->getMessage());
         }
     }
 }

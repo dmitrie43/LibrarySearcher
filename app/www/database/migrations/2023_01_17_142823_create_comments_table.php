@@ -21,8 +21,10 @@ class CreateCommentsTable extends Migration
             $table->boolean('is_recommended')->default(0);
             $table->boolean('is_approved')->default(0);
 
-            $table->foreignId('user_id')->nullable()->constrained('users');
-            $table->foreignId('item_id')->nullable();
+            $table->foreignId('user_id')
+                ->nullable()
+                ->constrained('users')
+                ->cascadeOnDelete();
 
             $table->timestamps();
         });

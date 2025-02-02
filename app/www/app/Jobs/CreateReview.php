@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Models\Dto\CommentDto;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Database\Eloquent\Model;
@@ -9,36 +10,34 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class CreateReview implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public array $reviewData;
-
-    public function __construct(array $reviewData)
+    public function __construct(
+        private readonly CommentDto $commentDto
+    )
     {
-        $this->reviewData = $reviewData;
     }
 
     public function handle()
     {
         try {
             /** @var Model $class */
-            $class = Relation::getMorphedModel($this->reviewData['type']);
+            $class = Relation::getMorphedModel($this->commentDto->type);
             if (! $class) {
                 throw new \Exception('Class not found');
             }
 
-            $model = $class::query()->findOrFail($this->reviewData['item_id']);
+            $model = $class::query()->findOrFail($this->commentDto->itemId);
 
             $model->comments()->create([
-                'theme' => $this->reviewData['theme'] ?? '',
-                'text' => $this->reviewData['text'] ?? '',
-                'is_recommended' => isset($this->reviewData['is_recommended']),
-                'user_id' => Auth::id(),
+                'theme' => $this->commentDto->theme,
+                'text' => $this->commentDto->text,
+                'is_recommended' => $this->commentDto->isRecommended,
+                'user_id' => $this->commentDto->userId,
             ]);
         } catch (\Throwable $exception) {
             Log::error($exception->getMessage());

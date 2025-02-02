@@ -2,41 +2,33 @@
 
 namespace Tests\Feature\Api;
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class ApiBookTest extends TestCase
 {
-    public function test_api_get_book_status()
-    {
-        $response = $this->get('/api/book/get');
+    use RefreshDatabase;
 
-        $response->assertStatus(200);
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->seed();
     }
 
-    public function test_api_get_book_with_params_status()
+    public function test_api_get_books()
     {
-        $response = $this->get('/api/book/get?genre=1');
-
-        $response->assertStatus(200);
-    }
-
-    public function test_api_get_book_data()
-    {
-        $response = $this->getJson('/api/book/get');
+        $response = $this->getJson('/api/books');
         $response
             ->assertStatus(200)
-            ->assertJson([
-                'success' => true,
-            ]);
+            ->assertJsonStructure(['data' => []]);
     }
 
-    public function test_api_get_book_with_params_data()
+    public function test_api_get_books_with_params()
     {
-        $response = $this->getJson('/api/book/get?genre=1');
+        $response = $this->getJson('/api/books?genre=1');
         $response
             ->assertStatus(200)
-            ->assertJson([
-                'success' => true,
-            ]);
+            ->assertJsonStructure(['data' => []]);
     }
 }
