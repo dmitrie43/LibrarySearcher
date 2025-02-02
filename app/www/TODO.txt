@@ -12,7 +12,5 @@ Refactoring:
 1. Переделать под микросервисы (Rabbit, GO, grpc)
 1.1. Rabbit для взаимодействия
 1.2. GO для микросервиса с функционалом ...
-2. DTO
 4. JWT
 5. Indexes db
-6. Views db
