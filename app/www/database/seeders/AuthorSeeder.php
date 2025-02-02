@@ -6,7 +6,6 @@ use App\Helpers\FileUploader;
 use App\Models\Author;
 use Illuminate\Database\Seeder;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\DB;
 
 class AuthorSeeder extends Seeder
 {

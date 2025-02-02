@@ -18,9 +18,7 @@ class CreateReview implements ShouldQueue
 
     public function __construct(
         private readonly CommentDto $commentDto
-    )
-    {
-    }
+    ) {}
 
     public function handle()
     {

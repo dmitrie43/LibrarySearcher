@@ -2,13 +2,10 @@
 
 namespace App\Services;
 
-use App\Models\Book;
 use App\Models\Comment;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Pagination\LengthAwarePaginator;
-use PhpParser\Node\Expr\AssignOp\Mod;
 
 class CommentService extends BaseService
 {
