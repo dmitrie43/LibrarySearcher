@@ -17,6 +17,8 @@ class CreateGenreBook extends Migration
             $table->id();
             $table->unsignedInteger('book_id');
             $table->unsignedInteger('genre_id');
+
+            $table->index(['book_id', 'genre_id'], 'book_genre');
         });
     }
 
