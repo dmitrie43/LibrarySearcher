@@ -17,12 +17,13 @@ class Admin
      */
     public function handle(Request $request, Closure $next)
     {
-        /** @var User $user */
-        if ($user = Auth::user()) {
-            if ($user->isAllowAdminPanel()) {
-                return $next($request);
-            }
+        /** @var User|null $user */
+        $user = Auth::user();
+
+        if ($user?->isAllowAdminPanel()) {
+            return $next($request);
         }
+
         abort(404);
     }
 }
