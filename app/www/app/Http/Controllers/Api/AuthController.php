@@ -23,10 +23,7 @@ class AuthController extends ApiController
 
             $user = User::query()->where('email', $request->input('email'))->firstOrFail();
 
-            return $this->successResponse([
-                'token' => $user->createToken(env('API_TOKEN'), ['*'], now()->addDay())->plainTextToken,
-            ]);
-
+            return $this->successResponse($user->createToken('API TOKEN', ['*'], now()->addDay())->toArray());
         } catch (\Throwable $throwable) {
             return $this->errorResponse($throwable->getMessage());
         }
