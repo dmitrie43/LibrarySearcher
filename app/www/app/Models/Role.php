@@ -13,13 +13,19 @@ class Role extends Model
         'is_allow_admin_panel' => 'boolean',
     ];
 
-    public static function getDefaultRole(): ?array
+    /**
+     * @return Role|null
+     */
+    public static function getDefaultRole(): ?Role
     {
         return self::query()
-            ->where('code', 'user')
+            ->where('code', 'user1')
             ->first();
     }
 
+    /**
+     * @return int[]
+     */
     public static function getAllowAdminPanelRolesId(): array
     {
         return self::query()
