@@ -18,13 +18,13 @@ final class FileUploader
 
     public static function upload(UploadedFile $file, string $path): string
     {
-        $filename = self::getFilename($file);
+        $filename = self::generateFilename($file);
         Storage::putFileAs($path, $file, $filename);
 
         return $path.'/'.$filename;
     }
 
-    private static function getFilename(UploadedFile $file): string
+    public static function generateFilename(UploadedFile $file): string
     {
         return Str::random(10).'.'.$file->extension();
     }
