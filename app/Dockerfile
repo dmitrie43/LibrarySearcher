@@ -7,7 +7,7 @@ WORKDIR /var/www/app
 RUN apt-get update && apt-get install -y \
     git \
     libzip-dev \
-    libc-client-dev \
+    #libc-client-dev \
     libkrb5-dev \
     libpng-dev \
     libjpeg-dev \

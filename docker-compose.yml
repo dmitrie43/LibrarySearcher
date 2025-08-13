@@ -99,6 +99,15 @@ services:
         networks:
             - app-network
 
+    golang:
+        build:
+            context: ./service
+            dockerfile: Dockerfile
+        container_name: golang
+        networks:
+            - app-network
+
+
 #    elastic:
 #        image: elasticsearch:8.4.1
 #        command: elasticsearch
