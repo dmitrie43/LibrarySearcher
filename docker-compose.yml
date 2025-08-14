@@ -4,7 +4,7 @@ services:
         build:
             context: ./app
             dockerfile: Dockerfile
-        image: library-searcher-app
+#        image: library-searcher-app
         container_name: app
         volumes:
             - ./app/www/:/var/www/app/
@@ -84,29 +84,20 @@ services:
         networks:
           - app-network
 
-    queue:
-        build:
-            context: ./docker/supervisord
-            dockerfile: supervisord.dockerfile
-        image: library-searcher-queue
-        container_name: queue
-        restart: always
-        depends_on:
-            - app
-        volumes:
-            - ./app/www/:/var/www/app/
-            - ./app/www/storage/logs:/var/www/app/storage/logs:rw
-        networks:
-            - app-network
-
-    golang:
-        build:
-            context: ./service
-            dockerfile: Dockerfile
-        container_name: golang
-        networks:
-            - app-network
-
+#    queue:
+#        build:
+#            context: ./docker/supervisord
+#            dockerfile: supervisord.dockerfile
+#        image: library-searcher-queue
+#        container_name: queue
+#        restart: always
+#        depends_on:
+#            - app
+#        volumes:
+#            - ./app/www/:/var/www/app/
+#            - ./app/www/storage/logs:/var/www/app/storage/logs:rw
+#        networks:
+#            - app-network
 
 #    elastic:
 #        image: elasticsearch:8.4.1
@@ -128,7 +119,7 @@ services:
 #            - "9200:9200"
 #        networks:
 #          - app-network
-#
+
 #    kibana:
 #        image: kibana:8.4.1
 #        container_name: kibana
