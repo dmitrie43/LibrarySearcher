@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-class CommentService extends BaseService
+class CommentService extends BaseModelService
 {
     public function getList(array $filter = []): Collection|LengthAwarePaginator
     {

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-class BookService extends BaseService
+class BookService extends BaseModelService
 {
     public function getRandomBook(): ?Book
     {

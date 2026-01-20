@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\LazyCollection;
 
-abstract class BaseService
+abstract class BaseModelService
 {
     const string DEFAULT_ORDER_FIELD = 'id';
 

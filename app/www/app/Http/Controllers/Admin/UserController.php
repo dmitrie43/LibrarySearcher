@@ -2,22 +2,23 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Contracts\UserContract;
+use App\Events\UserCreated;
 use App\Helpers\FileUploader;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\StoreRequest;
 use App\Http\Requests\User\UpdateRequest;
 use App\Models\Role;
 use App\Models\User;
-use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
 
 class UserController extends Controller
 {
-    public function index(): View
+    public function index(UserContract $userService): View
     {
-        $users = User::query()->get();
+        $users = $userService->getList();
 
         return view('admin.users.index', compact('users'));
     }
@@ -29,14 +30,14 @@ class UserController extends Controller
         return view('admin.users.create', compact('roles'));
     }
 
-    public function store(StoreRequest $request): RedirectResponse
+    public function store(StoreRequest $request, UserContract $userService): RedirectResponse
     {
         $avatar = null;
         if ($request->hasFile('avatar')) {
             $avatar = FileUploader::upload($request->file('avatar'), FileUploader::AVATAR_PATH);
         }
 
-        $user = User::create([
+        $userDto = $userService->create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
@@ -44,7 +45,7 @@ class UserController extends Controller
             'avatar' => $avatar,
         ]);
 
-        event(new Registered($user));
+        event(new UserCreated($userDto));
 
         return redirect()->route('admin_panel.users.index');
     }

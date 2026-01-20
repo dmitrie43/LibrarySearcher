@@ -71,7 +71,8 @@ services:
             - ./docker/rabbitmq/data/:/var/lib/rabbitmq/mnesia/
             - ./docker/rabbitmq/log/:/var/log/rabbitmq/mnesia/
         networks:
-            - app-network
+          - app-network
+          - external-network
 
     redis:
         image: redis:7.0
@@ -134,5 +135,9 @@ services:
 
 networks:
     app-network:
+        name: app-network
+        driver: bridge
+    external-network:
+        name: external-network
         driver: bridge
 

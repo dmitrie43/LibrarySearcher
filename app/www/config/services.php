@@ -34,4 +34,13 @@ return [
         'enabled' => env('ELASTICSEARCH_ENABLED', false),
         'hosts' => explode(',', env('ELASTICSEARCH_HOSTS')),
     ],
+
+    'broker' => [
+        'rabbitmq' => [
+            'host' => env('RABBIT_HOST', 'rabbitmq'),
+            'port' => env('RABBIT_PORT', 5672),
+            'user' => env('RABBIT_USER', 'guest'),
+            'password' => env('RABBIT_PASSWORD', 'guest'),
+        ],
+    ],
 ];
