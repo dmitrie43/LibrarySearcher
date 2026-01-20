@@ -34,6 +34,7 @@ services:
             - "3306:3306"
         volumes:
             - ./docker/mysql/mysql_data/db:/var/lib/mysql
+        #TODO убрать в env
         environment:
             - MYSQL_ROOT_PASSWORD=mysql
             - MYSQL_USER=mysql
